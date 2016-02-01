@@ -40,7 +40,7 @@ TBC March 10, 2016.
 
 <h2>Final Report</h2>
 
-Due March 31, 2016.
+TBC March 31, 2016.
 
 Hand in the following:
 - List of assumptions.
@@ -52,7 +52,7 @@ Hand in the following:
 
 <h2>Application Demonstration</h2>
 
-Due the last week of classes.
+TBC during the last week of classes.
 
 - We will be required to demonstrate your application in the CASLAB (on CASLAB or your own machine).
 - Both team members will be present and participate in the demo. A demo schedule in the last week of classes will be established later in the term.
