@@ -31,14 +31,17 @@ TBC March 10, 2016.
 - Test the SQL statements with a sample database and show the results of each statement.
 - Include the relational schema from part 1 with any modifications you have made and show the contents of the sample database so results of your SQL statements can be verified.
 
-Part 3: Application demonstration and final report.
+#Part 3: Application demonstration and final report.
 
 - Write PHP programs that implement the functional requirements outlined above.
 - We may assume that user input is correct so input syntax checking can be minimal.
 - Handle cases where queries return no results.
 - As the minimum, your program can simply use prompted input and formatted output from the browser.
 
-Final Report. Due March 31, 2016.
+<h2>Final Report</h2>
+
+Due March 31, 2016.
+
 Hand in the following:
 - List of assumptions.
 - The final versions of ER and relational schemas.
@@ -47,7 +50,9 @@ Hand in the following:
 - A discussion including the following: problems encountered during the development and how we solved them; important design and implementation decisions; the technologies and tools we used in developing your application, why we chose them and what your experience was using them; things we would like to go back and change or do differently if we had the chance.
 - A user’s guide to our application. This should be a document our could give to a new QBnB member or administrator to help them use our application.
 
-Application Demonstration. Due the last week of classes.
+<h2>Application Demonstration</h2>
+
+Due the last week of classes.
 
 - We will be required to demonstrate your application in the CASLAB (on CASLAB or your own machine).
 - Both team members will be present and participate in the demo. A demo schedule in the last week of classes will be established later in the term.
