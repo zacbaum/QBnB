@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="">
+
+    <meta name="author" content="">
+
+    <link rel="shortcut icon" href="img/favicon.png">
+
+    <title>QBnB - Sign Up</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/main.css" rel="stylesheet">
+
+    <!-- Fonts from Google Fonts -->
+	<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
+    
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top">
+
+     	<div class="container">
+
+        	<div class="navbar-header">
+
+          		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+
+            	<span class="icon-bar"></span>
+
+	            <span class="icon-bar"></span>
+
+	            <span class="icon-bar"></span>
+
+	        	</button>
+
+         		<a class="navbar-brand" href="index.html"><b>QBnB</b></a>
+
+	        </div>	
+
+    	    <div class="navbar-collapse collapse">
+
+        	</div>
+        	<!--/.nav-collapse -->
+
+     	</div>
+
+    </div>
+
+	<div id="headerwrap" style="padding-top: 50px; min-height: 590px;">
+
+		<div class="container">
+
+			<div class="row">
+
+				<div class="col-lg-6 col-lg-offset-3">
+
+					<h1 style="text-align: center">Welcome Aboard.</h1>
+
+				</div>
+
+				<div class="col-lg-6 col-lg-offset-3">
+
+					<form>
+
+						<div class="row" style="padding-bottom: 15px;">
+
+							<div class="form-group">
+
+								<div class="col-md-6">
+
+						    		<input style="width: 100%;" type="text" class="form-control" id="InputFName" placeholder="First Name">
+
+						    	</div>
+
+						    	<div class="col-md-6">
+
+						    		<input style="width: 100%;" type="text" class="form-control" id="InputLName" placeholder="Last Name">
+
+						    	</div>
+							 	
+							</div>
+						
+						</div>
+
+					 	<div class="form-group">
+
+					    	<input style="width: 100%;" type="email" class="form-control" id="InputEmail" value="" placeholder="Email Address">
+
+					    	<script>
+
+							    var captured = /email=([^&]+)/.exec(window.location.href)[1];
+							    var result = captured ? captured : '';
+							    result = result.replace('%40','@');
+							    document.getElementById("InputEmail").value = String(result);
+
+							</script>
+						  	
+					  	</div>
+
+						<div class="form-group">
+
+					    	<input style="width: 100%;" type="text" class="form-control" id="InputPhone" placeholder="Phone #">
+					 	
+					 	</div>
+
+						<div class="row" style="padding-bottom: 15px;">
+
+							<div class="form-group">
+
+								<div class="col-md-3">
+
+						    		<select style="width: 100%;" type="text" class="form-control" id="InputDegree">
+															    	
+									    <option value="" selected disabled>Degree</option>
+
+									    <option>BA</option>
+									    <option>BSc</option>
+									    <option>BComm</option>
+									    <option>BComp</option>
+									    <option>BEd</option>
+										<option>BEng</option>
+										<option>MSc</option>
+										<option>MD</option>
+										<option>JD</option>
+										<option>MBA</option>
+										<option>PhD</option>
+
+									</select>
+
+						    	</div>
+
+						    	<div class="col-md-6">
+
+						    		<select style="width: 100%;" type="text" class="form-control" id="InputFaculty">
+
+						    			<option value="" selected disabled>Faculty / Department</option>
+
+						    			<option>Aging and Health</option>
+						    			<option>Anatomic Pathology</option>
+						    			<option>Anatomical Sciences</option>
+						    			<option>Anesthesiology</option>
+						    			<option>Applied Economics</option>
+						    			<option>Applied Sustainability</option>
+						    			<option>Art Conservation</option>
+						    			<option>Art History</option>
+						    			<option>Astronomy and Astrophysics</option>
+						    			<option>Biochemistry</option>
+						    			<option>Biology</option>
+						    			<option>Biology and Math</option>
+						    			<option>Biology and Psycology</option>
+						    			<option>Biotechnology</option>
+						    			<option>Biomedical and Molecular Sciences</option>
+						    			<option>Biomedical Computing</option>
+						    			<option>Biomedical Engineering</option>
+						    			<option>Biostatistics</option>
+						    			<option>Business Administration</option>
+						    			<option>Business / Management</option>
+						    			<option>Business and Law</option>
+						    			<option>Cancer Research</option>
+						    			<option>Cardiology</option>
+						    			<option>Chemical Engineering</option>
+						    			<option>Chemistry</option>
+						    			<option>Civil Engineering</option>
+						    			<option>Classics</option>
+						    			<option>Cognitive Science</option>
+						    			<option>Commerce</option>
+						    			<option>Community Relations</option>
+						    			<option>Computer Engineering</option>
+						    			<option>Computer Science</option>
+						    			<option>Computing</option>
+						    			<option>Computing and the Creative Arts</option>
+						    			<option>Concurrent Education</option>
+						    			<option>Creative Arts</option>
+						    			<option>Critical Care</option>
+						    			<option>Cultural Studies</option>
+						    			<option>Diagnostic Radiology</option>
+						    			<option>Drama</option>
+						    			<option>Earth Systems Sciences</option>
+						    			<option>Economics</option>
+						    			<option>Economics and Law</option>
+						    			<option>Education</option>
+						    			<option>Electrical Engineering</option>
+						    			<option>Emergency Medicine</option>
+						    			<option>Engineering and Applied Science</option>
+						    			<option>Engineering Chemistry</option>
+						    			<option>Engineering Physics</option>
+						    			<option>English Language and Literature</option>
+						    			<option>Entrpreneurship and Innovation</option>
+						    			<option>Environmental Biology</option>
+						    			<option>Environmental Chemistry</option>
+						    			<option>Environmental Geology</option>
+						    			<option>Environmental Life Sciences</option>
+						    			<option>Environmental Studies</option>
+						    			<option>Environmental Toxicology</option>
+						    			<option>Epidemiology</option>
+						    			<option>Executive MBA</option>
+						    			<option>Family Medicine</option>
+						    			<option>Film and Media</option>
+						    			<option>Finance</option>
+						    			<option>Fine Art</option>
+						    			<option>French Studies</option>
+						    			<option>Gastroenterology</option>
+						    			<option>Gender Studies</option>
+						    			<option>General Internal Medicine</option>
+						    			<option>General Surgery</option>
+						    			<option>GeoEngineering</option>
+						    			<option>Geographic Information Science</option>
+						    			<option>Geography</option>
+						    			<option>Geological Engineering</option>
+						    			<option>Geological Sciences</option>
+						    			<option>German</option>
+						    			<option>Global Development Studies</option>
+						    			<option>Greek</option>
+						    			<option>Healthcare Quality</option>
+						    			<option>Health Sciences</option>
+						    			<option>Health Studies</option>
+						    			<option>Hebrew</option>
+						    			<option>Hematology</option>
+						    			<option>Hispanic Studies</option>
+						    			<option>History</option>
+						    			<option>Humanities</option>
+						    			<option>Indigenous Studies</option>
+						    			<option>Industrial Relations</option>
+						    			<option>Industrial Relations and Law</option>
+						    			<option>Internal Medicine</option>
+						    			<option>International Business</option>
+						    			<option>International Studies</option>
+						    			<option>Italian</option>
+						    			<option>Jewish Studies</option>
+						    			<option>Kinesiology</option>
+						    			<option>Law</option>
+						    			<option>Linguistics</option>
+						    			<option>Languages</option>
+						    			<option>Latin</option>
+						    			<option>Life Sciences</option>
+						    			<option>MBA</option>
+						    			<option>Management</option>
+						    			<option>Management Analytics</option>
+						    			<option>Mathematics and Engineering</option>
+						    			<option>Mathematics and Statistics</option>
+						    			<option>Mechanical and Material Engineering</option>
+						    			<option>Mathematical Physics</option>
+						    			<option>Medieval Studies</option>
+						    			<option>Medical Oncolgy</option>
+						    			<option>Medicine</option>
+						    			<option>Mining Engineering</option>
+						    			<option>Music</option>
+						    			<option>Nephrology</option>
+						    			<option>Neurology</option>
+						    			<option>Neuroscience Studies</option>
+						    			<option>Nursing</option>
+						    			<option>Obstetrics and Gynaecology</option>
+						    			<option>Occupational Therapy</option>
+						    			<option>Opthamology</option>
+						    			<option>Orthopedic Surgery</option>
+						    			<option>Palliative Care Medicine</option>
+						    			<option>Pathology and Molecular Medicine</option>
+						    			<option>Pediatrics</option>
+						    			<option>Philosophy</option>
+						    			<option>Physical Medicine and Rehabilitation</option>
+						    			<option>Physical Sciences</option>
+						    			<option>Physical Therapy</option>
+						    			<option>Physical Health and Education</option>
+						    			<option>Physics</option>
+						    			<option>Political Studies</option>
+						    			<option>Political Thought</option>
+						    			<option>Psychiatry</option>
+						    			<option>Psycology</option>
+						    			<option>Public Administration</option>
+						    			<option>Public Administration and Law</option>
+						    			<option>Public Health</option>
+						    			<option>Public Health and Preventive Medicine</option>
+						    			<option>Professional Inquiry</option>
+						    			<option>Radiation Oncology</option>
+						    			<option>Rehabilitation Sciences</option>
+						    			<option>Religious Studies</option>
+						    			<option>Respirology</option>
+						    			<option>Rheumatology</option>
+						    			<option>Risk Policy and Regulation</option>
+						    			<option>Sexual and Gender Diversity</option>
+						    			<option>Social Sciences</option>
+						    			<option>Software Design</option>
+						    			<option>Spanish</option>
+						    			<option>Spanish and Latin American Studies</option>
+						    			<option>Stage and Screen Studies</option>
+						    			<option>Statistics</option>
+						    			<option>Urban and Regional Planning</option>
+						    			<option>Urology</option>
+						    			<option>World Language Studies</option>
+
+						    		</select>
+
+						    	</div>
+
+						    	<div class="col-md-3">
+
+						    		<select style="width: 100%;" type="text" class="form-control" id="InputYear">
+
+						    			<option value="" selected disabled>Year</option>
+
+									    <option>2015</option>
+									    <option>2014</option>
+									    <option>2013</option>
+									    <option>2012</option>
+									    <option>2011</option>
+										<option>2010</option>
+										<option>2009</option>
+										<option>2008</option>
+										<option>2007</option>
+										<option>2006</option>
+										<option>2005</option>
+										<option>2004</option>
+										<option>2003</option>
+										<option>2002</option>
+										<option>2001</option>
+										<option>2000</option>
+										<option>1999</option>
+										<option>1998</option>
+										<option>1997</option>
+										<option>1996</option>
+										<option>1995</option>
+										<option>1994</option>
+										<option>1993</option>
+										<option>1992</option>
+										<option>1991</option>
+										<option>1990</option>
+										<option>1989</option>
+										<option>1988</option>
+										<option>1987</option>
+										<option>1986</option>
+										<option>1985</option>
+										<option>1984</option>
+										<option>1983</option>
+										<option>1982</option>
+										<option>1981</option>
+										<option>1980</option>
+										<option>1979</option>
+										<option>1978</option>
+										<option>1977</option>
+										<option>1976</option>
+										<option>1975</option>
+										<option>1974</option>
+										<option>1973</option>
+										<option>1972</option>
+										<option>1971</option>
+										<option>1970</option>
+										<option>1969</option>
+										<option>1968</option>
+										<option>1967</option>
+										<option>1966</option>
+										<option>1965</option>
+										<option>1964</option>
+										<option>1963</option>
+										<option>1962</option>
+										<option>1961</option>
+										<option>1960</option>
+										<option>1959</option>
+										<option>1958</option>
+										<option>1957</option>
+										<option>1956</option>
+
+						    		</select>
+
+						    	</div>
+							 	
+							</div>
+						
+						</div>
+
+					 	<div class="form-group">
+
+					    	<input style="width: 100%;" type="password" class="form-control" id="InputPassword1" placeholder="Create Password">
+					 	
+					 	</div>
+
+					 	<div class="form-group">
+
+					    	<input style="width: 100%;" type="password" class="form-control" id="InputPassword2" placeholder="Confirm Password">
+					 	
+					 	</div>
+
+					 	<div style="text-align: center">
+
+							<button type="submit" class="btn btn-default">Sign Up</button>
+
+						</div>
+					
+					</form>
+
+				</div>
+				<!-- /col-lg-6 -->
+				
+			</div>
+			<!-- /row -->
+
+		</div>
+		<!-- /container -->
+
+	</div>
+	<!-- /headerwrap -->
+	
+	<div class="container">
+
+		<hr>
+
+		<p class="centered">Created by BH &amp; Associates</p>
+
+	</div>
+	<!-- /container -->
+	
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+
+    <script src="js/bootstrap.min.js"></script>
+
+  </body>
+
+</html>
