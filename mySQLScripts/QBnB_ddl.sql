@@ -2,8 +2,10 @@ CREATE DATABASE QBnB;
 USE QBnB;
 CREATE TABLE Member(
   Member_ID int NOT NULL AUTO_INCREMENT,
+  F_Name varchar(20) NOT NULL,
+  L_Name varchar(20) NOT NULL,
   Email varchar(50) NOT NULL DEFAULT " ",
-  Phone_No int(15) NOT NULL,
+  Phone_No bigint(15) NOT NULL,
   Grad_Year int(4) NOT NULL,
   Faculty varchar(20) NOT NULL DEFAULT " ",
   Degree_Type char(10) NOT NULL DEFAULT " ",
