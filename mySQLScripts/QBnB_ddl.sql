@@ -8,7 +8,7 @@ CREATE TABLE Member(
   Faculty varchar(20) NOT NULL DEFAULT " ",
   Degree_Type char(10) NOT NULL DEFAULT " ",
   Password varchar(18) NOT NULL DEFAULT " ",
-  PRIMARY KEY (Member_ID)
+  PRIMARY KEY (Member_ID, Email)
 );
 
 CREATE TABLE District(
