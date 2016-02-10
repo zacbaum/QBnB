@@ -52,8 +52,8 @@ CREATE TABLE Booking(
 CREATE TABLE Comment(
   Member_ID int NOT NULL,
   Property_ID int NOT NULL,
-  Rating int NOT NULL,
-  Comment_Text varchar(500) DEFAULT NULL,
+  Rating int DEFAULT NULL,
+  Comment_Text varchar(500) NOT NULL,
   Comment_Time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   Owner_Reply varchar(500) DEFAULT NULL,
   PRIMARY KEY (Member_ID, Property_ID),

@@ -41,4 +41,4 @@ INSERT INTO Booking (Property_ID, Booking_Start, Booking_End, Booking_Status, Me
 #Fill Comment
 INSERT INTO Comment (Member_ID, Property_ID, Rating, Comment_Text, Owner_Reply) VALUES (2, 3, 5, 'Great little spot very reasonably priced!','Glad to hear! Thank you for your visit!');
 INSERT INTO Comment (Member_ID, Property_ID, Rating, Comment_Text) VALUES (3, 4, 1, 'Worst experience I have ever had!');
-INSERT INTO Comment (Member_ID, Property_ID, Rating) VALUES (5, 4, 4);
+INSERT INTO Comment (Member_ID, Property_ID, Rating, Comment_Text) VALUES (5, 4, 4, 'Great place with an even better view!');
