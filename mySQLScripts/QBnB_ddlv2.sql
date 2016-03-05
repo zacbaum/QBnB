@@ -22,7 +22,7 @@ CREATE TABLE District(
 CREATE TABLE POI(
   District_Name varchar(30) NOT NULL,
   POI_Name varchar (30) NOT NUll,
-  Description varchar(500) DEFAULT NULL,
+  POI_Description varchar(500) DEFAULT NULL,
   PRIMARY KEY (District_Name, POI_Name),
   FOREIGN KEY (District_Name) references District(District_Name)
   FOREIGN KEY (POI_Name) references District(POI_Name)
@@ -48,7 +48,7 @@ CREATE TABLE Property(
 CREATE TABLE Feature(
   Property_ID int NOT NUll,
   Feature_Name varchar(100) NOT NULL,
-  Description varchar(500) DEFAULT NUll,
+  Feature_Description varchar(500) DEFAULT NUll,
   PRIMARY KEY (Property_ID, Feature_Name),
   FOREIGN KEY (Property_ID) references Property(Property_ID),
   FOREIGN KEY (Feature_Name) references Property(Feature_Name)
