@@ -50,6 +50,12 @@ UPDATE `Comment`
 SET Owner_Reply=ownerCommentText
 WHERE Member_ID=commentersMemberID AND Property_ID=thePropertyID
 
+#list all owned properties
+
+SELECT Street_No,Street_Name, City,Price,Property_ID
+FROM Property
+WHERE Owner_ID=supplierMemberID
+
 #CONSUMER
 #search by district
 
