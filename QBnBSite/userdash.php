@@ -38,7 +38,7 @@
 	   include_once 'config/connection.php'; 
 		
 		// SELECT query
-        $query = "SELECT Member_ID,F_Name,L_Name,Email,Password FROM Member WHERE Member_ID=?";
+        $query = "SELECT Member_ID,F_Name,L_Name,Email FROM Member WHERE Member_ID=?";
  
         // prepare query for execution
         $stmt = $con->prepare($query);
@@ -79,7 +79,7 @@
 
 		        </button>
 
-	         	<a class="navbar-brand" href="index.php"><b>QBnB</b></a>
+	         	<a class="navbar-brand" href="userdash.php"><b>QBnB</b></a>
 
 	        </div>
 
@@ -87,7 +87,27 @@
 
          		<ul class="nav navbar-nav navbar-right">
 
-            		<li><a href="login.php?logout=1">Log Out</a></li>
+         			<li class="active dropdown">
+
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings<span class="caret"></span>
+						</a>
+						
+						<ul class="dropdown-menu" role="menu">
+
+							<li>
+								<a href="settings.php">Update Account Info</a>
+							</li>
+
+							<li>
+            					<a href="login.php?logout=1">Log Out</a>
+							</li>
+
+							<?php if ($myrow['Member_ID'] <= 5) echo "<li role='separator' class='divider'></li>
+																	  <li><a href='admindash.php'>Admin Dashboard</a></li>";?>
+						
+						</ul>
+
+					</li>
 
          		</ul>
 

@@ -27,6 +27,20 @@
 
   <body>
 
+  	<?php
+	  //Create a user session or resume an existing one
+	 session_start();
+	?>
+	 
+	<?php
+	 //check if the user is already logged in and has an active session
+	if(isset($_SESSION['Member_ID'])) {
+		//Redirect the browser to the profile editing page and kill this page.
+		header("Location: userdash.php");
+		die();
+	}
+	?>
+
     <!-- Fixed navbar -->
     <div class="navbar navbar-default navbar-fixed-top">
 

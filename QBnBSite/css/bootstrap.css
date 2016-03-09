@@ -14,7 +14,7 @@ figure,
 footer,
 header,
 hgroup,
-main,
+main,`
 nav,
 section,
 summary {
@@ -4657,6 +4657,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
   margin-top: 0;
   border-top-right-radius: 0;
   border-top-left-radius: 0;
+  background-color: #64BEFF
 }
 
 .navbar-fixed-bottom .navbar-nav > li > .dropdown-menu {
@@ -4702,7 +4703,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-default {
-  background-color: #f8f8f8;
+  background-color: transparent;
   border-color: #e7e7e7;
 }
 
@@ -4731,10 +4732,11 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-default .navbar-nav > .active > a,
-.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:hover {
+  background-color: transparent;
+}
 .navbar-default .navbar-nav > .active > a:focus {
-  color: #555555;
-  background-color: #e7e7e7;
+  background-color: #64BEFF;
 }
 
 .navbar-default .navbar-nav > .disabled > a,
@@ -4766,7 +4768,6 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .navbar-default .navbar-nav > .open > a:hover,
 .navbar-default .navbar-nav > .open > a:focus {
   color: #555555;
-  background-color: #e7e7e7;
 }
 
 @media (max-width: 767px) {
@@ -4782,7 +4783,6 @@ textarea.input-group-sm > .input-group-btn > .btn {
   .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
   .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
     color: #555555;
-    background-color: #e7e7e7;
   }
   .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a,
   .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a:hover,
