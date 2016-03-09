@@ -12,14 +12,14 @@ WHERE Member_ID=theirMemberID
 
 #remove their membership
 
-DELETE `Member`
+DELETE FROM `Member`
 WHERE Member_ID=theirMemberID
 
 #SUPPLIER
 #create new accomodation
 
-INSERT INTO `Property` (`Street_No`,`Street_Name`,`City`,`Country`,`Postal_Code`,`District_Name`,`Type`,`Feature_Name`,`Price`,`Property_ID`,`Owner_ID`)
-VALUES (value1,'value2','value3','value4','value5','value6','value7','value8',value9,value10,value11)
+INSERT INTO `Property` (`Street_No`,`Street_Name`,`City`,`Country`,`Postal_Code`,`District_Name`,`Type`,`Price`,`Owner_ID`)
+VALUES (value1,'value2','value3','value4','value5','value6','value7',value8, value9)
 
 #update existing accomodation
 
@@ -29,76 +29,75 @@ WHERE Property_ID=thePropertyID
 
 #remove accomodation
 
-DELETE `Property`
+DELETE FROM `Property`
 WHERE Property_ID=thePropertyID
 
 #approve booking
 
 UPDATE `Booking`
 SET Booking_Status='Approved'
-WHERE Property_ID=thePropertyID AND BookingStart=theBookingStart
+WHERE Booking_ID=theBookingID AND Booking_Start=theBookingStart
 
 #approve rejected
 
 UPDATE `Booking`
-SET Booking_Status='Rejected'
-WHERE Property_ID=thePropertyID AND BookingStart=theBookingStart
+SET Booking_Status = 'Rejected'
+WHERE Booking_ID = theBookingID AND Booking_Start = theBookingStart
 
 #reply to comment
 
 UPDATE `Comment`
-SET Owner_Reply=ownerCommentText
-WHERE Member_ID=commentersMemberID AND Property_ID=thePropertyID
+SET Owner_Reply = ownerCommentText
+WHERE Member_ID = commentersMemberID AND Booking_ID = theBookingID AND Comment_Time = theCommentTime
 
-#list all owned properties + comments / ratings
+#list all owned properties + comments / ratings LEFT JOIN DIDNT WORK
 
-SELECT Street_No,Street_Name, City,Price,Property_ID,Comment_Text,Rating,Owner_Reply
+SELECT Street_No,Street_Name, City, Price, Property_ID, Comment_Text, Rating, Owner_Reply
 FROM Property LEFT JOIN Comment
-WHERE Owner_ID=supplierMemberID
+WHERE Owner_ID = supplierMemberID
 
 #CONSUMER
 #search by district
 
-SELECT DISTINCT Street_No,Street_Name,City,Country,District_Name,Type,Feature_Name,Price,Property_ID
+SELECT DISTINCT Street_No, Street_Name, City, Country, District_Name, Type, Price, Property_ID
 FROM Property
-WHERE District_Name=selectedDistrict
+WHERE District_Name = selectedDistrict
 
 #search by type
 
-SELECT DISTINCT Street_No,Street_Name,City,Country,District_Name,Type,Feature_Name,Price,Property_ID
+SELECT DISTINCT Street_No, Street_Name, City, Country, District_Name, Type, Price, Property_ID
 FROM Property
-WHERE Type=selectedType
+WHERE Type = selectedType
 
-#search by features (CAN WE DO THIS?)
+#search by features (CAN WE DO THIS?) DIDNT WORK
 
-SELECT DISTINCT Street_No,Street_Name,City,Country,District_Name,Type,Feature_Name,Price,Property_ID
+SELECT DISTINCT Street_No, Street_Name, City, Country, District_Name, Type, Price, Property_ID
 FROM Property
-WHERE Feature_Name=selectedFeature
+WHERE Feature_Name = selectedFeature
 
 #search by price
-
-SELECT DISTINCT Street_No,Street_Name,City,Country,District_Name,Type,Feature_Name,Price,Property_ID
+SELECT DISTINCT Street_No, Street_Name, City, Country, District_Name, Type, Price, Property_ID
 FROM Property
-WHERE Price<=maxPriceEntered AND Price>=minPriceEntered
+WHERE Price <= maxPriceEntered AND Price >= minPriceEntered
 
-#list all ratings and comments for a listing
+#list all ratings and comments for a listing DIDNT WORK
 
-SELECT DISTINCT Comment_Text,Owner_Reply,Rating
+SELECT DISTINCT Comment_Text, Owner_Reply, Rating
 FROM Comment
-WHERE Property_ID=thePropertyID
+WHERE Property_ID = thePropertyID
 ORDER BY Comment_Time
 
 #list availability of rental
 
 SELECT Booking_Status
 FROM Booking
-WHERE Booking_Start=currentWeekStart AND Property_ID=thePropertyID
+WHERE Booking_Start = currentWeekStart AND Property_ID = thePropertyID
 
 #show owner details
 
 SELECT DISTINCT F_Name,L_Name,Email,Phone_No
-FROM Member
-WHERE Member_ID=ownerOfSelectedProperty
+FROM Member NATURAL JOIN Property
+WHERE Member_ID = ownerOfSelectedProperty
 
 #place booking request (Booking is a table containing all booking for all properties)
 
@@ -107,9 +106,9 @@ VALUES (value1,value2,'Pending',value3,value4)
 
 #list all my bookings
 
-SELECT Street_No,Street_Name,City,Booking_Start,Booking_Status,Property_ID
+SELECT Booking_ID, Street_No,Street_Name,City,Booking_Start,Booking_Status,Property_ID
 FROM Booking NATURAL JOIN Property
-WHERE Member_ID=consumerMemberID
+WHERE Member_ID = consumerMemberID
 GROUP BY Booking_Status
 ORDER BY Booking_Start
 
@@ -121,8 +120,8 @@ WHERE Member_ID=consumerMemberID AND Property_ID=thePropertyID
 
 #add comment and rating for an accomodation
 
-INSERT INTO `Comment` (`Member_ID`,`Property_ID`,`Rating`,`Comment_Text`)
-VALUES (commenterMemberID,thePropertyID,ratingValue,'commentText')
+INSERT INTO `Comment` (`Booking_ID`,`Member_ID`,`Rating`,`Comment_Text`)
+VALUES (bookingID, commenterMemberID,,ratingValue,'commentText')
 
 #cancel a booking
 
