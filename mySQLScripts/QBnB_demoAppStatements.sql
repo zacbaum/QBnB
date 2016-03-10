@@ -31,7 +31,7 @@ UPDATE `Property`
 SET Price = 1500
 WHERE Property_ID = 6
 
-#remove accomodation DIDNT WORK
+#remove accomodation
 
 DELETE FROM `Property`
 WHERE Property_ID = 6
@@ -112,11 +112,10 @@ WHERE Member_ID = 2
 INSERT INTO `Booking` (`Property_ID`,`Booking_Start`,`Booking_Status`,`Member_ID`,`Owner_ID`)
 VALUES (2,'2016-08-17 16:30:00','Pending',5,2)
 
-#List all bookings on property
-
-SELECT Booking_ID, Street_No, Street_Name, City, Booking_Start, Booking_Status, Property_ID
+#List all bookings for one Member
+SELECT Booking_ID, Member_ID, Property_ID, Street_No, Street_Name, City, Booking_Start, Booking_Status
 FROM Booking NATURAL JOIN Property
-WHERE Property_ID = 2
+WHERE Member_ID = 3
 GROUP BY Booking_Status
 ORDER BY Booking_Start
 
@@ -138,7 +137,7 @@ DELETE FROM `Booking`
 WHERE Booking_ID = 5
 
 #ADMIN
-#delete a member and associated listings DIDNT WORK
+#delete a member and associated listings
 
 DELETE FROM `Member`
 WHERE Member_ID = 4
@@ -149,7 +148,7 @@ WHERE Property_ID = 5
 
 #summarize bookings and ratings per accomodation
 
-SELECT Booking_Start,Booking_Status, Avg(Rating)
+SELECT Booking_Start, Booking_Status, Avg(Rating)
 FROM Booking NATURAL JOIN Comment
 WHERE Property_ID = 4
 GROUP BY Booking_Status
