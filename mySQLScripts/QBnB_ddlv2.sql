@@ -6,7 +6,7 @@ CREATE TABLE Member(
   L_Name varchar(20) NOT NULL,
   Email varchar(50) NOT NULL,
   Phone_No bigint(15) NOT NULL,
-  Grad_Year int(4) NOT NULL, 
+  Grad_Year int(4) NOT NULL,
   Faculty varchar(20) NOT NULL,
   Degree_Type char(10) NOT NULL,
   Password varchar(180) NOT NULL,
@@ -24,7 +24,7 @@ CREATE TABLE POI(
   POI_Name varchar (30) NOT NUll,
   POI_Description varchar(500) DEFAULT NULL,
   PRIMARY KEY (District_Name, POI_Name),
-  FOREIGN KEY (District_Name) references District(District_Name)
+  FOREIGN KEY (District_Name) references District(District_Name) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE Property(
@@ -39,8 +39,8 @@ CREATE TABLE Property(
   Type varchar(15) NOT NULL,
   Price decimal NOT NULL,
   PRIMARY KEY (Property_ID),
-  FOREIGN KEY (District_Name) references District(District_Name),
-  FOREIGN KEY (Owner_ID) references Member(Member_ID)
+  FOREIGN KEY (District_Name) references District(District_Name) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (Owner_ID) references Member(Member_ID) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE Feature(
@@ -48,7 +48,7 @@ CREATE TABLE Feature(
   Feature_Name varchar(100) NOT NULL,
   Feature_Description varchar(500) DEFAULT NUll,
   PRIMARY KEY (Property_ID, Feature_Name),
-  FOREIGN KEY (Property_ID) references Property(Property_ID)
+  FOREIGN KEY (Property_ID) references Property(Property_ID) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE Booking(
@@ -59,9 +59,9 @@ CREATE TABLE Booking(
   Booking_Start datetime NOT NULL,
   Booking_Status char(15) NOT NULL,
   PRIMARY KEY (Booking_ID, Property_ID, Member_ID),
-  FOREIGN KEY (Property_ID) references Property(Property_ID),
-  FOREIGN KEY (Member_ID) references Member(Member_ID),
-  FOREIGN KEY (Owner_ID) references Property(Owner_ID)
+  FOREIGN KEY (Property_ID) references Property(Property_ID) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (Member_ID) references Member(Member_ID) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (Owner_ID) references Property(Owner_ID) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE Comment(
@@ -72,6 +72,6 @@ CREATE TABLE Comment(
   Comment_Text varchar(500) NOT NULL,
   Owner_Reply varchar(500) DEFAULT NULL,
   PRIMARY KEY (Booking_ID, Comment_Time),
-  FOREIGN KEY (Booking_ID) references Booking(Booking_ID),
-  FOREIGN KEY (Member_ID) references Member(Member_ID)
+  FOREIGN KEY (Booking_ID) references Booking(Booking_ID) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (Member_ID) references Member(Member_ID) ON UPDATE CASCADE ON DELETE CASCADE
 );
