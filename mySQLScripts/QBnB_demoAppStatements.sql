@@ -10,8 +10,12 @@ UPDATE `Member`
 SET Password = 'cash'
 WHERE Member_ID = 6
 
-#remove their membership
+#Sign a member in
+SELECT Member_ID
+FROM `Member`
+WHERE Email = 'e.musk@tesla.com' AND Password = 'cash'
 
+#remove their membership
 DELETE FROM `Member`
 WHERE Member_ID = 6
 
@@ -50,16 +54,19 @@ UPDATE `Comment`
 SET Owner_Reply = "Glad you liked it!"
 WHERE Member_ID = 3 AND Booking_ID = 5 AND Comment_Time = "2016-03-08 22:33:41"
 
-#list all owned properties + comments / ratings DIDNT WORK get booking ID first then go?
+#list all owned properties + comments
+SELECT Street_No, Street_Name, City, Price, Property.Property_ID, Comment_Text, Rating, Owner_Reply
+FROM Property
+LEFT JOIN (`Comment` NATURAL JOIN `Booking`)
+ON Property.Property_ID=Booking.Property_ID
 
-SELECT Street_No, Street_Name, City, Price, Property_ID, Comment_Text, Rating, Owner_Reply
-FROM `Property` LEFT JOIN `Comment`
-WHERE Property.Owner_ID = 2 AND Comment.Member_ID = 2
+#Add feature to Property
+INSERT INTO `Feature`(Property_ID, Feature_Name, Feature_Description)
+VALUES (3, "Basketball court","The floors of the basketball court are also mahogany!")
 
 #CONSUMER
 #search by district
-
-SELECT DISTINCT Street_No,Street_Name,City,Country,District_Name,Type,Feature_Name,Price,Property_ID
+SELECT DISTINCT Street_No, Street_Name, City, Country, District_Name, Type, Price, Property_ID
 FROM Property
 WHERE District_Name = "Entertainment District"
 
@@ -69,30 +76,30 @@ SELECT DISTINCT Street_No,Street_Name,City,Country,District_Name,Type,Price,Prop
 FROM Property
 WHERE Type = "Loft"
 
-#search by features (CAN WE DO THIS?) DIDNT WORK
+#search by features
 
-SELECT DISTINCT Street_No,Street_Name,City,Country,District_Name,Type,,Price,Property_ID
-FROM Property
-WHERE Feature_Name=selectedFeature
+SELECT DISTINCT Street_No, Street_Name, City, Country, District_Name, Type, Price, Property_ID
+FROM Property NATURAL JOIN Feature
+WHERE Feature_Name = "Basketball court"
 
 #search by price
 
-SELECT DISTINCT Street_No,Street_Name,City,Country,District_Name,Type,Price,Property_ID
+SELECT DISTINCT Street_No, Street_Name, City, Country, District_Name, Type, Price, Property_ID
 FROM Property
-WHERE Price<=75 AND Price>=15
+WHERE Price <= 75 AND Price >= 15
 
-#list all ratings and comments for a listing DOESNT WORK
+#List all ratings and comments for a listing
 
-SELECT DISTINCT Comment_Text,Owner_Reply,Rating
-FROM Comment
-WHERE Property_ID =
+SELECT DISTINCT Property_ID, Comment_Text, Owner_Reply, Rating
+FROM Comment NATURAL JOIN Booking
+WHERE Booking.Property_ID = 5
 ORDER BY Comment_Time
 
 #list availability of rental
 
 SELECT Booking_ID, Booking_Status
 FROM Booking
-WHERE Booking_Start = "2016-06-11 12:30:00" AND Property_ID = 4
+WHERE Booking_Start = "2016-06-11 12:30:00" AND Property_ID = 4 AND (Booking_Status = "Approved")
 
 #show owner details
 
@@ -105,68 +112,40 @@ WHERE Member_ID = 2
 INSERT INTO `Booking` (`Property_ID`,`Booking_Start`,`Booking_Status`,`Member_ID`,`Owner_ID`)
 VALUES (2,'2016-08-17 16:30:00','Pending',5,2)
 
-#list all my bookings
+#List all bookings on property
 
-SELECT Booking_ID, Street_No,Street_Name,City,Booking_Start,Booking_Status,Property_ID
+SELECT Booking_ID, Street_No, Street_Name, City, Booking_Start, Booking_Status, Property_ID
 FROM Booking NATURAL JOIN Property
-WHERE Booking.Member_ID = 3
+WHERE Property_ID = 2
 GROUP BY Booking_Status
 ORDER BY Booking_Start
 
-#show details of one booking NEED FEATURES DOESNT WORK
 
-SELECT DISTINCT Street_No,Street_Name,City,Postal_Code,District_Name,Type,Feature_Name,Price,Booking_Start,Booking_Status,Owner_ID
+#show details of one booking
+
+SELECT DISTINCT Street_No, Street_Name ,City, District_Name, Type, Price, Booking_Start, Booking_Status, Owner_ID
 FROM Booking NATURAL JOIN Property
-WHERE Booking.Member_ID = consumerMemberID AND Property_ID=thePropertyID
+WHERE Booking_ID= 1 AND Property_ID = 5
 
 #add comment and rating for an accomodation
 
 INSERT INTO `Comment` (`Booking_ID`,`Member_ID`,`Rating`,`Comment_Text`)
 VALUES (6,5,5,'Never wanted to leave! Wonderful home.')
 
-#cancel a booking DIDNT WORK
+#cancel a booking
 
 DELETE FROM `Booking`
-WHERE Booking_ID = 6
+WHERE Booking_ID = 5
 
 #ADMIN
 #delete a member and associated listings DIDNT WORK
 
-DELETE `Booking`
-WHERE Member_ID=theirMemberID OR Property_ID in (SELECT Property_ID
-												 FROM Property
-												 WHERE Owner_ID=theirMemberID)
+DELETE FROM `Member`
+WHERE Member_ID = 4
 
-DELETE `Comment`
-WHERE Member_ID=theirMemberID OR Property_ID in (SELECT Property_ID
-												 FROM Property
-												 WHERE Owner_ID=theirMemberID)
-
-DELETE `Feature`
-#
-#
-#
-#
-
-DELETE `Property`
-WHERE Owner_ID=theirMemberID
-
-DELETE `Member`
-WHERE Member_ID=theirMemberID
-
-#delete an accomodation DIDNT WORK
-
-DELETE `Booking`
-WHERE Property_ID=thePropertyID
-
-DELETE `Comment`
-WHERE Property_ID=thePropertyID
-
-DELETE `Feature`
-WHERE Property_ID=thePropertyID
-
-DELETE `Property`
-WHERE Property_ID=thePropertyID
+#delete an accomodation
+DELETE FROM `Property`
+WHERE Property_ID = 5
 
 #summarize bookings and ratings per accomodation
 
