@@ -115,13 +115,13 @@ WHERE Member_ID = ownerOfSelectedProperty
 INSERT INTO `Booking` (`Property_ID`,`Booking_Start`,`Booking_Status`,`Member_ID`,`Owner_ID`)
 VALUES (value1,value2,'Pending',value3,value4)
 
-#list all bookings on property
-
-SELECT Booking_ID, Street_No,Street_Name,City,Booking_Start,Booking_Status,Property_ID
+#List all bookings by one member
+SELECT Booking_ID, Member_ID, Property_ID, Street_No, Street_Name, City, Booking_Start, Booking_Status
 FROM Booking NATURAL JOIN Property
-WHERE Property_ID = thePropertyID
+WHERE Member_ID = theMemberID
 GROUP BY Booking_Status
 ORDER BY Booking_Start
+
 
 #show details of one booking
 
