@@ -141,3 +141,30 @@ i {
 	font-weight: 300;
 	letter-spacing: 1px;
 }
+
+.table-bordered {
+  border: 5px solid #dddddd;
+}
+
+.table-bordered > thead > tr > th,
+.table-bordered > tbody > tr > th,
+.table-bordered > tfoot > tr > th,
+.table-bordered > thead > tr > td,
+.table-bordered > tbody > tr > td,
+.table-bordered > tfoot > tr > td {
+  border: 2px solid #dddddd;
+}
+
+.table-hover > tbody > tr:hover > td,
+.table-hover > tbody > tr:hover > th {
+  background-color: #dddddd;
+}
+
+.hiddenRow {
+    padding: 0 !important;
+}
+
+.collapsing{
+    -webkit-transition:height .01s ease;
+    transition:height .01s ease
+}
