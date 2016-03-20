@@ -158,10 +158,13 @@ i {
 .table-hover > tbody > tr:hover > td,
 .table-hover > tbody > tr:hover > th {
   background-color: #dddddd;
+  color: #3498db;
+
 }
 
 .hiddenRow {
     padding: 0 !important;
+    color: #3498db;
 }
 
 .collapsing{

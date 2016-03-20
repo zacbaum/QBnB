@@ -29,32 +29,6 @@
 			die();
 		}
 		?>
-		<?php 
-		if(isset($_POST['settings'])) {
-			include_once 'config/connection.php'; 
-	        $query = "SELECT Email FROM Member WHERE Email=?";
-	        if($stmt = $con->prepare($query)) {
-		        $stmt->bind_Param("s", $_POST['Email']); 		         
-				$stmt->execute();
-				$result = $stmt->get_result();
-				$num = $result->num_rows;
-				if($num===0) {
-		        	$query = "INSERT INTO Member (F_Name,L_Name,Email,Phone_No,Grad_Year,Faculty,Degree_Type,Password) 
-		        	VALUES ('$_POST[FirstName]','$_POST[LastName]','$_POST[Email]','$_POST[Phone]','$_POST[Year]','$_POST[Faculty]','$_POST[Degree]','$_POST[Password]')";
-	        		mysqli_query($con,$query);
-	        		$query = "SELECT Member_ID FROM Member WHERE Email = '$_POST[Email]'";
-	        		$myrow = mysqli_query($con,$query)->fetch_assoc();
-					$_SESSION['Member_ID'] = $myrow['Member_ID'];
-					header("Location: userdash.php");
-					die();
-				} else {
-					echo "Email already in use";
-				}
-			} else {
-				echo "failed to prepare the SQL";
-			}
-		}
-		?>
 	    <div class="navbar navbar-default navbar-fixed-top">
 	     	<div class="container">
 	        	<div class="navbar-header">
@@ -103,8 +77,8 @@
 							<div class="row" style="padding-bottom: 15px;">
 								<div class="form-group">
 									<div class="col-md-3">
-							    		<select style="width: 100%;" type="text" class="form-control" name="Degree" id="Degree">
-							    			<option value="<?php echo "value='$myrow[Degree_Type]'";?>" selected><?php echo $myrow['Degree_Type'];?></option>
+						    			<select style="width: 100%;" type="text" class="form-control" name="Degree" id="Degree" value=<?php echo $myrow['Degree_Type'];?>>
+							    			<option value=<?php echo $myrow['Degree_Type'];?> selected><?php echo $myrow['Degree_Type'];?></option>
 										    <option>BA</option>
 										    <option>BSc</option>
 										    <option>BComm</option>
@@ -121,8 +95,8 @@
 										</select>
 							    	</div>
 							    	<div class="col-md-6">
-							    		<select style="width: 100%;" type="text" class="form-control" name="Faculty" id="Faculty">
-							    			<option value="<?php echo "value='$myrow[Faculty]'";?>" selected><?php echo $myrow['Faculty'];?></option>
+							    		<select style="width: 100%;" type="text" class="form-control" name="Faculty" id="Faculty" value=<?php echo $myrow['Faculty'];?>>
+							    			<option value=<?php echo $myrow['Faculty'];?> selected><?php echo $myrow['Faculty'];?></option>
 							    			<option>Anatomical Sciences</option>
 							    			<option>Applied Economics</option>
 							    			<option>Art History</option>
@@ -198,8 +172,8 @@
 							    		</select>
 							    	</div>
 							    	<div class="col-md-3">
-							    		<select style="width: 100%;" type="text" class="form-control" name="Year" id="Year">
-							    			<option value="<?php echo "value='$myrow[Grad_Year]'";?>" selected><?php echo $myrow['Grad_Year'];?></option>
+							    		<select style="width: 100%;" type="text" class="form-control" name="Year" id="Year" value=<?php echo $myrow['Grad_Year'];?>>
+							    			<option value=<?php echo $myrow['Grad_Year'];?> selected><?php echo $myrow['Grad_Year'];?></option>
 										    <option>2015</option>
 										    <option>2014</option>
 										    <option>2013</option>
@@ -271,6 +245,28 @@
 								<button type="submit" name='settings' class="btn btn-default">Update</button>
 							</div>
 						</form>
+						<?php 
+						if(isset($_POST['settings'])) {
+							include_once 'config/connection.php'; 
+					        $query = "SELECT Email, Member_ID FROM Member WHERE Email=? AND Member_ID != '$_SESSION[Member_ID]'";
+					        if($stmt = $con->prepare($query)) {
+						        $stmt->bind_Param("s", $_POST['Email']); 		         
+								$stmt->execute();
+								$result = $stmt->get_result();
+								$num = $result->num_rows;
+								if($num===0) {
+						        	$query = "UPDATE Member 
+						        			  SET F_Name = '$_POST[FirstName]', L_Name = '$_POST[LastName]', Email = '$_POST[Email]', Phone_No = '$_POST[Phone]', Grad_Year = '$_POST[Year]', Faculty = '$_POST[Faculty]', Degree_Type = '$_POST[Degree]', Password = '$_POST[Password]'
+						        			  WHERE Member_ID = '$_SESSION[Member_ID]'";
+					        		echo "<script>window.location='settings.php'</script>";
+								} else {
+									echo "<br><div align='center'><span class='label label-danger'>Email already in use</span></div>";
+								}
+							} else {
+								echo "failed to prepare the SQL";
+							}
+						}
+						?>
 					</div>
 				</div>
 			</div>
