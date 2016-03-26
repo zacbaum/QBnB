@@ -16,17 +16,17 @@
 	 	session_start();
 	 	?>
 	 	 <?php
+		 #Check if person accessing page is a verified admin, if not redirect them to userdash
 		if(isset($_SESSION['Member_ID'])){
-		   include_once 'config/connection.php'; 
-	        $query = "SELECT Member_ID,F_Name,L_Name,Email,Phone_No,Grad_Year,Degree_Type,Faculty,Password FROM Member WHERE Member_ID=?";
-	        $stmt = $con->prepare($query);
-	        $stmt->bind_Param("s", $_SESSION['Member_ID']);
-			$stmt->execute();
-			$result = $stmt->get_result();
-			$myrow = $result->fetch_assoc();
+			if ($myrow['Member_ID'] > 5){
+				header("Location: userdash.php");
+				die();
+			}
 		} else {
-			header("Location: index.php");
-			die();
+			if ($myrow['Member_ID'] > 5){
+				header("Location: userdash.php");
+				die();
+			}
 		}
 		?>
 		<div class="navbar navbar-default navbar-fixed-top">
@@ -71,6 +71,7 @@
 	        	</div>
 		    </div>
 	    </div>
+
 		<div id="headerwrap" style="padding-top: 50px; min-height: 590px;">
 			<div class="container">
 				<div class="row">
@@ -79,17 +80,41 @@
 					</div>
 				</div>
 
-
 				<div class="row">
-					<div class="col-lg-3">
-						<h5> hello!</h5>
-						<br><br><br><br><br><br><br><br><br><br>
-						<h5> hello!</h5>
+					<div class="col-lg-6">
+							<h2 style="color: #dddddd;">Member Information:</h2>
+							<div style="height: 400px !important; overflow: scroll;">
+								<table class="table table-bordered table-hover"> <!-- Member table -->
+						            <thead style="background-color: #dddddd">
+						                <th>Member ID</th>
+						                <th>Name</th>
+						                <th>Property Owner?</th>
+						                <th>Delete Member</th>
+						            </thead>
+								</table> <!-- Member table -->
+							</div><!-- scroll -->
 					</div><!-- col-lg-3 -->
 				</div><!-- row -->
 
 
-
+				<div class="row">
+					<div class="col-lg-6">
+							<h2 style="color: #dddddd">Property Information:</h2>
+							<div style="height: 400px !important; overflow: scroll; width: 800px;">
+								<table class="table table-bordered table-hover"> <!-- Property table -->
+						            <thead style="background-color: #dddddd">
+						                <th>Property ID</th>
+						                <th>Address </th>
+						                <th>District</th>
+						                <th>City</th>
+														<th>Type</th>
+						                <th>Price</th>
+						                <th>Delete Property</th>
+						            </thead>
+								</table> <!-- Member table -->
+							</div><!-- scroll -->
+					</div><!-- col-lg-3 -->
+				</div><!-- row -->
 
 
 				</div>
