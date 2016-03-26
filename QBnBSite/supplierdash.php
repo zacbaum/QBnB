@@ -14,22 +14,31 @@
  	</head>
 	<body>
 	  	<?php
-	 	session_start();
+		 	session_start();
 	 	?>
 	 	 <?php
-		if(isset($_SESSION['Member_ID'])){
-			include_once 'config/connection.php'; 
-	    	$query = "SELECT Member_ID,F_Name,L_Name,Email FROM Member WHERE Member_ID=?";
-	    	$stmt = $con->prepare($query);
-	    	$stmt->bind_Param("s", $_SESSION['Member_ID']);
-			$stmt->execute();
-			$result = $stmt->get_result();
-			$myrow = $result->fetch_assoc();
-			
-		} else {
-			header("Location: index.php");
-			die();
-		}
+			if(isset($_SESSION['Member_ID'])){
+				include_once 'config/connection.php'; 
+		    	$query = "SELECT Member_ID,F_Name,L_Name,Email FROM Member WHERE Member_ID=?";
+		    	$stmt = $con->prepare($query);
+		    	$stmt->bind_Param("s", $_SESSION['Member_ID']);
+				$stmt->execute();
+				$result = $stmt->get_result();
+				$myrow = $result->fetch_assoc();
+			} else {
+				header("Location: index.php");
+				die();
+			}
+		?>
+		<?php
+			if(isset($_POST['Delete_Property'])) {
+				include_once 'config/connection.php';
+				$queryDeleteProperty = "DELETE FROM Property
+										WHERE Property_ID = $_POST[Property_ID]";
+				echo var_dump($queryDeleteProperty);
+				$queryDeleteProperty = mysqli_query($con,$queryDeleteProperty);
+				echo var_dump($queryDeleteProperty);
+			}
 		?>
 	    <div class="navbar navbar-default navbar-fixed-top">
 	     	<div class="container">
@@ -91,7 +100,10 @@
 			                	echo "<td>".$rowProp['City']."</td>";
 			                	echo "<td>".'$'.$rowProp['Price'].'/Week'."</td>";
 			                	echo "<td>Update</td>";
-			                	echo "<td>Delete</td>";
+			                	echo "<td><form name='Delete_Property' id='Delete_Property' action='supplierdash.php' method='POST'>";
+			                	echo "<input type='hidden' id='Property_ID' name='Property_ID' value='".$rowProp['Property_ID']."'>";
+			                	echo "<button style='background: transparent; border: none; padding: 0;' type=submit name='Delete_Property'>";
+			                	echo "<span class='glyphicon glyphicon-remove' aria-hidden='true' style='color: red;'></span></form></td>";
 			                	echo "</tr>";
 			          		}
 				            echo "<tr align='center'><td colspan='5'><button onclick='makeProp();' type='button' class='btn btn-lg btn-warning'><span class='glyphicon glyphicon-home' aria-hidden='true'></span> Create New Listing</button></td></tr>";

@@ -30,6 +30,31 @@
 			die();
 		}
 		?>
+		<?php
+	    	if(isset($_POST['Booking_Start'])) {
+				include_once 'config/connection.php';
+		    	$queryMakeBooking = "INSERT INTO Booking (Property_ID,Member_ID,Owner_ID,Booking_Start,Booking_Status) 
+						  			 VALUES ('$_POST[Property_ID]','$_SESSION[Member_ID]','$_POST[Owner_ID]','$_POST[Booking_Start]','Pending')";
+				mysqli_query($con,$queryMakeBooking);
+				echo "<script>alert('Booking request made!');</script>";
+				header("Location: userdash.php");
+			}
+		?>
+		<?php
+	    	if(isset($_POST['Post_Review'])) {
+				include_once 'config/connection.php';
+				if($_POST['Rating']) {
+			    	$queryPostReview = "INSERT INTO Comment (Booking_ID,Member_ID,Rating,Comment_Text) 
+							  			VALUES ('$_POST[Booking_ID]','$_SESSION[Member_ID]','$_POST[Rating]','$_POST[Comment_Text]')";
+					mysqli_query($con,$queryPostReview);
+				} else {
+					$queryPostReview = "INSERT INTO Comment (Booking_ID,Member_ID,Comment_Text) 
+							  			VALUES ('$_POST[Booking_ID]','$_SESSION[Member_ID]','$_POST[Comment_Text]')";
+					mysqli_query($con,$queryPostReview);
+				}
+				header("Refresh:0");
+			}
+		?>
 	    <div class="navbar navbar-default navbar-fixed-top">
 	     	<div class="container">
 	        	<div class="navbar-header">
@@ -468,30 +493,5 @@
 			    }
 			});
 		</script>
-		<?php
-	    	if(isset($_POST['Booking_Start'])) {
-				include_once 'config/connection.php';
-		    	$queryMakeBooking = "INSERT INTO Booking (Property_ID,Member_ID,Owner_ID,Booking_Start,Booking_Status) 
-						  			 VALUES ('$_POST[Property_ID]','$_SESSION[Member_ID]','$_POST[Owner_ID]','$_POST[Booking_Start]','Pending')";
-				mysqli_query($con,$queryMakeBooking);
-				echo "<script>alert('Booking request made!');</script>";
-				header("Location: userdash.php");
-			}
-		?>
-		<?php
-	    	if(isset($_POST['Post_Review'])) {
-				include_once 'config/connection.php';
-				if($_POST['Rating']) {
-			    	$queryPostReview = "INSERT INTO Comment (Booking_ID,Member_ID,Rating,Comment_Text) 
-							  			VALUES ('$_POST[Booking_ID]','$_SESSION[Member_ID]','$_POST[Rating]','$_POST[Comment_Text]')";
-					mysqli_query($con,$queryPostReview);
-				} else {
-					$queryPostReview = "INSERT INTO Comment (Booking_ID,Member_ID,Comment_Text) 
-							  			VALUES ('$_POST[Booking_ID]','$_SESSION[Member_ID]','$_POST[Comment_Text]')";
-					mysqli_query($con,$queryPostReview);
-				}
-				header("Refresh:0");
-			}
-		?>
 	</body>
 </html>
