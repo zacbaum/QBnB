@@ -83,7 +83,7 @@
 				<div class="row">
 					<div class="col-lg-6">
 							<h2 style="color: #dddddd;">Member Information:</h2>
-							<div style="height: 400px !important; overflow: scroll;">
+							<div style="max-height: 400px !important; overflow: scroll;">
 								<table class="table table-bordered table-hover"> <!-- Member table -->
 						            <thead style="background-color: #dddddd">
 						                <th>Member ID</th>
@@ -91,6 +91,21 @@
 						                <th>Property Owner?</th>
 						                <th>Delete Member</th>
 						            </thead>
+								<?php
+								 			include_once 'config/connection.php';
+											$queryBasicMemberInfo = "SELECT Member_ID, F_Name, L_Name
+																							 FROM Member";
+											$queryBasicMemberInfo = mysqli_query($con,$queryBasicMemberInfo);
+
+											//Fill in member information. In this loop, another query to check if members
+											//own property will also be executed.
+											while ($rowMember = mysqli_fetch_array($queryBasicMemberInfo)){
+												echo "<tbody style='color: white;'>";
+												echo "<tr><td>".$rowMember['Member_ID']."</td>";
+												echo "<td>".$rowMember['F_Name'].' '.$rowMember['L_Name']."</td></tr>";
+											}
+
+								?>
 								</table> <!-- Member table -->
 							</div><!-- scroll -->
 					</div><!-- col-lg-3 -->
