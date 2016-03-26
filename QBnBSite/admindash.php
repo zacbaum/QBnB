@@ -18,17 +18,37 @@
 	 	 <?php
 		 #Check if person accessing page is a verified admin, if not redirect them to userdash
 		if(isset($_SESSION['Member_ID'])){
-			if ($myrow['Member_ID'] > 5){
+			if ($_SESSION['Member_ID'] > 5){
 				header("Location: userdash.php");
 				die();
 			}
 		} else {
-			if ($myrow['Member_ID'] > 5){
+			if ($_SESSION['Member_ID'] > 5){
 				header("Location: userdash.php");
 				die();
 			}
 		}
 		?>
+
+		<?php
+			if(isset($_POST['Delete_Property'])) {
+				include_once 'config/connection.php';
+				$queryDeleteProperty = "DELETE FROM Property
+																WHERE Property_ID = $_POST[Property_ID]";
+				$queryDeleteProperty = mysqli_query($con,$queryDeleteProperty);
+			}
+		?>
+
+		<?php
+			if(isset($_POST['Delete_Member'])) {
+
+				include_once 'config/connection.php';
+				$queryDeleteMember = "DELETE FROM Member
+										WHERE Member_ID = $_POST[Member_ID]";
+				$queryDeleteMember = mysqli_query($con,$queryDeleteMember);
+			}
+		?>
+
 		<div class="navbar navbar-default navbar-fixed-top">
 	     	<div class="container">
 	        	<div class="navbar-header">
@@ -86,14 +106,14 @@
 							<div style="max-height: 400px !important; overflow: scroll;">
 								<table class="table table-bordered table-hover"> <!-- Member table -->
 						            <thead style="background-color: #dddddd">
-						                <th>Member ID</th>
+						                <th>ID</th>
 						                <th>Name</th>
 						                <th>Property Owner?</th>
-						                <th>Delete Member</th>
+						                <th>Delete</th>
 						            </thead>
 								<?php
 								 			include_once 'config/connection.php';
-											$queryBasicMemberInfo = "SELECT Member_ID, F_Name, L_Name
+											$queryBasicMemberInfo = "SELECT *
 																							 FROM Member";
 											$queryBasicMemberInfo = mysqli_query($con,$queryBasicMemberInfo);
 
@@ -101,8 +121,15 @@
 											//own property will also be executed.
 											while ($rowMember = mysqli_fetch_array($queryBasicMemberInfo)){
 												echo "<tbody style='color: white;'>";
-												echo "<tr><td>".$rowMember['Member_ID']."</td>";
-												echo "<td>".$rowMember['F_Name'].' '.$rowMember['L_Name']."</td>";
+												echo "<tr>";
+												echo "<td>".$rowMember['Member_ID']."</td>";
+
+												echo "<td><a style='color:white' data-placement='right' data-toggle='popover' title='Member Details'>";
+												echo $rowMember['F_Name'].' '.$rowMember['L_Name']."</a>";
+												echo "<div id='popover-content' class='hide'><p style='color: #3498db'>";
+												echo "<b>Email: </b>".$rowMember['Email']."<br><b>Phone:</b> ".$rowMember['Phone_No'];
+												echo "</p></div></td>";
+
 												$queryCheckIfOwner = "SELECT Property_ID
 																							FROM Property
 																							WHERE Owner_ID = '$rowMember[Member_ID]'";
@@ -113,9 +140,16 @@
 												else {
 													echo "<td> Yes </td>";
 												}//End loop filling in if members own property
-												echo "<td align='center'> <button type='button' class='btn btn-l btn-primary' data-toggle='popover'>";
-												echo "<span class='glyphicon glyphicon-remove' text-align = center aria-hidden='true'></span></button>";
-												echo "<div id='popover-content' class='hide'></td>";
+
+												//Delete member form
+												echo "<td align = center ><form name='Delete_Member' id='Delete_Member' action='admindash.php' method='POST'>";
+												echo "<input type='hidden' id='Member_ID' name='Member_ID' value='".$rowMember['Member_ID']."'>";
+												echo "<button style='background: transparent; border: none; padding: 0;' type=submit name='Delete_Member'
+															data-toggle='tooltip' data-placement='right' title='Are you sure?'>";
+												echo "<span class='glyphicon glyphicon-remove' aria-hidden='true' style='color: red;'></span></form></td>";
+												echo"</tr>";
+
+
 											}//End while filling member info
 								?>
 								</table> <!-- Member table -->
@@ -130,32 +164,62 @@
 							<div style="height: 400px !important; overflow: scroll; width: 800px;">
 								<table class="table table-bordered table-hover"> <!-- Property table -->
 						            <thead style="background-color: #dddddd">
-						                <th>Property ID</th>
+						                <th>ID</th>
 						                <th>Address </th>
 						                <th>District</th>
 						                <th>City</th>
 														<th>Type</th>
 						                <th>Price</th>
-						                <th>Delete Property</th>
+						                <th>Delete</th>
 						            </thead>
 												<?php
 												 			include_once 'config/connection.php';
-															$queryBasicPropInfo = "SELECT Property_ID, Street_No, Street_Name, District_Name, City, Type, Price
+															$queryBasicPropInfo = "SELECT *
 																										 FROM Property";
 															$queryBasicPropInfo = mysqli_query($con,$queryBasicPropInfo);
 
-															//Fill in property information 
+															//Fill in property information
 															while ($rowProperty = mysqli_fetch_array($queryBasicPropInfo)){
+
+																//For popover, get owner name
+																$queryGetOwner = "SELECT F_Name, L_Name
+																											FROM Member
+																											WHERE Member_ID = '$rowProperty[Owner_ID]'";
+																$queryGetOwner = mysqli_query($con, $queryGetOwner);
+																$rowOwnerInfo = mysqli_fetch_array($queryGetOwner);
+
+																//For popover, get average rating on property
+																$queryGetAverage = "SELECT avg(Rating) as 'Average'
+																									FROM Booking NATURAL JOIN Comment
+																									WHERE Property_ID = '$rowProperty[Property_ID]'";
+																$queryGetAverage = mysqli_query($con, $queryGetAverage);
+																$averageRating = mysqli_fetch_array($queryGetAverage);
+
 																echo "<tbody style='color: white;'>";
 																echo "<tr><td>".$rowProperty['Property_ID']."</td>";
-																echo "<td>".$rowProperty['Street_No'].' '.$rowProperty['Street_Name']."</td>";
+
+																echo "<td><a style='color:white' data-placement='right' data-toggle='popover' title='Property Details'>";
+																echo $rowProperty['Street_No'].' '.$rowProperty['Street_Name']."</a>";
+																echo "<div id='popover-content' class='hide'><p style='color: #3498db'>";
+
+																//Fill popover-content
+																echo "<b>Owner: </b>".$rowOwnerInfo['F_Name'].' '.$rowOwnerInfo['L_Name']."<br>";
+																if ($averageRating['Average'] == NULL)
+																	echo "<b>Average Ratings:</b>".' '.'No ratings yet!'."<br>";
+																else {
+																	echo "<b>Average Rating:</b>".$averageRating['Average']."<br>";
+																}
+																echo "</p></div></td>"; //Close popover-content for properties
+
 																echo "<td>".$rowProperty['District_Name']."</td>";
 																echo "<td>".$rowProperty['City']."</td>";
 																echo "<td>".$rowProperty['Type']."</td>";
-																echo "<td>".$rowProperty['Price']."</td>";
-																echo "<td align='center'> <button type='button' class='btn btn-l btn-primary' data-toggle='popover'>";
-																echo "<span class='glyphicon glyphicon-remove' text-align = center aria-hidden='true'></span></button>";
-																echo "<div id='popover-content' class='hide'></td>";
+																echo "<td>".'$'.$rowProperty['Price'].'/Week'."</td>";
+																echo "<td align = center ><form name='Delete_Property' id='Delete_Property' action='admindash.php' method='POST'>";
+																echo "<input type='hidden' id='Property_ID' name='Property_ID' value='".$rowProperty['Property_ID']."'>";
+																echo "<button style='background: transparent; border: none; padding: 0;' type=submit name='Delete_Property'
+																			data-toggle='tooltip' data-placement='right' title='Are you sure?'>";
+																echo "<span class='glyphicon glyphicon-remove' aria-hidden='true' style='color: red;'></span></form></td></tr>";
 															}//End while filling property info
 											?>
 								</table> <!-- Member table -->
@@ -174,5 +238,13 @@
 		</div>
 		<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 	    <script src="js/bootstrap.min.js"></script>
+			<script>
+				$("[data-toggle=popover]").popover({
+						html: true,
+						content: function() {
+								return $(this).next('#popover-content').html();
+						}
+				});
+			</script>
 	</body>
 </html>
