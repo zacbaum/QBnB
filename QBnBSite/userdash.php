@@ -25,7 +25,6 @@
 			$stmt->execute();
 			$result = $stmt->get_result();
 			$myrow = $result->fetch_assoc();
-			
 		} else {
 			header("Location: index.php");
 			die();
@@ -45,6 +44,9 @@
 	         		<ul class="nav navbar-nav navbar-right">
 	         			<li>
 	         				<p style="padding-top: 11px; padding-bottom: 15px; color:white;">Welcome <?php echo $myrow['F_Name'];?></p>
+	         			</li>
+	         			<li>
+	         				<a href='supplierdash.php'>View &amp; Create Listings</a>
 	         			</li>
 	         			<li class="active dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings<span class="caret"></span></a>
@@ -140,10 +142,10 @@
 										</select>
 							    	</div>
 							    	<div class="col-md-2">
-										<button style="padding: 4px 10px; font-size: 18px; height: 34px;;"type="submit" name='filter' class="btn btn-default">Search</button>
+										<button style="padding: 4px 10px; font-size: 18px; height: 34px;" type="submit" name='filter' class="btn btn-default">Search</button>
 									</div>
 									<div class="col-md-2">
-										<button style="padding: 4px 10px; font-size: 18px; height: 34px;;"type="reset" name='filter' onclick="return resetForm(this.form);" class="btn btn-default">Reset</button>
+										<button style="padding: 4px 10px; font-size: 18px; height: 34px;" type="reset" name='filter' onclick="return resetForm(this.form);" class="btn btn-default">Reset</button>
 									</div>
 							    </div>
 							</div>
@@ -183,109 +185,154 @@
 				            	} else {
 				            		$queryAllPropertiesInfo = $queryAllPropertiesInfo." AND Feature_NAME IS NOT NULL";
 				            	}
-								$queryAllPropertiesInfo = mysqli_query($con,$queryAllPropertiesInfo);
-				            	// Fill table with property info.
-				            	echo "<div style='height: 312px !important; overflow: scroll;'>";
-				            	echo "<table class='table table-bordered table-hover'>";
-				            	echo "<thead style='background-color: #dddddd'>";
-				            	echo "<th>Address</th><th>District</th><th>City</th><th>Type</th><th>Price</th></thead>";
-				            	while ($rowProp = mysqli_fetch_array($queryAllPropertiesInfo)) {
-				            		// Owner info query.
-					            	$queryPropertyForOwnerInfo = "SELECT DISTINCT F_Name, L_Name, Email, Phone_No 
-					            								  FROM Member
-																  WHERE Member_ID = '$rowProp[Owner_ID]'";
-					            	$queryPropertyForOwnerInfo = mysqli_query($con,$queryPropertyForOwnerInfo);
-					            	$rowOwner = mysqli_fetch_assoc($queryPropertyForOwnerInfo);
-					            	// Property Ratings and Comments query.
-									$queryPropertyRatings = "SELECT DISTINCT Property_ID, Comment_Text, Owner_Reply, Rating 
-															 FROM Comment NATURAL JOIN Booking
-															 WHERE Booking.Property_ID = '$rowProp[Property_ID]'
-															 ORDER BY Comment_Time";
-					            	$queryPropertyRatings = mysqli_query($con,$queryPropertyRatings);
-					            	// Owner info query.
-					            	$queryDistrictPOI = "SELECT DISTINCT GROUP_CONCAT(POI_Name)
-					            						 FROM POI
-													     WHERE District_Name = '$rowProp[District_Name]'";
-					            	$queryDistrictPOI = mysqli_query($con,$queryDistrictPOI);
-					            	// Features query.
-					            	$queryFeatures = "SELECT DISTINCT Feature_Name
-					            					  FROM Feature
-													  WHERE Property_ID = '$rowProp[Property_ID]'";
-					            	$queryFeatures = mysqli_query($con,$queryFeatures);
-					            	// Basic property info.
-				                	echo "<tbody style='color: white;'>";
-				                	echo "<tr data-toggle='collapse' data-target='.prop".$rowProp['Property_ID']."info'>";
-				                	echo "<td>".$rowProp['Street_No'].' '.$rowProp['Street_Name']."</td>";
-				                	echo "<td>".$rowProp['District_Name']."</td>";
-				                	echo "<td>".$rowProp['City']."</td>";
-				                	echo "<td>".$rowProp['Type']."</td>";
-				                	echo "<td>".'$'.$rowProp['Price'].'/Week'."</td>";
-				                	echo "</tr>";
-				          			// Hidden FULL info.
-				                	echo "<tr class='collapse prop".$rowProp['Property_ID']."info hiddenRow'>";
-				                	echo "<td style='background-color: #dddddd' colspan='3'>";
-				                	echo "Owner: ".$rowOwner['F_Name'].' '.$rowOwner['L_Name'].'<br>Email: '.$rowOwner['Email'].'<br>Phone: '.$rowOwner['Phone_No']."</td>";
-				                	echo "<td style='background-color: #dddddd' colspan='2'><br>";
-				                	echo "<button type='button' class='btn btn-lg btn-primary' data-toggle='popover' title='".$rowProp['Street_No'].' '.$rowProp['Street_Name']."'>";
-				                	echo "<span class='glyphicon glyphicon-home' aria-hidden='true'></span> Book me!</button>";
-				                	echo "<div id='popover-content' class='hide'>";
-									$startTime = new DateTime();
-				                	$endTime = new DateTime();
-				                	for ($i = 1; $i < 5; $i++) { 
-				                		echo "<form name='booking' id='booking' action='userdash.php' method='POST'>";
-										$startTime->modify('Sunday this week');
-										$endTime->modify('Saturday next week');
-										$sqltime = $startTime->format('Y-m-d H:i:s');
-					                	$queryAvailability = "SELECT Booking_ID
-						            					  	  FROM Booking
-														  	  WHERE Property_ID = '$rowProp[Property_ID]' AND Booking_Start = '".$sqltime."' AND ((Booking_Status  = 'Approved') OR (Booking_Status = 'Pending' AND Member_ID = '$_SESSION[Member_ID]'))";
-						            	$queryAvailability = mysqli_query($con,$queryAvailability);
-						            	if (mysqli_num_rows($queryAvailability) == 0) {
-						            		echo "<input type='hidden' name='Property_ID' value='".$rowProp['Property_ID']."'>";
-						            		echo "<input type='hidden' name='Owner_ID' value='".$rowProp['Owner_ID']."'>";
-						            		echo "<button style='width: 100%' type='submit' name='Booking_Start' value='".$sqltime."' class='btn btn-primary'>";
-						            	} else {
-						            		echo "<button disabled style='width: 100%' type='submit' class='btn btn-danger'>";
-						            	}		       
-										echo $startTime->format( 'F jS, Y' )." - ".$endTime->format( 'F jS, Y' );
-										echo "</button></form>";
-									}	
-									echo "</div></td></tr>";
-				                	echo "<tr class='collapse prop".$rowProp['Property_ID']."info hiddenRow'>";
-				                	echo "<td style='background-color: #dddddd' colspan='5'>";
-				                	echo "<br>Features: ";
-				                	$row = array();
-				                	while($rowFeatures = mysqli_fetch_assoc($queryFeatures)) {
-									   $row[] = implode('', $rowFeatures);
-									}
-									echo implode(", ", $row);
-				                	echo "<br>Address: ".$rowProp['Street_No'].' '.$rowProp['Street_Name'].', '.$rowProp['Postal_Code'].', '.$rowProp['City'];
-				                	echo "<br><br>District: ".$rowProp['District_Name'];
-				                	echo "<br>Nearby: ";
-				                	while ($rowPOI = mysqli_fetch_row($queryDistrictPOI)) {
-										echo str_replace(",",", ",implode(',', $rowPOI));
-									}
-									echo "</td></tr>";
-				                	echo "<tr class='collapse prop".$rowProp['Property_ID']."info hiddenRow'>";
-				                	echo "<td style='background-color: #dddddd' colspan='5'>";
-				                	if (mysqli_num_rows($queryPropertyRatings) > 0) {
-				                		echo "<br>Comments:";
-										while ($rowRating = mysqli_fetch_array($queryPropertyRatings)) {
-											echo "<br>".$rowRating['Comment_Text'];
-											if (is_null($rowRating['Rating'])) {
-												echo " No rating.";
-											} else {
-												echo " Rating: ".$rowRating['Rating']."/5";
-											}
-										}
-									} else {
-										echo "No ratings yet!";
-									}
+				            } else {
+				            	$queryAllPropertiesInfo = "SELECT DISTINCT Street_No, Street_Name, City, Postal_Code, Country, District_Name, Type, Price, Property_ID, Owner_ID
+				            			  				   FROM Property NATURAL JOIN Feature";
+				            }
+
+							$queryAllPropertiesInfo = mysqli_query($con,$queryAllPropertiesInfo);
+			            	// Fill table with property info.
+			            	echo "<div style='max-height: 312px !important; overflow: scroll;'>";
+			            	echo "<table class='table table-bordered table-hover'>";
+			            	echo "<thead style='background-color: #dddddd'>";
+			            	echo "<th>Address</th><th>District</th><th>City</th><th>Type</th><th>Price</th></thead>";
+			            	while ($rowProp = mysqli_fetch_array($queryAllPropertiesInfo)) {
+			            		// Owner info query.
+				            	$queryPropertyForOwnerInfo = "SELECT DISTINCT F_Name, L_Name, Email, Phone_No 
+				            								  FROM Member
+															  WHERE Member_ID = '$rowProp[Owner_ID]'";
+				            	$queryPropertyForOwnerInfo = mysqli_query($con,$queryPropertyForOwnerInfo);
+				            	$rowOwner = mysqli_fetch_assoc($queryPropertyForOwnerInfo);
+				            	// Property Ratings and Comments query.
+								$queryPropertyRatings = "SELECT DISTINCT Property_ID, Comment_Text, Owner_Reply, Rating 
+														 FROM Comment NATURAL JOIN Booking
+														 WHERE Booking.Property_ID = '$rowProp[Property_ID]'
+														 ORDER BY Comment_Time";
+				            	$queryPropertyRatings = mysqli_query($con,$queryPropertyRatings);
+				            	// Owner info query.
+				            	$queryDistrictPOI = "SELECT DISTINCT GROUP_CONCAT(POI_Name)
+				            						 FROM POI
+												     WHERE District_Name = '$rowProp[District_Name]'";
+				            	$queryDistrictPOI = mysqli_query($con,$queryDistrictPOI);
+				            	// Features query.
+				            	$queryFeatures = "SELECT DISTINCT Feature_Name
+				            					  FROM Feature
+												  WHERE Property_ID = '$rowProp[Property_ID]'";
+				            	$queryFeatures = mysqli_query($con,$queryFeatures);
+				            	// Basic property info.
+			                	echo "<tbody style='color: white;'>";
+			                	echo "<tr data-toggle='collapse' data-target='.prop".$rowProp['Property_ID']."info'>";
+			                	echo "<td>".$rowProp['Street_No'].' '.$rowProp['Street_Name']."</td>";
+			                	echo "<td>".$rowProp['District_Name']."</td>";
+			                	echo "<td>".$rowProp['City']."</td>";
+			                	echo "<td>".$rowProp['Type']."</td>";
+			                	echo "<td>".'$'.$rowProp['Price'].'/Week'."</td>";
+			                	echo "</tr>";
+			          			// Hidden FULL info.
+			                	echo "<tr class='collapse prop".$rowProp['Property_ID']."info hiddenRow'>";
+			                	echo "<td style='background-color: #dddddd' colspan='3'>";
+			                	echo "Owner: ".$rowOwner['F_Name'].' '.$rowOwner['L_Name'].'<br>Email: '.$rowOwner['Email'].'<br>Phone: '.$rowOwner['Phone_No']."</td>";
+			                	echo "<td style='background-color: #dddddd' colspan='2'><br>";
+			                	echo "<button type='button' class='btn btn-lg btn-primary' data-toggle='popover' title='".$rowProp['Street_No'].' '.$rowProp['Street_Name']."'>";
+			                	echo "<span class='glyphicon glyphicon-home' aria-hidden='true'></span> Book me!</button>";
+			                	echo "<div id='popover-content' class='hide'>";
+								$startTime = new DateTime();
+			                	$endTime = new DateTime();
+			                	for ($i = 1; $i < 5; $i++) { 
+			                		echo "<form name='booking' id='booking' action='userdash.php' method='POST'>";
+									$startTime->modify('Sunday this week');
+									$endTime->modify('Saturday next week');
+									$sqltime = $startTime->format('Y-m-d H:i:s');
+				                	$queryAvailability = "SELECT Booking_ID
+					            					  	  FROM Booking
+													  	  WHERE Property_ID = '$rowProp[Property_ID]' AND Booking_Start = '".$sqltime."' AND ((Booking_Status  = 'Approved') OR (Booking_Status = 'Pending' AND Member_ID = '$_SESSION[Member_ID]'))";
+					            	$queryAvailability = mysqli_query($con,$queryAvailability);
+					            	if (mysqli_num_rows($queryAvailability) == 0) {
+					            		echo "<input type='hidden' name='Property_ID' value='".$rowProp['Property_ID']."'>";
+					            		echo "<input type='hidden' name='Owner_ID' value='".$rowProp['Owner_ID']."'>";
+					            		echo "<button style='width: 100%' type='submit' name='Booking_Start' value='".$sqltime."' class='btn btn-primary'>";
+					            	} else {
+					            		echo "<button disabled style='width: 100%' type='submit' class='btn btn-danger'>";
+					            	}		       
+									echo $startTime->format( 'F jS, Y' )." - ".$endTime->format( 'F jS, Y' );
+									echo "</button></form>";
+								}	
+								echo "</div></td></tr>";
+			                	echo "<tr class='collapse prop".$rowProp['Property_ID']."info hiddenRow'>";
+			                	echo "<td style='background-color: #dddddd' colspan='5'>";
+			                	echo "<br>Features: ";
+			                	$row = array();
+			                	while($rowFeatures = mysqli_fetch_assoc($queryFeatures)) {
+								   $row[] = implode('', $rowFeatures);
 								}
+								echo implode(", ", $row);
+			                	echo "<br>Address: ".$rowProp['Street_No'].' '.$rowProp['Street_Name'].', '.$rowProp['Postal_Code'].', '.$rowProp['City'];
+			                	echo "<br><br>District: ".$rowProp['District_Name'];
+			                	echo "<br>Nearby: ";
+			                	while ($rowPOI = mysqli_fetch_row($queryDistrictPOI)) {
+									echo str_replace(",",", ",implode(',', $rowPOI));
+								}
+								echo "</td></tr>";
+			                	echo "<tr class='collapse prop".$rowProp['Property_ID']."info hiddenRow'>";
+			                	echo "<td style='background-color: #dddddd' colspan='5'>";
+			                	if (mysqli_num_rows($queryPropertyRatings) > 0) {
+			                		echo "<br>Comments:";
+									while ($rowRating = mysqli_fetch_array($queryPropertyRatings)) {
+										echo "<br>".$rowRating['Comment_Text'];
+										if (is_null($rowRating['Rating'])) {
+											echo " No rating.";
+										} else {
+											echo " Rating: ".$rowRating['Rating']."/5";
+										}
+									}
+								} else {
+									echo "No ratings yet!";
+								}
+							}
 				            echo "</td></tr></tbody></table></div>";
-				           	}
 				        ?>
 			        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			        <!-- TODO: CANCELLATION OF BOOKINGS -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			        
 			        <div class='col-lg-6'>
 						<h2 style="color: #dddddd;">Current bookings:</h2>
 						<?php 
@@ -296,7 +343,7 @@
 				            			  			   ORDER BY Booking_Status, Booking_Start";
 							$queryBookingsInfo = mysqli_query($con,$queryBookingsInfo);
 				            // Fill table with property info.
-			            	echo "<div style='height: 400px !important; overflow: scroll;'>";
+			            	echo "<div style='max-height: 400px !important; overflow: scroll;'>";
 			            	echo "<table class='table table-bordered'>";
 			            	echo "<thead style='background-color: #dddddd'>";
 			            	echo "<th>Address</th><th>Owner</th><th>Start Date</th><th>Status</th><th>Review</th></thead>";
@@ -428,6 +475,7 @@
 						  			 VALUES ('$_POST[Property_ID]','$_SESSION[Member_ID]','$_POST[Owner_ID]','$_POST[Booking_Start]','Pending')";
 				mysqli_query($con,$queryMakeBooking);
 				echo "<script>alert('Booking request made!');</script>";
+				header("Location: userdash.php");
 			}
 		?>
 		<?php
@@ -442,6 +490,7 @@
 							  			VALUES ('$_POST[Booking_ID]','$_SESSION[Member_ID]','$_POST[Comment_Text]')";
 					mysqli_query($con,$queryPostReview);
 				}
+				header("Refresh:0");
 			}
 		?>
 	</body>

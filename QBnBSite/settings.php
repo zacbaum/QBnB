@@ -258,6 +258,7 @@
 						        	$query = "UPDATE Member 
 						        			  SET F_Name = '$_POST[FirstName]', L_Name = '$_POST[LastName]', Email = '$_POST[Email]', Phone_No = '$_POST[Phone]', Grad_Year = '$_POST[Year]', Faculty = '$_POST[Faculty]', Degree_Type = '$_POST[Degree]', Password = '$_POST[Password]'
 						        			  WHERE Member_ID = '$_SESSION[Member_ID]'";
+						        	$query = mysqli_query($con,$query);
 					        		echo "<script>window.location='settings.php'</script>";
 								} else {
 									echo "<br><div align='center'><span class='label label-danger'>Email already in use</span></div>";
