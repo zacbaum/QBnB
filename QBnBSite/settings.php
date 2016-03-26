@@ -29,6 +29,18 @@
 			die();
 		}
 		?>
+		<?php
+			if(isset($_POST['Delete_Account'])) {
+				include_once 'config/connection.php';
+				$queryDeleteAccount = "DELETE FROM Member
+										WHERE Member_ID = $_SESSION[Member_ID]";
+				$queryDeleteAccount = mysqli_query($con,$queryDeleteAccount);
+				session_unset();
+				session_destroy();
+				header("Location: index.php");
+				die();
+			}
+		?>
 	    <div class="navbar navbar-default navbar-fixed-top">
 	     	<div class="container">
 	        	<div class="navbar-header">
@@ -263,13 +275,15 @@
 								} else {
 									echo "<br><div align='center'><span class='label label-danger'>Email already in use</span></div>";
 								}
-							} else {
-								echo "failed to prepare the SQL";
 							}
 						}
 						?>
 					</div>
 				</div>
+				<br>
+				<form align='center' name='Delete_Account' id='Delete_Account' action='settings.php' method='POST'>
+					<button type="submit" name='Delete_Account' class="btn btn-danger btn-sm">Delete Account</button>
+				</form>
 			</div>
 		</div>
 		<hr>

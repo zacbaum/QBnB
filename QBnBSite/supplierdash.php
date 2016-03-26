@@ -35,9 +35,7 @@
 				include_once 'config/connection.php';
 				$queryDeleteProperty = "DELETE FROM Property
 										WHERE Property_ID = $_POST[Property_ID]";
-				echo var_dump($queryDeleteProperty);
 				$queryDeleteProperty = mysqli_query($con,$queryDeleteProperty);
-				echo var_dump($queryDeleteProperty);
 			}
 		?>
 	    <div class="navbar navbar-default navbar-fixed-top">
@@ -62,7 +60,7 @@
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings<span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li>
-									<a href="settings.php">Update Account Info</a>
+									<a href="settings.php">My Account</a>
 								</li>
 								<li>
 	            					<a href="login.php?logout=1">Log Out</a>

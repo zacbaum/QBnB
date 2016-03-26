@@ -77,7 +77,7 @@
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings<span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li>
-									<a href="settings.php">Update Account Info</a>
+									<a href="settings.php">My Account</a>
 								</li>
 								<li>
 	            					<a href="login.php?logout=1">Log Out</a>
