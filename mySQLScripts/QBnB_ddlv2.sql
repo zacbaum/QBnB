@@ -7,7 +7,7 @@ CREATE TABLE Member(
   Email varchar(50) NOT NULL,
   Phone_No bigint(15) NOT NULL,
   Grad_Year int(4) NOT NULL,
-  Faculty varchar(20) NOT NULL,
+  Faculty varchar(50) NOT NULL,
   Degree_Type char(10) NOT NULL,
   Password varchar(180) NOT NULL,
   PRIMARY KEY (Member_ID),
