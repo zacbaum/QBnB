@@ -41,10 +41,28 @@
 		<?php
 	    	if(isset($_POST['Post_Reply'])) {
 				include_once 'config/connection.php';
-		    	$queryPostReview = "UPDATE `Comment`
+		    	$queryPostReview = "UPDATE Comment
 								    SET Owner_Reply = '$_POST[Owner_Reply]'
 									WHERE Booking_ID = '$_POST[Booking_ID]'";
-				mysqli_query($con,$queryPostReview);
+				$queryPostReview = mysqli_query($con,$queryPostReview);
+			}
+		?>
+		<?php
+	    	if(isset($_POST['Approve_Booking'])) {
+				include_once 'config/connection.php';
+		    	$queryApprove = "UPDATE Booking
+								 SET Booking_Status = 'Approved'
+							     WHERE Booking_ID = $_POST[Booking_ID]";
+				$queryApprove = mysqli_query($con,$queryApprove);
+			}
+		?>
+		<?php
+	    	if(isset($_POST['Reject_Booking'])) {
+				include_once 'config/connection.php';
+		    	$queryReject = "UPDATE Booking
+								SET Booking_Status = 'Rejected'
+								WHERE Booking_ID = $_POST[Booking_ID]";
+				$queryReject = mysqli_query($con,$queryReject);
 			}
 		?>
 	    <div class="navbar navbar-default navbar-fixed-top">
@@ -86,42 +104,45 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-6">
-						<h2 style="color: #dddddd;">My listings:</h2>
+						<h2 style="color: #dddddd;">My listings:
+						<button onclick='makeProp();' type='button' class='pull-right btn btn-sm btn-warning'><span class='glyphicon glyphicon-home' aria-hidden='true'></span> Create New Listing</button>
+						</h2>
 			            <?php
 			            	include_once 'config/connection.php';
-			            	// Query for property list.
 			            	$queryAllMyPropertiesInfo = "SELECT Street_No, Street_Name, City, Price, Property_ID
 			            							     FROM Property
 			            							     WHERE Property.Owner_ID = '$_SESSION[Member_ID]'";
 							$queryAllMyPropertiesInfo = mysqli_query($con,$queryAllMyPropertiesInfo);
-			            	// Fill table with all my property info.
 			            	echo "<div style='max-height: 300px !important; overflow: scroll;'>";
 			            	echo "<table class='table table-bordered'>";
 			            	echo "<thead style='background-color: #dddddd'>";
 			            	echo "<th>Address</th><th>City</th><th>Price</th><th colspan='2'>Settings</th></thead>";
-			            	while ($rowProp = mysqli_fetch_array($queryAllMyPropertiesInfo)) {
-				            	// Basic property info.
-			                	echo "<tbody style='color: white;'>";
-			                	echo "<tr>";
-			                	echo "<td>".$rowProp['Street_No'].' '.$rowProp['Street_Name']."</td>";
-			                	echo "<td>".$rowProp['City']."</td>";
-			                	echo "<td>".'$'.$rowProp['Price'].'/Week'."</td>";
-			                	echo "<td align='center'><span class='glyphicon glyphicon-edit' aria-hidden='true' style='color: white;'></span></td>";
-			                	echo "<td align='center'><form name='Delete_Property' id='Delete_Property' action='supplierdash.php' method='POST'>";
-			                	echo "<input type='hidden' id='Property_ID' name='Property_ID' value='".$rowProp['Property_ID']."'>";
-			                	echo "<button style='background: transparent; border: none; padding: 0;' type=submit name='Delete_Property'>";
-			                	echo "<span class='glyphicon glyphicon-remove' aria-hidden='true' style='color: red;'></span></form></td>";
-			                	echo "</tr>";
-			          		}
+			            	if (mysqli_num_rows($queryAllMyPropertiesInfo) > 0) {
+				            	while ($rowProp = mysqli_fetch_array($queryAllMyPropertiesInfo)) {
+				                	echo "<tbody style='color: white;'>";
+				                	echo "<tr>";
+				                	echo "<td>".$rowProp['Street_No'].' '.$rowProp['Street_Name']."</td>";
+				                	echo "<td>".$rowProp['City']."</td>";
+				                	echo "<td>".'$'.$rowProp['Price'].'/Week'."</td>";
+				                	echo "<td align='center'><form name='Update_Property' id='Update_Property' action='updateproperty.php' method='POST'>";
+				                	echo "<input type='hidden' id='Property_ID' name='Property_ID' value='".$rowProp['Property_ID']."'>";
+				                	echo "<button style='background: transparent; border: none; padding: 0;' type=submit name='Delete_Property'>";
+				                	echo "<span class='glyphicon glyphicon-edit' aria-hidden='true' style='color: white;'></span></form></td>";
+				                	echo "<td align='center'><form name='Delete_Property' id='Delete_Property' action='supplierdash.php' method='POST'>";
+				                	echo "<input type='hidden' id='Property_ID' name='Property_ID' value='".$rowProp['Property_ID']."'>";
+				                	echo "<button style='background: transparent; border: none; padding: 0;' type=submit name='Delete_Property'>";
+				                	echo "<span class='glyphicon glyphicon-remove' aria-hidden='true' style='color: red;'></span></form></td>";
+				                	echo "</tr>";
+				          		}
+				          	} else {
+				          		echo "<tbody style='color: white;'>";
+				                echo "<tr><td colspan='5' align='center'>You don't own any properties! Why not list one?</td></tr>";
+				          	}
 				            echo "</tbody></table></div>";
 				        ?>
-				        <div align='center'>
-				        	<button onclick='makeProp();' type='button' class='btn btn-sm btn-warning'><span class='glyphicon glyphicon-home' aria-hidden='true'></span> Create New Listing</button>
-				        </div>
 				        <h2 style="color: #dddddd;">View comments:</h2>
 				        <?php
 			            	include_once 'config/connection.php';
-			            	// Query for comment list.
 			            	$queryMyCommentsInfo = "SELECT Street_No, Street_Name, Comment_Text, Rating, Owner_Reply, Booking_ID
 													FROM `Property` JOIN (`Comment` NATURAL JOIN `Booking`)
 			            							WHERE Property.Owner_ID = '$_SESSION[Member_ID]' AND Property.Property_ID = Booking.Property_ID";
@@ -130,31 +151,77 @@
 			            	echo "<table class='table table-bordered'>";
 			            	echo "<thead style='background-color: #dddddd'>";
 			            	echo "<th>Address</th><th>Comment</th><th>Rating</th><th>Your Reply</th></thead>";
-			            	while ($rowComm = mysqli_fetch_array($queryMyCommentsInfo)) {
-				            	// Basic property info.
-			                	echo "<tbody style='color: white;'><tr>";
-			                	echo "<td>".$rowComm['Street_No'].' '.$rowComm['Street_Name']."</td>";
-			                	echo "<td>".$rowComm['Comment_Text']."</td>";
-			                	echo "<td>".$rowComm['Rating']."/5</td>";
-			                	if (is_null($rowComm['Owner_Reply'])) {
-			                		echo "<td align='center'><a style='color:white' data-placement='right' data-toggle='popover' title='Write your reply'>";
-					               	echo "<span class='glyphicon glyphicon-edit' aria-hidden='true' style='color: white;'></span></a>";
-					               	echo "<div id='popover-content' class='hide'>";
-				                	echo "<form name='comment' id='comment' action='supplierdash.php' method='POST'>";
-									echo "<textarea rows='4' cols='20' name='Owner_Reply' id='Owner_Reply' placeholder='Enter your reply...'></textarea>";
-									echo "<input type='hidden' id='Booking_ID' name='Booking_ID' value='".$rowComm['Booking_ID']."'>";
-				            		echo "<button style='width: 100%' type='submit' id='Post_Reply' name='Post_Reply' class='btn btn-primary'>Post Reply</button></form>";
-				            		echo "</div></td>";
-			                	} else {
-			                		echo "<td>".$rowComm['Owner_Reply']."</td>";
-			                	}
-			                	echo "</tr>";
-			          		}
+			            	if (mysqli_num_rows($queryMyCommentsInfo) > 0) {
+				            	while ($rowComm = mysqli_fetch_array($queryMyCommentsInfo)) {
+				                	echo "<tbody style='color: white;'><tr>";
+				                	echo "<td>".$rowComm['Street_No'].' '.$rowComm['Street_Name']."</td>";
+				                	echo "<td>".$rowComm['Comment_Text']."</td>";
+				                	echo "<td>".$rowComm['Rating']."/5</td>";
+				                	if (is_null($rowComm['Owner_Reply'])) {
+				                		echo "<td align='center'><a style='color:white' data-placement='right' data-toggle='popover' title='Write your reply'>";
+						               	echo "<span class='glyphicon glyphicon-edit' aria-hidden='true' style='color: white;'></span></a>";
+						               	echo "<div id='popover-content' class='hide'>";
+					                	echo "<form name='comment' id='comment' action='supplierdash.php' method='POST'>";
+										echo "<textarea rows='4' cols='20' name='Owner_Reply' id='Owner_Reply' placeholder='Enter your reply...'></textarea>";
+										echo "<input type='hidden' id='Booking_ID' name='Booking_ID' value='".$rowComm['Booking_ID']."'>";
+					            		echo "<button style='width: 100%' type='submit' id='Post_Reply' name='Post_Reply' class='btn btn-primary'>Post Reply</button></form>";
+					            		echo "</div></td>";
+				                	} else {
+				                		echo "<td>".$rowComm['Owner_Reply']."</td>";
+				                	}
+				                	echo "</tr>";
+				          		}
+				          	} else {
+				          		echo "<tbody style='color: white;'>";
+				                echo "<tr><td colspan='4' align='center'>There are no comments on your properties!</td></tr>";
+				          	}
 				            echo "</tbody></table></div>";
 						?>
 			        </div>
 			        <div class='col-lg-6'>
 						<h2 style="color: #dddddd;">Listed bookings:</h2>
+						<?php
+			            	include_once 'config/connection.php';
+			            	$queryAllMyBookingInfo = "SELECT F_Name, L_Name, Booking_Start, Booking_Status, Street_No, Street_Name, Booking_ID
+													  FROM (Booking NATURAL JOIN Member) NATURAL JOIN Property
+													  WHERE Property.Owner_ID = $_SESSION[Member_ID]";
+							$queryAllMyBookingInfo = mysqli_query($con,$queryAllMyBookingInfo);
+			            	echo "<div style='max-height: 300px !important; overflow: scroll;'>";
+			            	echo "<table class='table table-bordered'>";
+			            	echo "<thead style='background-color: #dddddd'>";
+			            	echo "<th>Address</th><th>User</th><th>Booking Start</th><th colspan='2'>Status</th></thead>";
+			            	if (mysqli_num_rows($queryAllMyBookingInfo) > 0) {
+				            	while ($rowInfo = mysqli_fetch_array($queryAllMyBookingInfo)) {
+				                	echo "<tbody style='color: white;'>";
+				                	echo "<tr>";
+				                	echo "<td>".$rowInfo['Street_No'].' '.$rowInfo['Street_Name']."</td>";
+				                	echo "<td>".$rowInfo['F_Name'].' '.$rowInfo['L_Name']."</td>";
+				                	echo "<td>".preg_replace('/^(.*?)\ 00:00:00/','$1',$rowInfo['Booking_Start'])."</td>";
+				                	if ($rowInfo['Booking_Status'] == 'Approved' || $rowInfo['Booking_Status'] == 'Rejected') {
+				                		echo "<td colspan='2'>".$rowInfo['Booking_Status']."</td>";
+				                	} else {
+					                	echo "<td align='center'>";
+					                	echo "<form name='Approve_Booking' id='Approve_Booking' action='supplierdash.php' method='POST'>";
+					                	echo "<input type='hidden' id='Booking_ID' name='Booking_ID' value='".$rowInfo['Booking_ID']."'>";
+					                	echo "<button style='background: transparent; border: none; padding: 0;' type='submit' name='Approve_Booking'>";
+					                	echo "<span class='glyphicon glyphicon-ok' aria-hidden='true' style='color: green;'>";
+					                	echo "</span></form></td>";
+
+					                	echo "<td align='center'>";
+					                	echo "<form name='Reject_Booking' id='Reject_Booking' action='supplierdash.php' method='POST'>";
+					                	echo "<input type='hidden' id='Booking_ID' name='Booking_ID' value='".$rowInfo['Booking_ID']."'>";
+					                	echo "<button style='background: transparent; border: none; padding: 0;' type='submit' name='Reject_Booking'>";
+					                	echo "<span class='glyphicon glyphicon-remove' aria-hidden='true' style='color: red;'>";
+					                	echo "</span></form></td>";
+					                }
+				                	echo "</tr>";
+				          		}
+				          	} else {
+				          		echo "<tbody style='color: white;'>";
+				                echo "<tr><td colspan='5' align='center'>You don't own any properties! Why not list one?</td></tr>";
+				          	}
+				            echo "</tbody></table></div>";
+				        ?>
 			        </div>
 				</div>
 			</div>
@@ -195,7 +262,7 @@
 				location.href='createproperty.php';
 				return true;
 			}
-		</script>
+		</script>		
 		<script>
 			$("[data-toggle=popover]").popover({
 			    html: true, 
