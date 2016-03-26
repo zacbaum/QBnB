@@ -5,7 +5,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="">
-		<meta name="author" content="">
+	    <meta name="author" content="ZB&amp;VH">
 		<link rel="shortcut icon" href="img/favicon.png">
 		<title>QBnB - Sign Up</title>
 		<link href="css/bootstrap.css" rel="stylesheet">

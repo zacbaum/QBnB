@@ -38,6 +38,15 @@
 				$queryDeleteProperty = mysqli_query($con,$queryDeleteProperty);
 			}
 		?>
+		<?php
+	    	if(isset($_POST['Post_Reply'])) {
+				include_once 'config/connection.php';
+		    	$queryPostReview = "UPDATE `Comment`
+								    SET Owner_Reply = '$_POST[Owner_Reply]'
+									WHERE Booking_ID = '$_POST[Booking_ID]'";
+				mysqli_query($con,$queryPostReview);
+			}
+		?>
 	    <div class="navbar navbar-default navbar-fixed-top">
 	     	<div class="container">
 	        	<div class="navbar-header">
@@ -97,16 +106,18 @@
 			                	echo "<td>".$rowProp['Street_No'].' '.$rowProp['Street_Name']."</td>";
 			                	echo "<td>".$rowProp['City']."</td>";
 			                	echo "<td>".'$'.$rowProp['Price'].'/Week'."</td>";
-			                	echo "<td>Update</td>";
-			                	echo "<td><form name='Delete_Property' id='Delete_Property' action='supplierdash.php' method='POST'>";
+			                	echo "<td align='center'><span class='glyphicon glyphicon-edit' aria-hidden='true' style='color: white;'></span></td>";
+			                	echo "<td align='center'><form name='Delete_Property' id='Delete_Property' action='supplierdash.php' method='POST'>";
 			                	echo "<input type='hidden' id='Property_ID' name='Property_ID' value='".$rowProp['Property_ID']."'>";
 			                	echo "<button style='background: transparent; border: none; padding: 0;' type=submit name='Delete_Property'>";
 			                	echo "<span class='glyphicon glyphicon-remove' aria-hidden='true' style='color: red;'></span></form></td>";
 			                	echo "</tr>";
 			          		}
-				            echo "<tr align='center'><td colspan='5'><button onclick='makeProp();' type='button' class='btn btn-lg btn-warning'><span class='glyphicon glyphicon-home' aria-hidden='true'></span> Create New Listing</button></td></tr>";
 				            echo "</tbody></table></div>";
 				        ?>
+				        <div align='center'>
+				        	<button onclick='makeProp();' type='button' class='btn btn-sm btn-warning'><span class='glyphicon glyphicon-home' aria-hidden='true'></span> Create New Listing</button>
+				        </div>
 				        <h2 style="color: #dddddd;">View comments:</h2>
 				        <?php
 			            	include_once 'config/connection.php';
@@ -126,8 +137,8 @@
 			                	echo "<td>".$rowComm['Comment_Text']."</td>";
 			                	echo "<td>".$rowComm['Rating']."/5</td>";
 			                	if (is_null($rowComm['Owner_Reply'])) {
-			                		echo "<td><a style='color:white' data-placement='right' data-toggle='popover' title='Write your reply'>";
-					               	echo "Respond</a>";
+			                		echo "<td align='center'><a style='color:white' data-placement='right' data-toggle='popover' title='Write your reply'>";
+					               	echo "<span class='glyphicon glyphicon-edit' aria-hidden='true' style='color: white;'></span></a>";
 					               	echo "<div id='popover-content' class='hide'>";
 				                	echo "<form name='comment' id='comment' action='supplierdash.php' method='POST'>";
 									echo "<textarea rows='4' cols='20' name='Owner_Reply' id='Owner_Reply' placeholder='Enter your reply...'></textarea>";
@@ -143,8 +154,7 @@
 						?>
 			        </div>
 			        <div class='col-lg-6'>
-						<h2 style="color: #dddddd;">Confirmed bookings:</h2>
-						<h2 style="color: #dddddd;">Unconfirmed bookings:</h2>	
+						<h2 style="color: #dddddd;">Listed bookings:</h2>
 			        </div>
 				</div>
 			</div>
@@ -194,14 +204,5 @@
 			    }
 			});
 		</script>
-		<?php
-	    	if(isset($_POST['Post_Reply'])) {
-				include_once 'config/connection.php';
-		    	$queryPostReview = "UPDATE `Comment`
-								    SET Owner_Reply = '$_POST[Owner_Reply]'
-									WHERE Booking_ID = '$_POST[Booking_ID]'";
-				mysqli_query($con,$queryPostReview);
-			}
-		?>
 	</body>
 </html>

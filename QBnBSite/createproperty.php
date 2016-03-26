@@ -5,9 +5,9 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="">
-		<meta name="author" content="">
+	    <meta name="author" content="ZB&amp;VH">
 		<link rel="shortcut icon" href="img/favicon.png">
-		<title>QBnB - Sign Up</title>
+		<title>QBnB - Create Property</title>
 		<link href="css/bootstrap.css" rel="stylesheet">
 		<link href="css/main.css" rel="stylesheet">
 		<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
@@ -197,10 +197,13 @@
 							<div class="row" style="padding-bottom: 15px;">
 								<div class="form-group" align='center'>
 							    	<h4 style='color: white;'>
-							    	<div class="col-md-6">
+							    	<div class="col-md-4">
+							    		<input type="radio" name="FeatureKitchen" value="No Kitchen"> No Kitchen
+							    	</div>
+							    	<div class="col-md-4">
 							    		<input type="radio" name="FeatureKitchen" value="1 Kitchen"> 1 Kitchen
 							    	</div>
-							    	<div class="col-md-6">
+							    	<div class="col-md-4">
 								    	<input type="radio" name="FeatureKitchen" value="2 Kitchens"> 2 Kitchens
 								    </div>
 									</h4>
@@ -209,11 +212,14 @@
 							<div class="row" style="padding-bottom: 15px;">
 								<div class="form-group" align='center'>
 							    	<h4 style='color: white;'>
-							    	<div class="col-md-6">
+							    	<div class="col-md-4">
+							    		<input type="radio" name="FeatureParking" value="No Parking"> No Parking
+							    	</div>
+							    	<div class="col-md-4">
 							    		<input type="radio" name="FeatureParking" value="1 Parking Spot"> 1 Parking Spot
 							    	</div>
-							    	<div class="col-md-6">
-								    	<input type="radio" name="FeatureParking" value="2+ Parking Spots"> 2+ Parking Spots
+							    	<div class="col-md-4">
+								    	<input type="radio" name="FeatureParking" value="2+ Parking Spots"> 2 Parking Spots
 								    </div>
 									</h4>
 							    </div>

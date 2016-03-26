@@ -36,7 +36,6 @@
 		    	$queryMakeBooking = "INSERT INTO Booking (Property_ID,Member_ID,Owner_ID,Booking_Start,Booking_Status) 
 						  			 VALUES ('$_POST[Property_ID]','$_SESSION[Member_ID]','$_POST[Owner_ID]','$_POST[Booking_Start]','Pending')";
 				mysqli_query($con,$queryMakeBooking);
-				echo "<script>alert('Booking request made!');</script>";
 				header("Location: userdash.php");
 			}
 		?>
@@ -52,7 +51,16 @@
 							  			VALUES ('$_POST[Booking_ID]','$_SESSION[Member_ID]','$_POST[Comment_Text]')";
 					mysqli_query($con,$queryPostReview);
 				}
-				header("Refresh:0");
+			}
+		?>
+		<?php
+			if(isset($_POST['Cancel_Booking'])) {
+				include_once 'config/connection.php';
+				$queryCancelBooking = "DELETE FROM Booking
+									   WHERE Booking_ID = '$_POST[Booking_ID]'";
+				echo var_dump($queryCancelBooking);
+				$queryCancelBooking = mysqli_query($con,$queryCancelBooking);
+				echo var_dump($queryCancelBooking);
 			}
 		?>
 	    <div class="navbar navbar-default navbar-fixed-top">
@@ -212,7 +220,7 @@
 				            	}
 				            } else {
 				            	$queryAllPropertiesInfo = "SELECT DISTINCT Street_No, Street_Name, City, Postal_Code, Country, District_Name, Type, Price, Property_ID, Owner_ID
-				            			  				   FROM Property NATURAL JOIN Feature";
+				            			  				   FROM Property NATURAL JOIN Feature ORDER BY City, District_Name";
 				            }
 
 							$queryAllPropertiesInfo = mysqli_query($con,$queryAllPropertiesInfo);
@@ -256,7 +264,7 @@
 			          			// Hidden FULL info.
 			                	echo "<tr class='collapse prop".$rowProp['Property_ID']."info hiddenRow'>";
 			                	echo "<td style='background-color: #dddddd' colspan='3'>";
-			                	echo "Owner: ".$rowOwner['F_Name'].' '.$rowOwner['L_Name'].'<br>Email: '.$rowOwner['Email'].'<br>Phone: '.$rowOwner['Phone_No']."</td>";
+			                	echo "<b>Owner:</b> ".$rowOwner['F_Name'].' '.$rowOwner['L_Name'].'<br><b>Email:</b> '.$rowOwner['Email'].'<br><b>Phone:</b> '.$rowOwner['Phone_No']."</td>";
 			                	echo "<td style='background-color: #dddddd' colspan='2'><br>";
 			                	echo "<button type='button' class='btn btn-lg btn-primary' data-toggle='popover' title='".$rowProp['Street_No'].' '.$rowProp['Street_Name']."'>";
 			                	echo "<span class='glyphicon glyphicon-home' aria-hidden='true'></span> Book me!</button>";
@@ -285,23 +293,23 @@
 								echo "</div></td></tr>";
 			                	echo "<tr class='collapse prop".$rowProp['Property_ID']."info hiddenRow'>";
 			                	echo "<td style='background-color: #dddddd' colspan='5'>";
-			                	echo "<br>Features: ";
+			                	echo "<b>Address:</b> ".$rowProp['Street_No'].' '.$rowProp['Street_Name'].', '.$rowProp['Postal_Code'].', '.$rowProp['City'];
+			                	echo "<br><b>District:</b> ".$rowProp['District_Name'];
+			                	echo "<br><b>Nearby:</b> ";
+			                	while ($rowPOI = mysqli_fetch_row($queryDistrictPOI)) {
+									echo str_replace(",",", ",implode(',', $rowPOI));
+								}
+								echo "<br><b>Features:</b> ";
 			                	$row = array();
 			                	while($rowFeatures = mysqli_fetch_assoc($queryFeatures)) {
 								   $row[] = implode('', $rowFeatures);
 								}
 								echo implode(", ", $row);
-			                	echo "<br>Address: ".$rowProp['Street_No'].' '.$rowProp['Street_Name'].', '.$rowProp['Postal_Code'].', '.$rowProp['City'];
-			                	echo "<br><br>District: ".$rowProp['District_Name'];
-			                	echo "<br>Nearby: ";
-			                	while ($rowPOI = mysqli_fetch_row($queryDistrictPOI)) {
-									echo str_replace(",",", ",implode(',', $rowPOI));
-								}
 								echo "</td></tr>";
 			                	echo "<tr class='collapse prop".$rowProp['Property_ID']."info hiddenRow'>";
 			                	echo "<td style='background-color: #dddddd' colspan='5'>";
 			                	if (mysqli_num_rows($queryPropertyRatings) > 0) {
-			                		echo "<br>Comments:";
+			                		echo "<b>Comments:</b>";
 									while ($rowRating = mysqli_fetch_array($queryPropertyRatings)) {
 										echo "<br>".$rowRating['Comment_Text'];
 										if (is_null($rowRating['Rating'])) {
@@ -311,67 +319,26 @@
 										}
 									}
 								} else {
-									echo "No ratings yet!";
+									echo "<b>No ratings yet!</b>";
 								}
 							}
 				            echo "</td></tr></tbody></table></div>";
 				        ?>
 			        </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			        <!-- TODO: CANCELLATION OF BOOKINGS -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			        
-			        <div class='col-lg-6'>
-						<h2 style="color: #dddddd;">Current bookings:</h2>
+					<div class='col-lg-6'>
+						<h2 style="color: #dddddd;">Your bookings:</h2>
 						<?php 
 				            include_once 'config/connection.php';
 				            $queryBookingsInfo = "SELECT DISTINCT Street_No, Street_Name, City, Postal_Code, Country, District_Name, Type, Price, Property_ID, Owner_ID, Booking_Start, Booking_Status, Booking_ID
 				            			  			   FROM Property NATURAL JOIN Booking
-				            			  			   WHERE Member_ID='$_SESSION[Member_ID]'
+				            			  			   WHERE Member_ID = '$_SESSION[Member_ID]'
 				            			  			   ORDER BY Booking_Status, Booking_Start";
 							$queryBookingsInfo = mysqli_query($con,$queryBookingsInfo);
 				            // Fill table with property info.
 			            	echo "<div style='max-height: 400px !important; overflow: scroll;'>";
 			            	echo "<table class='table table-bordered'>";
 			            	echo "<thead style='background-color: #dddddd'>";
-			            	echo "<th>Address</th><th>Owner</th><th>Start Date</th><th>Status</th><th>Review</th></thead>";
+			            	echo "<th>Address</th><th>Owner</th><th>Start Date</th><th>Review</th><th colspan='2'>Status</th></thead>";
 			            	while ($rowBooking = mysqli_fetch_array($queryBookingsInfo)) {
 			            		// Owner info query.
 				            	$queryPropertyForOwnerInfo = "SELECT DISTINCT F_Name, L_Name, Email, Phone_No 
@@ -395,22 +362,24 @@
 			                	echo "<td><a style='color:white' data-placement='bottom' data-toggle='popover' title='Address Details'>";
 				               	echo $rowBooking['Street_No'].' '.$rowBooking['Street_Name']."</a>";
 				               	echo "<div id='popover-content' class='hide'><p style='color: #3498db'>";
-				               	echo $rowBooking['Street_No'].' '.$rowBooking['Street_Name'].'<br>'.$rowBooking['Postal_Code'].', '.$rowBooking['City'].'<br><br>'.$rowBooking['Type'];
+				               	echo $rowBooking['Street_No'].' '.$rowBooking['Street_Name'].'<br>'.$rowBooking['Postal_Code'].', '.$rowBooking['City'].'<br><br>'.$rowBooking['Type'].' with: ';
+			                	$row = array();
+			                	while($rowFeatures = mysqli_fetch_assoc($queryFeatures)) {
+								   $row[] = implode('', $rowFeatures);
+								}
+								echo implode(", ", $row);
 				               	echo "</p></div></td>";
-
 								echo "<td><a style='color:white' data-placement='bottom' data-toggle='popover' title='Owner Info'>";
 				               	echo $rowOwner['F_Name'].' '.$rowOwner['L_Name']."</a>";
 				               	echo "<div id='popover-content' class='hide'><p style='color: #3498db'>";
 				               	echo "<b>Email: </b>".$rowOwner['Email'].'<br><b>Phone:</b> '.$rowOwner['Phone_No'];
 				               	echo "</p></div></td>";
-				               	echo "<td>".$rowBooking['Booking_Start']."</td>";
-				               	echo "<td>".$rowBooking['Booking_Status']."</td>";
-
+				               	echo "<td>".preg_replace('/^(.*?)\ 00:00:00/','$1',$rowBooking['Booking_Start'])."</td>";
 				                if (mysqli_num_rows($queryComments) == 0) {
-									echo "<td><a style='color:white' data-placement='bottom' data-toggle='popover' title='Make Review'>";
-					               	echo "Create</a>";
+									echo "<td align='center'><a style='color:white' data-placement='bottom' data-toggle='popover' title='Make Review'>";
+					               	echo "<span class='glyphicon glyphicon-edit' aria-hidden='true' style='color: white;'></span></a>";
 					               	echo "<div id='popover-content' class='hide'>";
-				                	echo "<form name='comment' id='comment' action='userdash.php' method='POST'>";
+				                	echo "<form align='center' name='comment' id='comment' action='userdash.php' method='POST'>";
 									echo "<textarea rows='4' cols='20' name='Comment_Text' id='Comment_Text' placeholder='Enter your comment...'></textarea>";
 									echo "<span class='rating'>";
 									echo "<input type='radio' class='rating-input' id='rating-input-1-5' name='Rating' value='5'/><label for='rating-input-1-5' class='rating-star'></label>";
@@ -422,11 +391,10 @@
 									echo "<input type='hidden' id='Booking_ID' name='Booking_ID' value='".$rowBooking['Booking_ID']."'>";
 				            		echo "<button style='width: 100%' type='submit' id='Post_Review' name='Post_Review' class='btn btn-primary'>Post Review</button></form>";
 				            		echo "</div></td>";
-
 			                	} else {
 			                		$review = mysqli_fetch_assoc($queryComments);
-									echo "<td><a style='color:white' data-placement='bottom' data-toggle='popover' title='Your Review'>";
-					               	echo "View</a>";
+									echo "<td align='center'><a style='color:white' data-placement='bottom' data-toggle='popover' title='Your Review'>";
+					               	echo "<span class='glyphicon glyphicon-comment' aria-hidden='true' style='color: white;'></span></a>";
 					               	echo "<div id='popover-content' class='hide'><p style='color: #3498db'>";
 					               	echo "<b>Comment: </b>".$review['Comment_Text']."<br>";
 					               	if (is_null($review['Rating'])) {
@@ -441,6 +409,11 @@
 									}
 					               	echo "</p></div></td>";			                	
 					            }
+					            echo "<td>".$rowBooking['Booking_Status']."</td>";				                
+					            echo "<td><form name='Cancel_Booking' id='Cancel_Booking' action='userdash.php' method='POST'>";
+			                	echo "<input type='hidden' id='Booking_ID' name='Booking_ID' value='".$rowBooking['Booking_ID']."'>";
+			                	echo "<button style='background: transparent; border: none; padding: 0;' type=submit name='Cancel_Booking'>";
+					            echo "<span class='glyphicon glyphicon-remove' aria-hidden='true' style='color: red;'></span></form></td>";
 			                	echo "</tr>";
 			                }
 			                echo "</tbody></table></div>";

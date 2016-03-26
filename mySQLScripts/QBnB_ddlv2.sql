@@ -15,13 +15,13 @@ CREATE TABLE Member(
 );
 
 CREATE TABLE District(
-  District_Name varchar(30) NOT NULL,
+  District_Name varchar(50) NOT NULL,
   PRIMARY KEY (District_Name)
 );
 
 CREATE TABLE POI(
-  District_Name varchar(30) NOT NULL,
-  POI_Name varchar (30) NOT NUll,
+  District_Name varchar(50) NOT NULL,
+  POI_Name varchar (50) NOT NUll,
   POI_Description varchar(500) DEFAULT NULL,
   PRIMARY KEY (District_Name, POI_Name),
   FOREIGN KEY (District_Name) references District(District_Name) ON UPDATE CASCADE ON DELETE CASCADE

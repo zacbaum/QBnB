@@ -1,159 +1,155 @@
 USE QBnB;
+
 #Fill Member
-INSERT INTO Member (Member_ID, F_Name, L_Name, Email, Phone_No, Grad_Year, Faculty, Degree_Type, Password)
-            VALUES (1, 'QBnB', 'Admin','admin@qbnb.ca', 6135336666, 2000, 'Computing', 'BComp', 'admin');
+INSERT INTO `Member` (`Member_ID`, `F_Name`, `L_Name`, `Email`, `Phone_No`, `Grad_Year`, `Faculty`, `Degree_Type`, `Password`)
 
-INSERT INTO Member (Member_ID, F_Name, L_Name, Email, Phone_No, Grad_Year, Faculty, Degree_Type, Password)
-            VALUES (2, 'Vinyas','Harish','v.harish@queensu.ca', 6477675831, 2017,'Computing','BComp','vin');
-
-INSERT INTO Member (Member_ID, F_Name, L_Name ,Email, Phone_No, Grad_Year, Faculty, Degree_Type, Password)
-            VALUES (3, 'Zac', 'Baum', 'zac.baum@queensu.ca', 4163203344, 2017, 'Computing','BComp','zac');
-
-INSERT INTO Member (Member_ID, F_Name, L_Name ,Email, Phone_No, Grad_Year, Faculty, Degree_Type, Password)
-            VALUES (4, 'Patrick', 'Martin', 'martin@cs.queensu.ca', 6131113333, 2000, 'Computing','BComp','cisc332prof');
-
-INSERT INTO Member (Member_ID, F_Name, L_Name ,Email, Phone_No, Grad_Year, Faculty, Degree_Type, Password)
-            VALUES (5, 'Laura', 'Brooks', 'laura.brooks@queensu.ca', 4164359453, 2016, 'Computing','BComp','cisc332ta');
+VALUES
+(1, 'QBnB', 'Admin', 'admin@qbnb.ca', 6135336666, 2000, 'Computing', 'BComp', 'admin'),
+(2, 'Vinyas', 'Harish', 'v.harish@queensu.ca', 6477675831, 2017, 'Computing', 'BComp', 'vin'),
+(3, 'Zac', 'Baum', 'zac.baum@queensu.ca', 4163203344, 2017, 'Computing', 'BComp', 'zac'),
+(4, 'Patrick', 'Martin', 'martin@cs.queensu.ca', 6131113333, 2000, 'Computing', 'BComp', 'cisc332prof'),
+(5, 'Laura', 'Brooks', 'laura.brooks@queensu.ca', 4164359453, 2016, 'Computing', 'BComp', 'cisc332ta'),
+(6, 'John', 'Smith', 'john.smith@queensu.ca', 6131234567, 2008, 'Art History', 'BA', 'john'),
+(7, 'Francine', 'Smith', 'francine.smith@queensu.ca', 6132224567, 2009, 'Art History', 'MA', 'smith');
 
 #Fill District
-INSERT INTO District (District_Name) VALUES ('Annex');
-INSERT INTO District (District_Name) VALUES ('Beaches');
-INSERT INTO District (District_Name) VALUES ('Cabbagetown');
-INSERT INTO District (District_Name) VALUES ('Chinatown');
-INSERT INTO District (District_Name) VALUES ('Danforth');
-INSERT INTO District (District_Name) VALUES ('Distillery District');
-INSERT INTO District (District_Name) VALUES ('Entertainment District');
-INSERT INTO District (District_Name) VALUES ('Financial District');
-INSERT INTO District (District_Name) VALUES ('Forest Hill');
-INSERT INTO District (District_Name) VALUES ('Gerrard Street East');
-INSERT INTO District (District_Name) VALUES ('Harbourfront');
-INSERT INTO District (District_Name) VALUES ('High Park');
-INSERT INTO District (District_Name) VALUES ('North Toronto');
-INSERT INTO District (District_Name) VALUES ('Rosedale');
-INSERT INTO District (District_Name) VALUES ('St. Lawrence');
-INSERT INTO District (District_Name) VALUES ('Scarborough City Centre');
-INSERT INTO District (District_Name) VALUES ('Yonge and Dundas');
-INSERT INTO District (District_Name) VALUES ('York Mills');
+INSERT INTO District (District_Name) 
+VALUES ('Annex'),
+VALUES ('Beaches'),
+VALUES ('Cabbagetown'),
+VALUES ('Chinatown'),
+VALUES ('Danforth'),
+VALUES ('Distillery District'),
+VALUES ('Entertainment District'),
+VALUES ('Financial District'),
+VALUES ('Forest Hill'),
+VALUES ('Gerrard Street East'),
+VALUES ('Harbourfront'),
+VALUES ('High Park'),
+VALUES ('North Toronto'),
+VALUES ('Rosedale'),
+VALUES ('St. Lawrence'),
+VALUES ('Scarborough City Centre'),
+VALUES ('Yonge and Dundas'),
+VALUES ('York Mills');
 
 #Insert into POI
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Annex', 'University of Toronto');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Annex', 'Jewish Community Centre');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Annex', 'Koreatown');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Beaches', 'Ashbridges Bay');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Beaches', 'Kew Gardens');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Beaches', 'Woodbine Beach');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Beaches', 'The Boardwalk');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Beaches', 'The Goof');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Cabbagetown', 'The School of Toronto Dance Theatre');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Cabbagetown', 'Riverdale Farm');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Chinatown', 'Chinatown Markets');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Chinatown', 'Spadina Ave.');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Danforth', 'Greektown');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Danforth', 'Taste of the Danforth');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Distillery District', 'Mill Street Brewery');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Distillery District', 'Gooderham and Worts Distillery');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Distillery District', 'Toronto Christmas Market');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Entertainment District', 'Air Canada Centre');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Entertainment District', 'Rogers Centre');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Entertainment District', 'CN Tower');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Entertainment District', 'Ripleys Aquarium');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Financial District', 'Union Station');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Financial District', 'First Canadian Place');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Financial District', 'Fairmont Place');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Financial District', 'Royal York Hotel');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Financial District', 'Trump Tower');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Forest Hill', 'Upper Canada College');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Forest Hill','Branksome Hall');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Forest Hill','Eglinton Theatre');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Gerrard Street East', 'Gerrard India Bazaar');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Harbourfront', 'Harbourfront Centre');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Harbourfront', 'Queens Quay');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Harbourfront', 'Jack Layton Ferry Terminal');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Harbourfront', 'Billy Bishop Airport');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('High Park', 'High Park');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('High Park', 'Sunnyside Docks');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('North Toronto', 'Yonge and Eglinton');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('North Toronto', 'Chaplin Estates');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Rosedale', 'The Integral House');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Rosedale', 'The Studio Building');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('St. Lawrence', 'St. Lawrence Market');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('St. Lawrence', 'St. Lawrence Hall');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('St. Lawrence', 'Sony Centre for the Performing Arts');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Scarborough City Centre', 'Scarborough Town Centre');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Yonge and Dundas', 'Eatons Centre');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('Yonge and Dundas', 'Four Seasons Centre for the Performing Arts');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('York Mills', 'Don Valley Golf Course');
-INSERT INTO POI (District_Name, POI_Name) VALUES ('York Mills', 'York Mills Shopping Centre');
+INSERT INTO POI (District_Name, POI_Name) 
+VALUES ('Annex', 'University of Toronto'),
+VALUES ('Annex', 'Jewish Community Centre'),
+VALUES ('Annex', 'Koreatown'),
+VALUES ('Beaches', 'Ashbridges Bay'),
+VALUES ('Beaches', 'Kew Gardens'),
+VALUES ('Beaches', 'Woodbine Beach'),
+VALUES ('Beaches', 'The Boardwalk'),
+VALUES ('Beaches', 'The Goof'),
+VALUES ('Cabbagetown', 'The Toronto School of Dance Theatre'),
+VALUES ('Cabbagetown', 'Riverdale Farm'),
+VALUES ('Chinatown', 'Chinatown Markets'),
+VALUES ('Chinatown', 'Spadina Ave.'),
+VALUES ('Danforth', 'Greektown'),
+VALUES ('Danforth', 'Taste of the Danforth'),
+VALUES ('Distillery District', 'Mill Street Brewery'),
+VALUES ('Distillery District', 'Gooderham and Worts Distillery'),
+VALUES ('Distillery District', 'Toronto Christmas Market'),
+VALUES ('Entertainment District', 'Air Canada Centre'),
+VALUES ('Entertainment District', 'Rogers Centre'),
+VALUES ('Entertainment District', 'CN Tower'),
+VALUES ('Entertainment District', 'Ripleys Aquarium'),
+VALUES ('Financial District', 'Union Station'),
+VALUES ('Financial District', 'First Canadian Place'),
+VALUES ('Financial District', 'Fairmont Place'),
+VALUES ('Financial District', 'Royal York Hotel'),
+VALUES ('Financial District', 'Trump Tower'),
+VALUES ('Forest Hill', 'Upper Canada College'),
+VALUES ('Forest Hill','Branksome Hall'),
+VALUES ('Forest Hill','Eglinton Theatre'),
+VALUES ('Gerrard Street East', 'Gerrard India Bazaar'),
+VALUES ('Harbourfront', 'Harbourfront Centre'),
+VALUES ('Harbourfront', 'Queens Quay'),
+VALUES ('Harbourfront', 'Jack Layton Ferry Terminal'),
+VALUES ('Harbourfront', 'Billy Bishop Airport'),
+VALUES ('High Park', 'High Park'),
+VALUES ('High Park', 'Sunnyside Docks'),
+VALUES ('North Toronto', 'Yonge and Eglinton'),
+VALUES ('North Toronto', 'Chaplin Estates'),
+VALUES ('Rosedale', 'The Integral House'),
+VALUES ('Rosedale', 'The Studio Building'),
+VALUES ('St. Lawrence', 'St. Lawrence Market'),
+VALUES ('St. Lawrence', 'St. Lawrence Hall'),
+VALUES ('St. Lawrence', 'Sony Centre for the Performing Arts'),
+VALUES ('Scarborough City Centre', 'Scarborough Town Centre'),
+VALUES ('Yonge and Dundas', 'Eatons Centre'),
+VALUES ('Yonge and Dundas', 'Four Seasons Centre for the Performing Arts'),
+VALUES ('York Mills', 'Don Valley Golf Course'),
+VALUES ('York Mills', 'York Mills Shopping Centre');
 
 #Fill Property
-INSERT INTO Property (Property_ID, Owner_ID, Street_No, Street_Name, City, Country, Postal_Code, District_Name, Type, Price)
-            VALUES (1,1,12,'Brock Street','Toronto','Canada','M9A 4X6','Entertainment District', 'Apartment',34.50);
-
-INSERT INTO Property (Property_ID, Owner_ID, Street_No, Street_Name, City, Country, Postal_Code, District_Name, Type, Price)
-            VALUES (2,2,12,'Bay Street','Toronto','Canada','M4A 9X6','Financial District', 'Loft', 3000);
-
-INSERT INTO Property (Property_ID, Owner_ID, Street_No, Street_Name, City, Country, Postal_Code, District_Name, Type, Price)
-            VALUES (3,1,50,'Gerrard Street','Toronto','Canada','M9A 4X1','Danforth', 'Basement', 50);
-
-INSERT INTO Property (Property_ID, Owner_ID, Street_No, Street_Name, City, Country, Postal_Code, District_Name, Type, Price)
-            VALUES (4,3,41,'Yonge Street','Toronto','Canada','M9A 4X9','North Toronto', 'Apartment', 75);
-
-INSERT INTO Property (Property_ID, Owner_ID, Street_No, Street_Name, City, Country, Postal_Code, District_Name, Type, Price)
-            VALUES (5,4,1891,'Quebec Avenue','Toronto','Canada','M6T 4Q9','High Park', 'House', 15);
+INSERT INTO `Property` (`Property_ID`, `Owner_ID`, `Street_No`, `Street_Name`, `City`, `Country`, `Postal_Code`, `District_Name`, `Type`, `Price`) VALUES
+(1, 2, 12, 'Brock Street', 'Toronto', 'Canada', 'M9A 4X6', 'Entertainment District', 'Townhouse', '35'),
+(2, 2, 12, 'Bay Street', 'Toronto', 'Canada', 'M4A 9X6', 'Financial District', 'Loft', '300'),
+(3, 3, 50, 'Gerrard Street Unit 2', 'Toronto', 'Canada', 'M9A 4X1', 'Danforth', 'Basement', '500'),
+(4, 3, 41, 'Yonge Street', 'Toronto', 'Canada', 'M9A 4X9', 'North Toronto', 'Apartment', '750'),
+(5, 4, 1891, 'Quebec Avenue', 'Toronto', 'Canada', 'M6T 4Q9', 'High Park', 'House', '200'),
+(6, 4, 8208, 'Johnson Street', 'Toronto', 'Canada', 'A0A 0A0', 'Harbourfront', 'Condo', '200'),
+(7, 4, 6, 'Donlands Avenue', 'Toronto', 'Canada', 'M4E 3V3', 'Danforth', 'House', '375'),
+(8, 4, 4001, 'Queen Street West', 'Toronto', 'Canada', 'M4J 3P7', 'Yonge and Dundas', 'Apartment', '365');
 
 #Fill Feature
-INSERT INTO Feature (Property_ID, Feature_Name)
-            VALUES (1, '1 bathroom');
-
-INSERT INTO Feature (Property_ID, Feature_Name)
-            VALUES (2, 'Full kitchen');
-
-INSERT INTO Feature (Property_ID, Feature_Name)
-            VALUES (3 , 'Mahogany floors');
-
-INSERT INTO Feature (Property_ID, Feature_Name)
-            VALUES (4, '2 kitchens');
-
-INSERT INTO Feature (Property_ID, Feature_Name)
-            VALUES (5, '1 bathroom');
-
-INSERT INTO Feature (Property_ID, Feature_Name)
-            VALUES (3, 'Full kitchen');
-
-INSERT INTO Feature (Property_ID, Feature_Name)
-            VALUES (4, '2 bathrooms');
-
-INSERT INTO Feature (Property_ID, Feature_Name)
-            VALUES (4, 'Study');
-
-INSERT INTO Feature (Property_ID, Feature_Name)
-            VALUES (5, '2 bath');
-
-INSERT INTO Feature (Property_ID, Feature_Name)
-            VALUES (5, 'Full kitchen');
+INSERT INTO `Feature` (`Property_ID`, `Feature_Name`, `Feature_Description`) VALUES
+(1, '1 Kitchen', NULL),
+(1, '2 Bathrooms', NULL),
+(1, '2 Bedrooms', NULL),
+(1, 'No Parking', NULL),
+(1, 'Pool', NULL),
+(1, 'Yard', NULL),
+(2, '1 Bathroom', NULL),
+(2, '1 Bedroom', NULL),
+(2, '1 Kitchen', NULL),
+(2, '2 Parking Spots', NULL),
+(2, 'Balcony', NULL),
+(3, '1 Bathroom', NULL),
+(3, '1 Bedroom', NULL),
+(3, 'No Kitchen', NULL),
+(3, 'No Parking', NULL),
+(4, '1 Kitchen', NULL),
+(4, '2 Bathrooms', NULL),
+(4, '2 Parking Spots', NULL),
+(4, '3+ Bedrooms', NULL),
+(4, 'Balcony', NULL),
+(5, '2 Kitchens', NULL),
+(5, '2 Parking Spots', NULL),
+(5, '3+ Bathrooms', NULL),
+(5, '3+ Bedrooms', NULL),
+(5, 'Balcony', NULL),
+(5, 'Basement', NULL),
+(5, 'Pool', NULL),
+(5, 'Yard', NULL),
+(6, '1 Bathroom', NULL),
+(6, '1 Bedroom', NULL),
+(6, '1 Kitchen', NULL),
+(6, '1 Parking Spot', NULL),
+(6, 'Balcony', NULL),
+(7, '1 Kitchen', NULL),
+(7, '1 Parking Spot', NULL),
+(7, '2 Bathrooms', NULL),
+(7, '3+ Bedrooms', NULL),
+(7, 'Basement', NULL),
+(7, 'Yard', NULL),
+(8, '1 Bathroom', NULL),
+(8, '1 Kitchen', NULL),
+(8, '1 Parking Spot', NULL),
+(8, '2 Bedrooms', NULL),
+(8, 'Balcony', NULL),
+(8, 'Pool', NULL);
 
 #Fill Booking
-INSERT INTO Booking (Booking_ID, Property_ID, Booking_Start, Booking_Status, Member_ID, Owner_ID)
-            VALUES (1, 5,'2016-03-11 12:00:00', 'Approved', 2, 4);
-
-INSERT INTO Booking (Booking_ID, Property_ID, Booking_Start, Booking_Status, Member_ID, Owner_ID)
-            VALUES (2, 4,'2016-06-11 12:30:00', 'Pending', 5, 3);
-
-INSERT INTO Booking (Booking_ID, Property_ID, Booking_Start, Booking_Status, Member_ID, Owner_ID)
-            VALUES (3, 2,'2016-02-14 12:00:00','Rejected', 3, 2);
-
-INSERT INTO Booking (Booking_ID, Property_ID, Booking_Start, Booking_Status, Member_ID, Owner_ID)
-            VALUES (4, 4,'2016-06-11 12:30:00', 'Approved', 5, 3);
-
-INSERT INTO Booking (Booking_ID, Property_ID, Booking_Start, Booking_Status, Member_ID, Owner_ID)
-            VALUES (5, 2,'2016-02-14 12:00:00','Approved', 3, 2);
+INSERT INTO `Booking` (`Booking_ID`, `Property_ID`, `Member_ID`, `Owner_ID`, `Booking_Start`, `Booking_Status`) VALUES
+(1, 1, 3, 2, '2016-04-03 00:00:00', 'Approved'),
+(2, 1, 3, 2, '2016-04-10 00:00:00', 'Approved'),
+(3, 5, 3, 4, '2016-04-17 00:00:00', 'Approved'),
+(4, 5, 3, 4, '2016-03-27 00:00:00', 'Approved');
 
 #Fill Comment
-INSERT INTO Comment (Booking_ID, Member_ID, Rating, Comment_Text, Owner_Reply)
-            VALUES (1, 2, 5, 'Great little spot very reasonably priced!','Glad to hear! Thank you for your visit!');
-
-INSERT INTO Comment (Booking_ID, Member_ID, Rating, Comment_Text)
-            VALUES (4, 5, 1, 'Worst experience I have ever had!');
-
-INSERT INTO Comment (Booking_ID, Member_ID, Rating, Comment_Text)
-            VALUES (5, 3, 4, 'Great place with an even better view!');
+INSERT INTO `Comment` (`Booking_ID`, `Comment_Time`, `Member_ID`, `Rating`, `Comment_Text`, `Owner_Reply`) 
+VALUES (4, '2016-03-26 18:45:49', 3, 5, 'Great place! Will be coming back soon.', 'Thank you very much!');
