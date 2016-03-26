@@ -102,9 +102,21 @@
 											while ($rowMember = mysqli_fetch_array($queryBasicMemberInfo)){
 												echo "<tbody style='color: white;'>";
 												echo "<tr><td>".$rowMember['Member_ID']."</td>";
-												echo "<td>".$rowMember['F_Name'].' '.$rowMember['L_Name']."</td></tr>";
-											}
+												echo "<td>".$rowMember['F_Name'].' '.$rowMember['L_Name']."</td>";
+												$queryCheckIfOwner = "SELECT Property_ID
+																							FROM Property
+																							WHERE Owner_ID = '$rowMember[Member_ID]'";
+												$queryCheckIfOwner = mysqli_query($con, $queryCheckIfOwner);
 
+												if (mysqli_num_rows($queryCheckIfOwner) == 0)
+													echo "<td> No </td>";
+												else {
+													echo "<td> Yes </td>";
+												}//End loop filling in if members own property
+												echo "<td align='center'> <button type='button' class='btn btn-l btn-primary' data-toggle='popover'>";
+												echo "<span class='glyphicon glyphicon-remove' text-align = center aria-hidden='true'></span></button>";
+												echo "<div id='popover-content' class='hide'></td>";
+											}//End while filling member info
 								?>
 								</table> <!-- Member table -->
 							</div><!-- scroll -->
@@ -126,6 +138,26 @@
 						                <th>Price</th>
 						                <th>Delete Property</th>
 						            </thead>
+												<?php
+												 			include_once 'config/connection.php';
+															$queryBasicPropInfo = "SELECT Property_ID, Street_No, Street_Name, District_Name, City, Type, Price
+																										 FROM Property";
+															$queryBasicPropInfo = mysqli_query($con,$queryBasicPropInfo);
+
+															//Fill in property information 
+															while ($rowProperty = mysqli_fetch_array($queryBasicPropInfo)){
+																echo "<tbody style='color: white;'>";
+																echo "<tr><td>".$rowProperty['Property_ID']."</td>";
+																echo "<td>".$rowProperty['Street_No'].' '.$rowProperty['Street_Name']."</td>";
+																echo "<td>".$rowProperty['District_Name']."</td>";
+																echo "<td>".$rowProperty['City']."</td>";
+																echo "<td>".$rowProperty['Type']."</td>";
+																echo "<td>".$rowProperty['Price']."</td>";
+																echo "<td align='center'> <button type='button' class='btn btn-l btn-primary' data-toggle='popover'>";
+																echo "<span class='glyphicon glyphicon-remove' text-align = center aria-hidden='true'></span></button>";
+																echo "<div id='popover-content' class='hide'></td>";
+															}//End while filling property info
+											?>
 								</table> <!-- Member table -->
 							</div><!-- scroll -->
 					</div><!-- col-lg-3 -->
