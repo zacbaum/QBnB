@@ -195,20 +195,49 @@
 																$queryGetAverage = mysqli_query($con, $queryGetAverage);
 																$averageRating = mysqli_fetch_array($queryGetAverage);
 
+																//Show bookings and ratings on property
+																$queryPropertyHistory = "SELECT Booking_ID, Booking_Start, Booking_Status, Rating
+																												FROM Booking NATURAL JOIN Comment
+																												WHERE Property_ID = '$rowProperty[Property_ID]'";
+																$queryPropertyHistory = mysqli_query($con, $queryPropertyHistory);
+
+
 																echo "<tbody style='color: white;'>";
 																echo "<tr><td>".$rowProperty['Property_ID']."</td>";
 
 																echo "<td><a style='color:white' data-placement='right' data-toggle='popover' title='Property Details'>";
 																echo $rowProperty['Street_No'].' '.$rowProperty['Street_Name']."</a>";
-																echo "<div id='popover-content' class='hide'><p style='color: #3498db'>";
+																echo "<div id='popover-content' class='hide'><p style='color: #3498db' overflow-y: scroll>";
 
 																//Fill popover-content
+																//Fill owner name
 																echo "<b>Owner: </b>".$rowOwnerInfo['F_Name'].' '.$rowOwnerInfo['L_Name']."<br>";
+
+																//Fill average rating
 																if ($averageRating['Average'] == NULL)
-																	echo "<b>Average Ratings:</b>".' '.'No ratings yet!'."<br>";
+																	echo "<b>Average Rating:</b>".' '.'No ratings yet!'."<br>";
 																else {
-																	echo "<b>Average Rating:</b>".$averageRating['Average']."<br>";
-																}
+																	echo "<b>Average Rating:</b>".' '.round($averageRating['Average'], 2)."<br>";
+																}//End if state filling average rating
+
+																//Fill booking history per property
+																echo "<b>Booking History: </b><ol>";
+																//Check if there is any booking history to report
+																if (mysqli_num_rows($queryPropertyHistory) == 0)
+																	echo "This property has yet to be booked.";
+
+																//Report booking history
+																while ($rowPropertyHistory = mysqli_fetch_array($queryPropertyHistory)){
+																	echo "<li><i>Booking ID: </i>".' '.$rowPropertyHistory['Booking_ID']."</li>";
+																	echo "<ul style ='list-style-type:disc' ><li><i>Booking Start: </i>".' '.$rowPropertyHistory['Booking_Start']."</li>";
+																	echo "<li><i>Booking Status: </i>".' '.$rowPropertyHistory['Booking_Status']."</li>";
+																	if ($rowPropertyHistory['Rating'] == NULL)
+																		echo "<li><i>Rating:<i> No rating given.</li>";
+																	else{
+																		echo "<li><i>Rating: </i>".' '.$rowPropertyHistory['Rating']."</li>";
+																	}
+																	echo "</ul>";
+																}//End loop filling property history
 																echo "</p></div></td>"; //Close popover-content for properties
 
 																echo "<td>".$rowProperty['District_Name']."</td>";
