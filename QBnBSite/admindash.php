@@ -11,7 +11,7 @@
 		<link href="css/main.css" rel="stylesheet">
 		<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
 	</head>
- 	<body>
+ 	<body> 
 	  	<?php
 	 	session_start();
 	 	?>
@@ -28,7 +28,7 @@
 				die();
 			}
 		}
-		?>
+		?> <!--End authorization check -->
 
 		<?php
 			if(isset($_POST['Delete_Property'])) {
@@ -37,7 +37,7 @@
 																WHERE Property_ID = $_POST[Property_ID]";
 				$queryDeleteProperty = mysqli_query($con,$queryDeleteProperty);
 			}
-		?>
+		?> <!--POST Request for deleting member-->
 
 		<?php
 			if(isset($_POST['Delete_Member'])) {
@@ -47,7 +47,7 @@
 										WHERE Member_ID = $_POST[Member_ID]";
 				$queryDeleteMember = mysqli_query($con,$queryDeleteMember);
 			}
-		?>
+		?> <!--POST request for deleting member-->
 
 		<div class="navbar navbar-default navbar-fixed-top">
 	     	<div class="container">
@@ -70,6 +70,7 @@
 	        	</div>
 		    </div>
 	    </div>
+
 	    <div class="navbar navbar-default navbar-fixed-top">
 	     	<div class="container">
 	        	<div class="navbar-header">
@@ -120,25 +121,95 @@
 											//Fill in member information. In this loop, another query to check if members
 											//own property will also be executed.
 											while ($rowMember = mysqli_fetch_array($queryBasicMemberInfo)){
+												//For popover, get history of member as a consumer
+												$queryConsumerHistory = "SELECT Booking_ID, Booking_Start, Booking_Status
+																								FROM Booking
+																								WHERE Member_ID = '$rowMember[Member_ID]'";
+												$queryConsumerHistory = mysqli_query($con, $queryConsumerHistory);
+
 												echo "<tbody style='color: white;'>";
 												echo "<tr>";
 												echo "<td>".$rowMember['Member_ID']."</td>";
 
-												echo "<td><a style='color:white' data-placement='right' data-toggle='popover' title='Member Details'>";
+												//Consumer popover section
+												echo "<td><a style='color:white' data-placement='right' data-toggle='popover' title='Consumer Details'>";
 												echo $rowMember['F_Name'].' '.$rowMember['L_Name']."</a>";
 												echo "<div id='popover-content' class='hide'><p style='color: #3498db'>";
 												echo "<b>Email: </b>".$rowMember['Email']."<br><b>Phone:</b> ".$rowMember['Phone_No'];
-												echo "</p></div></td>";
+												echo "<br>";
 
+												//Fill booking history per consumer
+												echo "<b>Consumer Activity: </b><ol>";
+												//Check if there is any consumer history to report
+												if (mysqli_num_rows($queryConsumerHistory) == 0)
+													echo "This member has not made any bookings.</ol>";
+
+												//Report consumer history if it exists
+												while ($rowConsumerHistory = mysqli_fetch_array($queryConsumerHistory)){
+													echo "<li><i>Booking ID: </i>".' '.$rowConsumerHistory['Booking_ID']."</li>";
+													echo "<ul style ='list-style-type:disc' ><li><i>Booking Start: </i>".' '.$rowConsumerHistory['Booking_Start']."</li>";
+													echo "<li><i>Booking Status: </i>".' '.$rowConsumerHistory['Booking_Status']."</li>";
+													echo "</ul>";
+													echo "</li>";
+												}//End loop filling in consumer history
+												echo "</p></div></td>"; //Close popover content
+
+												//Determine if member owns property
 												$queryCheckIfOwner = "SELECT Property_ID
 																							FROM Property
 																							WHERE Owner_ID = '$rowMember[Member_ID]'";
 												$queryCheckIfOwner = mysqli_query($con, $queryCheckIfOwner);
 
+												//Query to obtain owner's average rating across properties, only ran if they are an owner
+												$queryGetOwnerAverage = "SELECT avg(Rating) as 'Owner_Average'
+																								FROM Comment NATURAL JOIN Booking
+																								WHERE Owner_ID = '$rowMember[Member_ID]'";
+
+												//Query to obtain number of properties a person owns, only ran if they are an owner
+												$queryGetNumProp = "SELECT count(Property_ID) as 'Num_Prop'
+																						FROM Property
+																						WHERE Owner_ID = '$rowMember[Member_ID]'";
+
+												//Query to obtain all bookings associated with that owner, only ran if they are an owner
+												$queryOwnerHistory = "SELECT Booking_ID, Booking_Start, Booking_Status
+																							FROM Booking
+																							WHERE Owner_ID = '$rowMember[Member_ID]'";
+
+												//The owner summary popover is only created if the member owns property
 												if (mysqli_num_rows($queryCheckIfOwner) == 0)
 													echo "<td> No </td>";
 												else {
-													echo "<td> Yes </td>";
+													$queryGetNumProp = mysqli_query($con, $queryGetNumProp);
+													$queryGetOwnerAverage = mysqli_query($con, $queryGetOwnerAverage);
+													$queryOwnerHistory = mysqli_query($con, $queryOwnerHistory);
+													$rowNumProp = mysqli_fetch_array($queryGetNumProp);
+													$rowOwnerAverage = mysqli_fetch_array($queryGetOwnerAverage);
+													echo "<td><a style='color:white' data-placement='right' data-toggle='popover' title='Owner Details'>";
+													echo "Yes </a>";
+													echo "<div id='popover-content' class='hide'><p style='color: #3498db'>";
+													echo "<b>Properties Owned: </b>".$rowNumProp['Num_Prop']."<br>";
+
+													//Only report average rating if they have ratings, do not put 0 as default
+													if ($rowOwnerAverage['Owner_Average'] == NULL)
+														echo "<b>Average Rating:</b>".' '.'No ratings yet!'."<br>";
+													else {
+													echo "<b>Average Rating:</b>".' '.round($rowOwnerAverage['Owner_Average'],2),"<br>";
+													}//End rating check
+
+													//Check if there is any owner history to report
+													if (mysqli_num_rows($queryOwnerHistory) == 0)
+														echo "There are not any bookings on this member's property yet.";
+													else
+														echo "<b>Booking History: </b><ol>";
+													//Report history if it exists
+													while ($rowOwnerHistory = mysqli_fetch_array($queryOwnerHistory)){
+														echo "<li><i>Booking ID: </i>".' '.$rowOwnerHistory['Booking_ID']."</li>";
+														echo "<ul style ='list-style-type:disc' ><li><i>Booking Start: </i>".' '.$rowOwnerHistory['Booking_Start']."</li>";
+														echo "<li><i>Booking Status: </i>".' '.$rowOwnerHistory['Booking_Status']."</li>";
+														echo "</ul>";
+													}//End loop filling owner history
+													echo "<br>";
+													echo "</p></div></td>"; //Close popover content
 												}//End loop filling in if members own property
 
 												//Delete member form
@@ -148,11 +219,9 @@
 															data-toggle='tooltip' data-placement='right' title='Are you sure?'>";
 												echo "<span class='glyphicon glyphicon-remove' aria-hidden='true' style='color: red;'></span></form></td>";
 												echo"</tr>";
-
-
 											}//End while filling member info
 								?>
-								</table> <!-- Member table -->
+							</table> <!-- End member table -->
 							</div><!-- scroll -->
 					</div><!-- col-lg-3 -->
 				</div><!-- row -->
@@ -183,8 +252,8 @@
 
 																//For popover, get owner name
 																$queryGetOwner = "SELECT F_Name, L_Name
-																											FROM Member
-																											WHERE Member_ID = '$rowProperty[Owner_ID]'";
+																									FROM Member
+																									WHERE Member_ID = '$rowProperty[Owner_ID]'";
 																$queryGetOwner = mysqli_query($con, $queryGetOwner);
 																$rowOwnerInfo = mysqli_fetch_array($queryGetOwner);
 
@@ -200,7 +269,6 @@
 																												FROM Booking NATURAL JOIN Comment
 																												WHERE Property_ID = '$rowProperty[Property_ID]'";
 																$queryPropertyHistory = mysqli_query($con, $queryPropertyHistory);
-
 
 																echo "<tbody style='color: white;'>";
 																echo "<tr><td>".$rowProperty['Property_ID']."</td>";
@@ -250,13 +318,13 @@
 																			data-toggle='tooltip' data-placement='right' title='Are you sure?'>";
 																echo "<span class='glyphicon glyphicon-remove' aria-hidden='true' style='color: red;'></span></form></td></tr>";
 															}//End while filling property info
-											?>
-								</table> <!-- Member table -->
+											?> <!--End php needed to fill property table -->
+								</table> <!-- End property table -->
 							</div><!-- scroll -->
 					</div><!-- col-lg-3 -->
 				</div><!-- row -->
 
-
+				<!-- Footer -->
 				</div>
 			</div>
 		</div>
@@ -264,7 +332,9 @@
 		</div>
 		<div class="container">
 			<p class="centered">Created by BH &amp; Associates</p>
-		</div>
+		</div> <!--End footer -->
+
+	<!-- JQuery script to get the popovers working -->
 		<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 	    <script src="js/bootstrap.min.js"></script>
 			<script>
@@ -274,6 +344,7 @@
 								return $(this).next('#popover-content').html();
 						}
 				});
-			</script>
+			</script> <!--End popover JQuery script -->
+
 	</body>
 </html>
