@@ -387,13 +387,17 @@
 						               	echo "<div id='popover-content' class='hide'>";
 					                	echo "<form align='center' name='comment' id='comment' action='userdash.php' method='POST'>";
 										echo "<textarea rows='4' cols='20' name='Comment_Text' id='Comment_Text' placeholder='Enter your comment...'></textarea>";
-										echo "<span class='rating'>";
-										echo "<input type='radio' class='rating-input' id='rating-input-1-5' name='Rating' value='5'/><label for='rating-input-1-5' class='rating-star'></label>";
-										echo "<input type='radio' class='rating-input' id='rating-input-1-4' name='Rating' value='4'/><label for='rating-input-1-4' class='rating-star'></label>";
-										echo "<input type='radio' class='rating-input' id='rating-input-1-3' name='Rating' value='3'/><label for='rating-input-1-3' class='rating-star'></label>";
-										echo "<input type='radio' class='rating-input' id='rating-input-1-2' name='Rating' value='2'/><label for='rating-input-1-2' class='rating-star'></label>";
-										echo "<input type='radio' class='rating-input' id='rating-input-1-1' name='Rating' value='1'/><label for='rating-input-1-1' class='rating-star'></label>";
-										echo "</span>";
+
+										echo "<div class='acidjs-rating-stars'>";
+										echo "<input type='radio' name='Rating' id='group-1-0' value='5' /><label for='group-1-0'></label>";
+										echo "<input type='radio' name='Rating' id='group-1-1' value='4' /><label for='group-1-1'></label>";
+										echo "<input type='radio' name='Rating' id='group-1-2' value='3' /><label for='group-1-2'></label>";
+										echo "<input type='radio' name='Rating' id='group-1-3' value='2' /><label for='group-1-3'></label>";
+										echo "<input type='radio' name='Rating' id='group-1-4' value='1' /><label for='group-1-4'></label>";
+										echo "</div>";
+
+
+
 										echo "<input type='hidden' id='Booking_ID' name='Booking_ID' value='".$rowBooking['Booking_ID']."'>";
 					            		echo "<button style='width: 100%' type='submit' id='Post_Review' name='Post_Review' class='btn btn-primary'>Post Review</button></form>";
 					            		echo "</div></td>";
@@ -475,6 +479,15 @@
             	return $(this).next('#popover-content').html();
 			    }
 			});
+		</script>
+		<script>
+			var logID = 'log',
+			  log = $('<div id="'+logID+'"></div>');
+			$('body').append(log);
+			  $('[type*="radio"]').change(function () {
+			    var me = $(this);
+			    log.html(me.attr('value'));
+			  });
 		</script>
 	</body>
 </html>

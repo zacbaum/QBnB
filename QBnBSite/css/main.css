@@ -172,31 +172,51 @@ i {
     transition:height .01s ease
 }
 
-.rating {
-    overflow: hidden;
+.acidjs-rating-stars,
+.acidjs-rating-stars label::before
+{
     display: inline-block;
-    font-size: 0;
-    position: relative;
 }
-.rating-input {
-    float: right;
-    width: 16px;
-    height: 16px;
+ 
+.acidjs-rating-stars label:hover,
+.acidjs-rating-stars label:hover ~ label
+{
+    color: #f5b301;
+}
+ 
+.acidjs-rating-stars *
+{
+    margin: 0;
     padding: 0;
-    margin: 0 0 0 -16px;
-    opacity: 0;
 }
-.rating:hover .rating-star:hover,
-.rating:hover .rating-star:hover ~ .rating-star,
-.rating-input:checked ~ .rating-star {
-    background-position: 0 0;
+ 
+.acidjs-rating-stars input
+{
+    display: none;
 }
-.rating-star,
-.rating:hover .rating-star {
-    position: relative;
-    float: right;
-    display: block;
-    width: 16px;
-    height: 16px;
-    background: url('http://kubyshkin.ru/samples/star-rating/star.png') 0 -16px;
+ 
+.acidjs-rating-stars
+{
+    unicode-bidi: bidi-override;
+    direction: rtl;
+}
+ 
+.acidjs-rating-stars label
+{
+    color: #ccc;
+}
+ 
+.acidjs-rating-stars label::before
+{
+    content: "\2605";
+    width: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 30px;
+    cursor: pointer;
+}
+ 
+.acidjs-rating-stars input:checked ~ label
+{
+    color: #f5b301;
 }
