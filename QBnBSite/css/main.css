@@ -34,7 +34,7 @@ h4 {
 /* Paragraph & Typographic */
 p {
     line-height: 28px;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
     font-size: 16px;
 }
 
@@ -42,7 +42,18 @@ p {
     text-align: center;
 }
 
-/* Links */
+span.intable {
+    color: white;
+}
+
+span.intable:hover {
+    color: #3498db;
+}
+
+tr:hover span.intable {
+    color: #3498db;
+}
+
 a {
     color: #3498db;
     word-wrap: break-word;
@@ -54,10 +65,27 @@ a {
     transition: color 0.1s ease-in, background 0.1s ease-in;
 }
 
+a.intable {
+    color: white;
+    -webkit-transition: color 0s ease-in, background 0s ease-in;
+    -moz-transition: color 0s ease-in, background 0s ease-in;
+    -ms-transition: color 0s ease-in, background 0s ease-in;
+    -o-transition: color 0s ease-in, background 0s ease-in;
+    transition: color 0s ease-in, background 0s ease-in;
+}
+
+a.intable:hover {
+    color: #3498db;
+}
+
+tr:hover a.intable { 
+    color: #3498db;
+}
+
 a:hover,
 a:focus {
     color: #7b7b7b;
-    text-decoration: none;
+    text-decoration: underline;
     outline: 0;
 }
 
@@ -111,7 +139,6 @@ i {
 	color: #3498db; 
 }
 
-
 /* HeaderWrap */
 #headerwrap {
 	background-color: #3498db;
@@ -143,7 +170,7 @@ i {
 }
 
 .table-bordered {
-  border: 5px solid #dddddd;
+  border: 5px solid white;
 }
 
 .table-bordered > thead > tr > th,
@@ -152,19 +179,97 @@ i {
 .table-bordered > thead > tr > td,
 .table-bordered > tbody > tr > td,
 .table-bordered > tfoot > tr > td {
-  border: 2px solid #dddddd;
+  border: 5px solid white;
+}
+
+.table-hover > tbody > tr:hover > td >,
+.table-hover > tbody > tr:hover > th {
+  background-color: white;
+  color: #3498db;
+}
+
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+  padding: 8px;
+  line-height: 1.428571429;
+  vertical-align: top;
+  border-top: 5px solid white;
+}
+
+.table > thead > tr > th {
+  vertical-align: bottom;
+  border-bottom: 5px solid white;
+}
+
+.table > tbody + tbody {
+  border-top: 5px solid white;
+}
+
+.table .table {
+  background-color: white;
+}
+
+.table-condensed > thead > tr > th,
+.table-condensed > tbody > tr > th,
+.table-condensed > tfoot > tr > th,
+.table-condensed > thead > tr > td,
+.table-condensed > tbody > tr > td,
+.table-condensed > tfoot > tr > td {
+  padding: 5px;
+}
+
+.table-bordered {
+  border: 5px solid white;
+}
+
+.table-bordered > thead > tr > th,
+.table-bordered > tbody > tr > th,
+.table-bordered > tfoot > tr > th,
+.table-bordered > thead > tr > td,
+.table-bordered > tbody > tr > td,
+.table-bordered > tfoot > tr > td {
+  border: 5px solid white;
+}
+
+.table-bordered > thead > tr > th,
+.table-bordered > thead > tr > td {
+  border-bottom-width: 5px;
+  background-color: white;
 }
 
 .table-hover > tbody > tr:hover > td,
 .table-hover > tbody > tr:hover > th {
-  background-color: #dddddd;
+  background-color: white;
+  color: #3498db;
+}
+
+.table > thead > tr > .active,
+.table > tbody > tr > .active,
+.table > tfoot > tr > .active,
+.table > thead > .active > td,
+.table > tbody > .active > td,
+.table > tfoot > .active > td,
+.table > thead > .active > th,
+.table > tbody > .active > th,
+.table > tfoot > .active > th {
+  background-color: white;
   color: #3498db;
 
 }
 
+.table-hover > tbody > tr > .active:hover,
+.table-hover > tbody > .active:hover > td,
+.table-hover > tbody > .active:hover > th {
+  background-color: white;
+}
+
 .hiddenRow {
     padding: 0 !important;
-    color: #3498db;
+    color: white;
 }
 
 .collapsing{

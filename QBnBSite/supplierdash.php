@@ -114,7 +114,7 @@
 			            							     WHERE Property.Owner_ID = '$_SESSION[Member_ID]'";
 							$queryAllMyPropertiesInfo = mysqli_query($con,$queryAllMyPropertiesInfo);
 			            	echo "<div style='max-height: 300px !important; overflow: scroll;'>";
-			            	echo "<table class='table table-bordered'>";
+			            	echo "<table class='table table-bordered table-hover'>";
 			            	echo "<thead style='background-color: #dddddd'>";
 			            	echo "<th>Address</th><th>City</th><th>Price</th><th colspan='2'>Settings</th></thead>";
 			            	if (mysqli_num_rows($queryAllMyPropertiesInfo) > 0) {
@@ -127,7 +127,7 @@
 				                	echo "<td align='center'><form name='Update_Property' id='Update_Property' action='updateproperty.php' method='POST'>";
 				                	echo "<input type='hidden' id='Property_ID' name='Property_ID' value='".$rowProp['Property_ID']."'>";
 				                	echo "<button style='background: transparent; border: none; padding: 0;' type=submit name='Delete_Property'>";
-				                	echo "<span class='glyphicon glyphicon-edit' aria-hidden='true' style='color: white;'></span></form></td>";
+				                	echo "<span class='glyphicon glyphicon-edit intable' aria-hidden='true'></span></form></td>";
 				                	echo "<td align='center'><form name='Delete_Property' id='Delete_Property' action='supplierdash.php' method='POST'>";
 				                	echo "<input type='hidden' id='Property_ID' name='Property_ID' value='".$rowProp['Property_ID']."'>";
 				                	echo "<button style='background: transparent; border: none; padding: 0;' type=submit name='Delete_Property'>";
@@ -148,7 +148,7 @@
 			            							WHERE Property.Owner_ID = '$_SESSION[Member_ID]' AND Property.Property_ID = Booking.Property_ID";
 							$queryMyCommentsInfo = mysqli_query($con,$queryMyCommentsInfo);
 							echo "<div style='max-height: 300px !important; overflow: scroll;'>";
-			            	echo "<table class='table table-bordered'>";
+			            	echo "<table class='table table-bordered table-hover'>";
 			            	echo "<thead style='background-color: #dddddd'>";
 			            	echo "<th>Address</th><th>Comment</th><th>Rating</th><th>Your Reply</th></thead>";
 			            	if (mysqli_num_rows($queryMyCommentsInfo) > 0) {
@@ -159,7 +159,7 @@
 				                	echo "<td>".$rowComm['Rating']."/5</td>";
 				                	if (is_null($rowComm['Owner_Reply'])) {
 				                		echo "<td align='center'><a style='color:white' data-placement='right' data-toggle='popover' title='Write your reply'>";
-						               	echo "<span class='glyphicon glyphicon-edit' aria-hidden='true' style='color: white;'></span></a>";
+						               	echo "<span class='glyphicon glyphicon-edit intable' aria-hidden='true'></span></a>";
 						               	echo "<div id='popover-content' class='hide'>";
 					                	echo "<form name='comment' id='comment' action='supplierdash.php' method='POST'>";
 										echo "<textarea rows='4' cols='20' name='Owner_Reply' id='Owner_Reply' placeholder='Enter your reply...'></textarea>";
@@ -187,7 +187,7 @@
 													  WHERE Property.Owner_ID = $_SESSION[Member_ID]";
 							$queryAllMyBookingInfo = mysqli_query($con,$queryAllMyBookingInfo);
 			            	echo "<div style='max-height: 300px !important; overflow: scroll;'>";
-			            	echo "<table class='table table-bordered'>";
+			            	echo "<table class='table table-bordered table-hover'>";
 			            	echo "<thead style='background-color: #dddddd'>";
 			            	echo "<th>Address</th><th>User</th><th>Booking Start</th><th colspan='2'>Status</th></thead>";
 			            	if (mysqli_num_rows($queryAllMyBookingInfo) > 0) {

@@ -227,7 +227,7 @@
 			            	// Fill table with property info.
 			            	echo "<div style='max-height: 312px !important; overflow: scroll;'>";
 			            	echo "<table class='table table-bordered table-hover'>";
-			            	echo "<thead style='background-color: #dddddd'>";
+			            	echo "<thead>";
 			            	echo "<th>Address</th><th>District</th><th>City</th><th>Type</th><th>Price</th></thead>";
 			            	if (mysqli_num_rows($queryAllPropertiesInfo) > 0) {
 				            	while ($rowProp = mysqli_fetch_array($queryAllPropertiesInfo)) {
@@ -264,9 +264,9 @@
 				                	echo "</tr>";
 				          			// Hidden FULL info.
 				                	echo "<tr class='collapse prop".$rowProp['Property_ID']."info hiddenRow'>";
-				                	echo "<td style='background-color: #dddddd' colspan='3'>";
+				                	echo "<td style='background-color: white; color: #3498db;' colspan='3'>";
 				                	echo "<b>Owner:</b> ".$rowOwner['F_Name'].' '.$rowOwner['L_Name'].'<br><b>Email:</b> '.$rowOwner['Email'].'<br><b>Phone:</b> '.$rowOwner['Phone_No']."</td>";
-				                	echo "<td style='background-color: #dddddd' colspan='2'><br>";
+				                	echo "<td style='background-color: white; color: #3498db;' colspan='2'><br>";
 				                	echo "<button type='button' class='btn btn-lg btn-primary' data-toggle='popover' title='".$rowProp['Street_No'].' '.$rowProp['Street_Name']."'>";
 				                	echo "<span class='glyphicon glyphicon-home' aria-hidden='true'></span> Book me!</button>";
 				                	echo "<div id='popover-content' class='hide'>";
@@ -293,7 +293,7 @@
 									}	
 									echo "</div></td></tr>";
 				                	echo "<tr class='collapse prop".$rowProp['Property_ID']."info hiddenRow'>";
-				                	echo "<td style='background-color: #dddddd' colspan='5'>";
+				                	echo "<td style='background-color: white; color: #3498db;' colspan='5'>";
 				                	echo "<b>Address:</b> ".$rowProp['Street_No'].' '.$rowProp['Street_Name'].', '.$rowProp['Postal_Code'].', '.$rowProp['City'];
 				                	echo "<br><b>District:</b> ".$rowProp['District_Name'];
 				                	echo "<br><b>Nearby:</b> ";
@@ -308,7 +308,7 @@
 									echo implode(", ", $row);
 									echo "</td></tr>";
 				                	echo "<tr class='collapse prop".$rowProp['Property_ID']."info hiddenRow'>";
-				                	echo "<td style='background-color: #dddddd' colspan='5'>";
+				                	echo "<td style='background-color: white; color: #3498db;' colspan='5'>";
 				                	if (mysqli_num_rows($queryPropertyRatings) > 0) {
 				                		echo "<b>Comments:</b>";
 										while ($rowRating = mysqli_fetch_array($queryPropertyRatings)) {
@@ -341,7 +341,7 @@
 							$queryBookingsInfo = mysqli_query($con,$queryBookingsInfo);
 				            // Fill table with property info.
 			            	echo "<div style='max-height: 400px !important; overflow: scroll;'>";
-			            	echo "<table class='table table-bordered'>";
+			            	echo "<table class='table table-bordered table-hover'>";
 			            	echo "<thead style='background-color: #dddddd'>";
 			            	echo "<th>Address</th><th>Owner</th><th>Start Date</th><th>Review</th><th colspan='2'>Status</th></thead>";
 			            	if (mysqli_num_rows($queryBookingsInfo) > 0) {
@@ -365,7 +365,7 @@
 					            	// Basic property info.
 				                	echo "<tbody style='color: white;'>";
 				                	echo "<tr>";
-				                	echo "<td><a style='color:white' data-placement='bottom' data-toggle='popover' title='Address Details'>";
+				                	echo "<td><a class='intable' data-placement='bottom' data-toggle='popover' title='Address Details'>";
 					               	echo $rowBooking['Street_No'].' '.$rowBooking['Street_Name']."</a>";
 					               	echo "<div id='popover-content' class='hide'><p style='color: #3498db'>";
 					               	echo $rowBooking['Street_No'].' '.$rowBooking['Street_Name'].'<br>'.$rowBooking['Postal_Code'].', '.$rowBooking['City'].'<br><br>'.$rowBooking['Type'].' with: ';
@@ -375,15 +375,15 @@
 									}
 									echo implode(", ", $row);
 					               	echo "</p></div></td>";
-									echo "<td><a style='color:white' data-placement='bottom' data-toggle='popover' title='Owner Info'>";
+									echo "<td><a class='intable' data-placement='bottom' data-toggle='popover' title='Owner Info'>";
 					               	echo $rowOwner['F_Name'].' '.$rowOwner['L_Name']."</a>";
 					               	echo "<div id='popover-content' class='hide'><p style='color: #3498db'>";
 					               	echo "<b>Email: </b>".$rowOwner['Email'].'<br><b>Phone:</b> '.$rowOwner['Phone_No'];
 					               	echo "</p></div></td>";
 					               	echo "<td>".preg_replace('/^(.*?)\ 00:00:00/','$1',$rowBooking['Booking_Start'])."</td>";
 					                if (mysqli_num_rows($queryComments) == 0) {
-										echo "<td align='center'><a style='color:white' data-placement='bottom' data-toggle='popover' title='Make Review'>";
-						               	echo "<span class='glyphicon glyphicon-edit' aria-hidden='true' style='color: white;'></span></a>";
+										echo "<td align='center'><a class='intable' data-placement='bottom' data-toggle='popover' title='Make Review'>";
+						               	echo "<span class='glyphicon glyphicon-edit intable' aria-hidden='true'></span></a>";
 						               	echo "<div id='popover-content' class='hide'>";
 					                	echo "<form align='center' name='comment' id='comment' action='userdash.php' method='POST'>";
 										echo "<textarea rows='4' cols='20' name='Comment_Text' id='Comment_Text' placeholder='Enter your comment...'></textarea>";
@@ -404,7 +404,7 @@
 				                	} else {
 				                		$review = mysqli_fetch_assoc($queryComments);
 										echo "<td align='center'><a style='color:white' data-placement='bottom' data-toggle='popover' title='Your Review'>";
-						               	echo "<span class='glyphicon glyphicon-comment' aria-hidden='true' style='color: white;'></span></a>";
+						               	echo "<span class='glyphicon glyphicon-comment intable' aria-hidden='true'></span></a>";
 						               	echo "<div id='popover-content' class='hide'><p style='color: #3498db'>";
 						               	echo "<b>Comment: </b>".$review['Comment_Text']."<br>";
 						               	if (is_null($review['Rating'])) {
@@ -479,15 +479,6 @@
             	return $(this).next('#popover-content').html();
 			    }
 			});
-		</script>
-		<script>
-			var logID = 'log',
-			  log = $('<div id="'+logID+'"></div>');
-			$('body').append(log);
-			  $('[type*="radio"]').change(function () {
-			    var me = $(this);
-			    log.html(me.attr('value'));
-			  });
 		</script>
 	</body>
 </html>
