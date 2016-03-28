@@ -101,12 +101,12 @@
 		<div id="headerwrap" style="padding-top: 100px; min-height: 590px;">
 			<div class="container">
 				<div class="row">
-					<div class="col-lg-6">
-						<h2 style="color: #dddddd;">Available properties:</h2>
-						<form name='filter' id='filter' action='userdash.php' method='POST'>
-							<div class="row" style="padding-bottom: 10px;">
+					<div class="col-lg-12">
+						<h2>What are you looking for?</h2>
+						<form name='filter' id='filter' action='userdash.php' method='POST' style="margin-right: 12px; margin-left: 12px;">
+							<div class="row">
 								<div class="form-group">
-									<div class="col-md-6">
+									<div class="col-md-3">
 						    			<select style="width: 100%; height: 34px;" type="text" class="form-control" name="district" id="district">
 										    <option value="" selected disabled>Any District</option>
 										    <?php
@@ -124,7 +124,7 @@
 							            	?>
 										</select>
 							    	</div>
-							    	<div class="col-md-3">
+							    	<div class="col-md-2">
 							    		<select style="width: 100%; height: 34px;" type="text" class="form-control" name="priceselect" id="priceselect">
 							    			<option value="" selected disabled>Price</option>
 							    			<option <?php echo (isset($_POST['priceselect']) && $_POST['priceselect'] == "Equals")?' selected':'';?> >Equals</option>
@@ -132,14 +132,10 @@
 							    			<option <?php echo (isset($_POST['priceselect']) && $_POST['priceselect'] == "Greater Than")?' selected':'';?> >Greater Than</option>
 							    		</select>
 							    	</div>
-							    	<div class="col-md-3">
+							    	<div class="col-md-1">
 							    		<input style="width: 100%; height: 34px;" type="text" class="form-control" name="price" id="price" placeholder="$CAD" <?php echo (isset($_POST['price']))?"value='$_POST[price]'":''?>>
 							    	</div>
-							    </div>
-							</div>
-							<div class="row" style="padding-bottom: 10px;">
-								<div class="form-group">
-									<div class="col-md-4">
+									<div class="col-md-2">
 						    			<select style="width: 100%; height: 34px;" type="text" class="form-control" name="type" id="type">
 										    <option value="" selected disabled>Any Type</option>
 										    <?php
@@ -156,7 +152,7 @@
 							            	?>
 										</select>
 							    	</div>
-							    	<div class="col-md-4">
+							    	<div class="col-md-2">
 						    			<select style="width: 100%; height: 34px;" type="text" class="form-control" name="feature" id="feature">
 										    <option value="" selected disabled>Any Feature</option>
 										    <?php
@@ -174,15 +170,16 @@
 							            	?>
 										</select>
 							    	</div>
-							    	<div class="col-md-2">
-										<button style="padding: 4px 10px; font-size: 18px; height: 34px;" type="submit" name='filter' class="btn btn-default">Search</button>
+							    	<div class="col-md-1">
+										<button style="font-size: 18px; width: 89px; height: 34px;" type="submit" name='filter' class="btn btn-success">Search</button>
 									</div>
-									<div class="col-md-2">
-										<button style="padding: 4px 10px; font-size: 18px; height: 34px;" type="reset" name='filter' onclick="return resetForm(this.form);" class="btn btn-default">Reset</button>
+							    	<div class="col-md-1">
+										<button style="font-size: 18px; width: 89px; height: 34px;" type="reset" name='filter' onclick="return resetForm(this.form);" class="btn btn-warning">Reset</button>
 									</div>
 							    </div>
 							</div>
 						</form>
+						<h2>Available properties:</h2>
 			            <?php
 			            	if(isset($_POST['filter'])) {	 
 				            	include_once 'config/connection.php';
@@ -218,14 +215,15 @@
 				            	} else {
 				            		$queryAllPropertiesInfo = $queryAllPropertiesInfo." AND Feature_NAME IS NOT NULL";
 				            	}
+				            	$queryAllPropertiesInfo = $queryAllPropertiesInfo." ORDER BY City, District_Name, Street_Name, Street_No";
 				            } else {
 				            	$queryAllPropertiesInfo = "SELECT DISTINCT Street_No, Street_Name, City, Postal_Code, Country, District_Name, Type, Price, Property_ID, Owner_ID
-				            			  				   FROM Property NATURAL JOIN Feature ORDER BY City, District_Name";
+				            			  				   FROM Property NATURAL JOIN Feature ORDER BY City, District_Name, Street_Name, Street_No";
 				            }
 
 							$queryAllPropertiesInfo = mysqli_query($con,$queryAllPropertiesInfo);
 			            	// Fill table with property info.
-			            	echo "<div style='max-height: 312px !important; overflow: scroll;'>";
+			            	echo "<div style='max-height: 500px !important; overflow: scroll;'>";
 			            	echo "<table class='table table-bordered table-hover'>";
 			            	echo "<thead>";
 			            	echo "<th>Address</th><th>District</th><th>City</th><th>Type</th><th>Price</th></thead>";
@@ -264,10 +262,24 @@
 				                	echo "</tr>";
 				          			// Hidden FULL info.
 				                	echo "<tr class='collapse prop".$rowProp['Property_ID']."info hiddenRow'>";
-				                	echo "<td style='background-color: white; color: #3498db;' colspan='3'>";
-				                	echo "<b>Owner:</b> ".$rowOwner['F_Name'].' '.$rowOwner['L_Name'].'<br><b>Email:</b> '.$rowOwner['Email'].'<br><b>Phone:</b> '.$rowOwner['Phone_No']."</td>";
-				                	echo "<td style='background-color: white; color: #3498db;' colspan='2'><br>";
-				                	echo "<button type='button' class='btn btn-lg btn-primary' data-toggle='popover' title='".$rowProp['Street_No'].' '.$rowProp['Street_Name']."'>";
+				                	echo "<td style='background-color: white; color: #3498db;' colspan='1'>";
+				                	echo "<b>Owner:</b><br>".$rowOwner['F_Name'].' '.$rowOwner['L_Name'].'<br><b>Email:</b><br> '.$rowOwner['Email'].'<br><b>Phone:</b><br> '.$rowOwner['Phone_No']."</td>";
+				                	echo "<td style='background-color: white; color: #3498db;' colspan='1'>";
+									echo "<b>Address:</b> ".$rowProp['Street_No'].' '.$rowProp['Street_Name'].', '.$rowProp['Postal_Code'].', '.$rowProp['City'];
+				                	echo "<br><b>District:</b> ".$rowProp['District_Name'];
+				                	echo "<br><b>Nearby:</b> ";
+				                	while ($rowPOI = mysqli_fetch_row($queryDistrictPOI)) {
+										echo str_replace(",",", ",implode(',', $rowPOI));
+									}
+									echo "<br><b>Features:</b> ";
+				                	$row = array();
+				                	while($rowFeatures = mysqli_fetch_assoc($queryFeatures)) {
+									   $row[] = implode('', $rowFeatures);
+									}
+									echo implode(", ", $row);
+									echo "</td>";
+				                	echo "<td align='center' style='background-color: white; color: #3498db;' colspan='3'><br><br><br>";
+				                	echo "<button type='button' class='btn btn-lg btn-primary' data-placement='bottom' data-toggle='popover' title='".$rowProp['Street_No'].' '.$rowProp['Street_Name']."'>";
 				                	echo "<span class='glyphicon glyphicon-home' aria-hidden='true'></span> Book me!</button>";
 				                	echo "<div id='popover-content' class='hide'>";
 									$startTime = new DateTime();
@@ -293,20 +305,6 @@
 									}	
 									echo "</div></td></tr>";
 				                	echo "<tr class='collapse prop".$rowProp['Property_ID']."info hiddenRow'>";
-				                	echo "<td style='background-color: white; color: #3498db;' colspan='5'>";
-				                	echo "<b>Address:</b> ".$rowProp['Street_No'].' '.$rowProp['Street_Name'].', '.$rowProp['Postal_Code'].', '.$rowProp['City'];
-				                	echo "<br><b>District:</b> ".$rowProp['District_Name'];
-				                	echo "<br><b>Nearby:</b> ";
-				                	while ($rowPOI = mysqli_fetch_row($queryDistrictPOI)) {
-										echo str_replace(",",", ",implode(',', $rowPOI));
-									}
-									echo "<br><b>Features:</b> ";
-				                	$row = array();
-				                	while($rowFeatures = mysqli_fetch_assoc($queryFeatures)) {
-									   $row[] = implode('', $rowFeatures);
-									}
-									echo implode(", ", $row);
-									echo "</td></tr>";
 				                	echo "<tr class='collapse prop".$rowProp['Property_ID']."info hiddenRow'>";
 				                	echo "<td style='background-color: white; color: #3498db;' colspan='5'>";
 				                	if (mysqli_num_rows($queryPropertyRatings) > 0) {
@@ -330,20 +328,22 @@
 				            echo "</td></tr></tbody></table></div>";
 				        ?>
 			        </div>
-					<div class='col-lg-6'>
-						<h2 style="color: #dddddd;">Your bookings:</h2>
+			    </div>
+			    <div class='row'>
+					<div class='col-lg-12'>
+						<h2>Your bookings:</h2>
 						<?php 
 				            include_once 'config/connection.php';
 				            $queryBookingsInfo = "SELECT DISTINCT Street_No, Street_Name, City, Postal_Code, Country, District_Name, Type, Price, Property_ID, Owner_ID, Booking_Start, Booking_Status, Booking_ID
 				            			  			   FROM Property NATURAL JOIN Booking
 				            			  			   WHERE Member_ID = '$_SESSION[Member_ID]'
-				            			  			   ORDER BY Booking_Status, Booking_Start";
+				            			  			   ORDER BY Booking_Status, Booking_Start, Street_Name, Street_No";
 							$queryBookingsInfo = mysqli_query($con,$queryBookingsInfo);
 				            // Fill table with property info.
 			            	echo "<div style='max-height: 400px !important; overflow: scroll;'>";
 			            	echo "<table class='table table-bordered table-hover'>";
 			            	echo "<thead style='background-color: #dddddd'>";
-			            	echo "<th>Address</th><th>Owner</th><th>Start Date</th><th>Review</th><th colspan='2'>Status</th></thead>";
+			            	echo "<th>Address</th><th>Owner</th><th>Start Date</th><th>Review</th><th>Status</th><th>Cancel</th></thead>";
 			            	if (mysqli_num_rows($queryBookingsInfo) > 0) {
 				            	while ($rowBooking = mysqli_fetch_array($queryBookingsInfo)) {
 				            		// Owner info query.
@@ -420,7 +420,7 @@
 						               	echo "</p></div></td>";			                	
 						            }
 						            echo "<td>".$rowBooking['Booking_Status']."</td>";				                
-						            echo "<td><form name='Cancel_Booking' id='Cancel_Booking' action='userdash.php' method='POST'>";
+						            echo "<td align='center'><form name='Cancel_Booking' id='Cancel_Booking' action='userdash.php' method='POST'>";
 				                	echo "<input type='hidden' id='Booking_ID' name='Booking_ID' value='".$rowBooking['Booking_ID']."'>";
 				                	echo "<button style='background: transparent; border: none; padding: 0;' type=submit name='Cancel_Booking'>";
 						            echo "<span class='glyphicon glyphicon-remove' aria-hidden='true' style='color: red;'></span></form></td>";

@@ -104,7 +104,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-6">
-						<h2 style="color: #dddddd;">My listings:
+						<h2>My listings:
 						<button onclick='makeProp();' type='button' class='pull-right btn btn-sm btn-warning'><span class='glyphicon glyphicon-home' aria-hidden='true'></span> Create New Listing</button>
 						</h2>
 			            <?php
@@ -140,7 +140,7 @@
 				          	}
 				            echo "</tbody></table></div>";
 				        ?>
-				        <h2 style="color: #dddddd;">View comments:</h2>
+				        <h2>View comments:</h2>
 				        <?php
 			            	include_once 'config/connection.php';
 			            	$queryMyCommentsInfo = "SELECT Street_No, Street_Name, Comment_Text, Rating, Owner_Reply, Booking_ID
@@ -179,7 +179,7 @@
 						?>
 			        </div>
 			        <div class='col-lg-6'>
-						<h2 style="color: #dddddd;">Listed bookings:</h2>
+						<h2>Listed bookings:</h2>
 						<?php
 			            	include_once 'config/connection.php';
 			            	$queryAllMyBookingInfo = "SELECT F_Name, L_Name, Booking_Start, Booking_Status, Street_No, Street_Name, Booking_ID

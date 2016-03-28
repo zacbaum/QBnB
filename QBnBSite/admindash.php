@@ -98,14 +98,14 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-lg-5">
-						<h2 style="margin-top: 0px; color: #dddddd;">Member Information:</h2>
+					<div class="col-lg-4">
+						<h2 style="margin-top: 0px;">Member Information:</h2>
 						<div style="max-height: 350px !important; overflow: scroll;">
 							<table class="table table-bordered table-hover"> <!-- Member table -->
 					            <thead style="background-color: #dddddd">
 					                <th>ID</th>
 					                <th>Name</th>
-					                <th>Property Owner?</th>
+					                <th>Owner?</th>
 					                <th>Delete</th>
 					            </thead>
 								<?php
@@ -220,8 +220,8 @@
 								</table> <!-- End member table -->
 								</div><!-- scroll -->
 							</div><!-- col-lg-3 -->
-							<div class="col-lg-7">
-								<h2 style="margin-top: 0px; color: #dddddd">Property Information:</h2>
+							<div class="col-lg-8">
+								<h2 style="margin-top: 0px;">Property Information:</h2>
 								<div style="max-height: 350px !important; overflow: scroll;">
 									<table class="table table-bordered table-hover"> <!-- Property table -->
 							            <thead style="background-color: #dddddd">
