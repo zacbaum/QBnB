@@ -34,7 +34,7 @@
 			if(isset($_POST['Delete_Property'])) {
 				include_once 'config/connection.php';
 				$queryDeleteProperty = "DELETE FROM Property
-																WHERE Property_ID = $_POST[Property_ID]";
+										WHERE Property_ID = $_POST[Property_ID]";
 				$queryDeleteProperty = mysqli_query($con,$queryDeleteProperty);
 			}
 		?> <!--POST Request for deleting member-->
@@ -44,7 +44,7 @@
 
 				include_once 'config/connection.php';
 				$queryDeleteMember = "DELETE FROM Member
-										WHERE Member_ID = $_POST[Member_ID]";
+									  WHERE Member_ID = $_POST[Member_ID]";
 				$queryDeleteMember = mysqli_query($con,$queryDeleteMember);
 			}
 		?> <!--POST request for deleting member-->
@@ -94,13 +94,13 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-6 col-lg-offset-3">
-						<h1 style="text-align: center">Admin Panel</h1>
+						<h1 style="text-align: center">Administrator Dashboard</h1>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-lg-4">
 						<h2 style="margin-top: 0px;">Member Information:</h2>
-						<div style="max-height: 350px !important; overflow: scroll;">
+						<div style="max-height: 400px !important; overflow: scroll;">
 							<table class="table table-bordered table-hover"> <!-- Member table -->
 					            <thead style="background-color: #dddddd">
 					                <th>ID</th>
@@ -111,7 +111,7 @@
 								<?php
 						 			include_once 'config/connection.php';
 									$queryBasicMemberInfo = "SELECT *
-																					 FROM Member";
+															 FROM Member";
 									$queryBasicMemberInfo = mysqli_query($con,$queryBasicMemberInfo);
 
 									//Fill in member information. In this loop, another query to check if members
@@ -119,8 +119,8 @@
 									while ($rowMember = mysqli_fetch_array($queryBasicMemberInfo)){
 										//For popover, get history of member as a consumer
 										$queryConsumerHistory = "SELECT Booking_ID, Booking_Start, Booking_Status
-																						FROM Booking
-																						WHERE Member_ID = '$rowMember[Member_ID]'";
+																 FROM Booking
+																 WHERE Member_ID = '$rowMember[Member_ID]'";
 										$queryConsumerHistory = mysqli_query($con, $queryConsumerHistory);
 
 										echo "<tbody style='color: white;'>";
@@ -152,24 +152,24 @@
 
 										//Determine if member owns property
 										$queryCheckIfOwner = "SELECT Property_ID
-																					FROM Property
-																					WHERE Owner_ID = '$rowMember[Member_ID]'";
+															  FROM Property
+															  WHERE Owner_ID = '$rowMember[Member_ID]'";
 										$queryCheckIfOwner = mysqli_query($con, $queryCheckIfOwner);
 
 										//Query to obtain owner's average rating across properties, only ran if they are an owner
 										$queryGetOwnerAverage = "SELECT avg(Rating) as 'Owner_Average'
-																						FROM Comment NATURAL JOIN Booking
-																						WHERE Owner_ID = '$rowMember[Member_ID]'";
+																 FROM Comment NATURAL JOIN Booking
+																 WHERE Owner_ID = '$rowMember[Member_ID]'";
 
 										//Query to obtain number of properties a person owns, only ran if they are an owner
 										$queryGetNumProp = "SELECT count(Property_ID) as 'Num_Prop'
-																				FROM Property
-																				WHERE Owner_ID = '$rowMember[Member_ID]'";
+															FROM Property
+															WHERE Owner_ID = '$rowMember[Member_ID]'";
 
 										//Query to obtain all bookings associated with that owner, only ran if they are an owner
 										$queryOwnerHistory = "SELECT Booking_ID, Booking_Start, Booking_Status
-																					FROM Booking
-																					WHERE Owner_ID = '$rowMember[Member_ID]'";
+															  FROM Booking
+															  WHERE Owner_ID = '$rowMember[Member_ID]'";
 
 										//The owner summary popover is only created if the member owns property
 										if (mysqli_num_rows($queryCheckIfOwner) == 0)
@@ -209,7 +209,7 @@
 										}//End loop filling in if members own property
 
 										//Delete member form
-										echo "<td align = center ><form name='Delete_Member' id='Delete_Member' action='admindash.php' method='POST'>";
+										echo "<td align='center'><form name='Delete_Member' id='Delete_Member' action='admindash.php' method='POST'>";
 										echo "<input type='hidden' id='Member_ID' name='Member_ID' value='".$rowMember['Member_ID']."'>";
 										echo "<button style='background: transparent; border: none; padding: 0;' type=submit name='Delete_Member'
 													data-toggle='tooltip' data-placement='right' title='Are you sure?'>";
@@ -236,7 +236,7 @@
 										<?php
 								 			include_once 'config/connection.php';
 											$queryBasicPropInfo = "SELECT *
-																						 FROM Property";
+																   FROM Property";
 											$queryBasicPropInfo = mysqli_query($con,$queryBasicPropInfo);
 
 											//Fill in property information
@@ -244,22 +244,22 @@
 
 												//For popover, get owner name
 												$queryGetOwner = "SELECT F_Name, L_Name
-																					FROM Member
-																					WHERE Member_ID = '$rowProperty[Owner_ID]'";
+																  FROM Member
+																  WHERE Member_ID = '$rowProperty[Owner_ID]'";
 												$queryGetOwner = mysqli_query($con, $queryGetOwner);
 												$rowOwnerInfo = mysqli_fetch_array($queryGetOwner);
 
 												//For popover, get average rating on property
 												$queryGetAverage = "SELECT avg(Rating) as 'Average'
-																					FROM Booking NATURAL JOIN Comment
-																					WHERE Property_ID = '$rowProperty[Property_ID]'";
+																	FROM Booking NATURAL JOIN Comment
+																	WHERE Property_ID = '$rowProperty[Property_ID]'";
 												$queryGetAverage = mysqli_query($con, $queryGetAverage);
 												$averageRating = mysqli_fetch_array($queryGetAverage);
 
 												//Show bookings and ratings on property
 												$queryPropertyHistory = "SELECT Booking_ID, Booking_Start, Booking_Status, Rating
-																								FROM Booking NATURAL JOIN Comment
-																								WHERE Property_ID = '$rowProperty[Property_ID]'";
+																		 FROM Booking NATURAL JOIN Comment
+																		 WHERE Property_ID = '$rowProperty[Property_ID]'";
 												$queryPropertyHistory = mysqli_query($con, $queryPropertyHistory);
 
 												echo "<tbody style='color: white;'>";
@@ -319,8 +319,8 @@
 					</div>
 				</div>
 			</div>
-			<hr>
 		</div>
+			<hr>
 		<div class="container">
 			<p class="centered">Created by BH &amp; Associates</p>
 		</div> <!--End footer -->

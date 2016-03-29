@@ -126,8 +126,10 @@
 				                	echo "<td>".'$'.$rowProp['Price'].'/Week'."</td>";
 				                	echo "<td align='center'><form name='Update_Property' id='Update_Property' action='updateproperty.php' method='POST'>";
 				                	echo "<input type='hidden' id='Property_ID' name='Property_ID' value='".$rowProp['Property_ID']."'>";
-				                	echo "<button style='background: transparent; border: none; padding: 0;' type=submit name='Delete_Property'>";
+				                	echo "<button style='background: transparent; border: none; padding: 0;' type=submit name='Update_Property'>";
 				                	echo "<span class='glyphicon glyphicon-edit intable' aria-hidden='true'></span></form></td>";
+
+
 				                	echo "<td align='center'><form name='Delete_Property' id='Delete_Property' action='supplierdash.php' method='POST'>";
 				                	echo "<input type='hidden' id='Property_ID' name='Property_ID' value='".$rowProp['Property_ID']."'>";
 				                	echo "<button style='background: transparent; border: none; padding: 0;' type=submit name='Delete_Property'>";
@@ -218,7 +220,7 @@
 				          		}
 				          	} else {
 				          		echo "<tbody style='color: white;'>";
-				                echo "<tr><td colspan='5' align='center'>You don't own any properties! Why not list one?</td></tr>";
+				                echo "<tr><td colspan='5' align='center'>There are no bookings on your properties!</td></tr>";
 				          	}
 				            echo "</tbody></table></div>";
 				        ?>

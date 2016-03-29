@@ -124,17 +124,6 @@
 							            	?>
 										</select>
 							    	</div>
-							    	<div class="col-md-2">
-							    		<select style="width: 100%; height: 34px;" type="text" class="form-control" name="priceselect" id="priceselect">
-							    			<option value="" selected disabled>Price</option>
-							    			<option <?php echo (isset($_POST['priceselect']) && $_POST['priceselect'] == "Equals")?' selected':'';?> >Equals</option>
-							    			<option <?php echo (isset($_POST['priceselect']) && $_POST['priceselect'] == "Less Than")?' selected':'';?> >Less Than</option>
-							    			<option <?php echo (isset($_POST['priceselect']) && $_POST['priceselect'] == "Greater Than")?' selected':'';?> >Greater Than</option>
-							    		</select>
-							    	</div>
-							    	<div class="col-md-1">
-							    		<input style="width: 100%; height: 34px;" type="text" class="form-control" name="price" id="price" placeholder="$CAD" <?php echo (isset($_POST['price']))?"value='$_POST[price]'":''?>>
-							    	</div>
 									<div class="col-md-2">
 						    			<select style="width: 100%; height: 34px;" type="text" class="form-control" name="type" id="type">
 										    <option value="" selected disabled>Any Type</option>
@@ -169,6 +158,17 @@
 												echo ">".$rowFName['Feature_Name']."</option>";							            	}
 							            	?>
 										</select>
+							    	</div>
+							    	<div class="col-md-2">
+							    		<select style="width: 100%; height: 34px;" type="text" class="form-control" name="priceselect" id="priceselect">
+							    			<option value="" selected disabled>Price</option>
+							    			<option <?php echo (isset($_POST['priceselect']) && $_POST['priceselect'] == "Equals")?' selected':'';?> >Equals</option>
+							    			<option <?php echo (isset($_POST['priceselect']) && $_POST['priceselect'] == "Less Than")?' selected':'';?> >Less Than</option>
+							    			<option <?php echo (isset($_POST['priceselect']) && $_POST['priceselect'] == "Greater Than")?' selected':'';?> >Greater Than</option>
+							    		</select>
+							    	</div>
+							    	<div class="col-md-1">
+							    		<input style="width: 100%; height: 34px;" type="text" class="form-control" name="price" id="price" placeholder="$CAD" <?php echo (isset($_POST['price']))?"value='$_POST[price]'":''?>>
 							    	</div>
 							    	<div class="col-md-1">
 										<button style="font-size: 18px; width: 89px; height: 34px;" type="submit" name='filter' class="btn btn-success">Search</button>
@@ -223,7 +223,7 @@
 
 							$queryAllPropertiesInfo = mysqli_query($con,$queryAllPropertiesInfo);
 			            	// Fill table with property info.
-			            	echo "<div style='max-height: 500px !important; overflow: scroll;'>";
+			            	echo "<div style='max-height: 420px !important; overflow: scroll;'>";
 			            	echo "<table class='table table-bordered table-hover'>";
 			            	echo "<thead>";
 			            	echo "<th>Address</th><th>District</th><th>City</th><th>Type</th><th>Price</th></thead>";
@@ -428,7 +428,7 @@
 				                }
 			                } else {
 				          		echo "<tbody style='color: white;'>";
-				                echo "<tr><td colspan='5' align='center'>You don't have any bookings! Why not make one?</td></tr>";
+				                echo "<tr><td colspan='6' align='center'>You don't have any bookings! Why not make one?</td></tr>";
 				          	}
 			                echo "</tbody></table></div>";
 						?>

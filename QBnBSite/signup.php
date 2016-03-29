@@ -76,10 +76,10 @@
 						<form name='signup' id='signup' action='signup.php' method='POST'>
 							<div class="row" style="padding-bottom: 15px;">
 								<div class="form-group">
-									<div class="col-md-6">
+									<div style='padding-right: 15px; padding-left: 15px;' class="col-md-6">
 							    		<input style="width: 100%;" type="text" class="form-control" name="FirstName" id="FirstName" placeholder="First Name">
 							    	</div>
-							    	<div class="col-md-6">
+							    	<div style='padding-right: 15px; padding-left: 15px;' class="col-md-6">
 							    		<input style="width: 100%;" type="text" class="form-control" name="LastName" id="LastName" placeholder="Last Name">
 							    	</div>
 								</div>
@@ -98,7 +98,7 @@
 						 	</div>
 							<div class="row" style="padding-bottom: 15px;">
 								<div class="form-group">
-									<div class="col-md-3">
+									<div style='padding-right: 15px; padding-left: 15px;' class="col-md-3">
 							    		<select style="width: 100%;" type="text" class="form-control" name="Degree" id="Degree">		    	
 										    <option value="" selected disabled>Degree</option>
 										    <option>BA</option>
@@ -116,7 +116,7 @@
 											<option>PhD</option>
 										</select>
 							    	</div>
-							    	<div class="col-md-6">
+							    	<div style='padding-right: 15px; padding-left: 15px;' class="col-md-6">
 							    		<select style="width: 100%;" type="text" class="form-control" name="Faculty" id="Faculty">
 							    			<option value="" selected disabled>Faculty / Department</option>
 							    			<option>Anatomical Sciences</option>
@@ -193,7 +193,7 @@
 							    			<option>World Language Studies</option>
 							    		</select>
 							    	</div>
-							    	<div class="col-md-3">
+							    	<div style='padding-right: 15px; padding-left: 15px;' class="col-md-3">
 							    		<select style="width: 100%;" type="text" class="form-control" name="Year" id="Year">
 							    			<option value="" selected disabled>Year</option>
 										    <option>2015</option>

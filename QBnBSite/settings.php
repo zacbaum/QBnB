@@ -17,6 +17,7 @@
 	 	?>
 	 	 <?php
 		if(isset($_SESSION['Member_ID'])){
+			$badEmail = false;
 		   include_once 'config/connection.php'; 
 	        $query = "SELECT Member_ID,F_Name,L_Name,Email,Phone_No,Grad_Year,Degree_Type,Faculty,Password FROM Member WHERE Member_ID=?";
 	        $stmt = $con->prepare($query);
@@ -39,6 +40,27 @@
 				session_destroy();
 				header("Location: index.php");
 				die();
+			}
+		?>
+		<?php 
+			if(isset($_POST['settings'])) {
+				include_once 'config/connection.php'; 
+		        $query = "SELECT Email, Member_ID FROM Member WHERE Email=? AND Member_ID != '$_SESSION[Member_ID]'";
+		        if($stmt = $con->prepare($query)) {
+			        $stmt->bind_Param("s", $_POST['Email']); 		         
+					$stmt->execute();
+					$result = $stmt->get_result();
+					$num = $result->num_rows;
+					if($num===0) {
+			        	$query = "UPDATE Member 
+			        			  SET F_Name = '$_POST[FirstName]', L_Name = '$_POST[LastName]', Email = '$_POST[Email]', Phone_No = '$_POST[Phone]', Grad_Year = '$_POST[Year]', Faculty = '$_POST[Faculty]', Degree_Type = '$_POST[Degree]', Password = '$_POST[Password]'
+			        			  WHERE Member_ID = '$_SESSION[Member_ID]'";
+			        	$query = mysqli_query($con,$query);
+					} else {
+						$badEmail = true;
+					}
+				}			
+				header("Location: index.php");
 			}
 		?>
 	    <div class="navbar navbar-default navbar-fixed-top">
@@ -72,10 +94,10 @@
 						<form name='settings' id='settings' action='settings.php' method='POST'>
 							<div class="row" style="padding-bottom: 15px;">
 								<div class="form-group">
-									<div class="col-md-6">
+									<div style='padding-right: 15px; padding-left: 15px;' class="col-md-6">
 							    		<input style="width: 100%;" type="text" class="form-control" name="FirstName" id="FirstName" placeholder="First Name" <?php echo "value='$myrow[F_Name]'";?>>
 							    	</div>
-							    	<div class="col-md-6">
+							    	<div style='padding-right: 15px; padding-left: 15px;' class="col-md-6">
 							    		<input style="width: 100%;" type="text" class="form-control" name="LastName" id="LastName" placeholder="Last Name" <?php echo "value='$myrow[L_Name]'";?>>
 							    	</div>
 								</div>
@@ -88,7 +110,7 @@
 						 	</div>
 							<div class="row" style="padding-bottom: 15px;">
 								<div class="form-group">
-									<div class="col-md-3">
+									<div style='padding-right: 15px; padding-left: 15px;' class="col-md-3">
 						    			<select style="width: 100%;" type="text" class="form-control" name="Degree" id="Degree" value=<?php echo $myrow['Degree_Type'];?>>
 							    			<option value=<?php echo $myrow['Degree_Type'];?> selected><?php echo $myrow['Degree_Type'];?></option>
 										    <option>BA</option>
@@ -106,7 +128,7 @@
 											<option>PhD</option>
 										</select>
 							    	</div>
-							    	<div class="col-md-6">
+							    	<div style='padding-right: 15px; padding-left: 15px;' class="col-md-6">
 							    		<select style="width: 100%;" type="text" class="form-control" name="Faculty" id="Faculty" value=<?php echo $myrow['Faculty'];?>>
 							    			<option value=<?php echo $myrow['Faculty'];?> selected><?php echo $myrow['Faculty'];?></option>
 							    			<option>Anatomical Sciences</option>
@@ -183,7 +205,7 @@
 							    			<option>World Language Studies</option>
 							    		</select>
 							    	</div>
-							    	<div class="col-md-3">
+							    	<div style='padding-right: 15px; padding-left: 15px;' class="col-md-3">
 							    		<select style="width: 100%;" type="text" class="form-control" name="Year" id="Year" value=<?php echo $myrow['Grad_Year'];?>>
 							    			<option value=<?php echo $myrow['Grad_Year'];?> selected><?php echo $myrow['Grad_Year'];?></option>
 										    <option>2015</option>
@@ -255,43 +277,30 @@
 						 	</div>
 						 	<div style="text-align: center">
 								<button type="submit" name='settings' class="btn btn-default">Update</button>
+								<?php 
+									if ($badEmail) {
+										echo "<br><br>";
+										echo "<div class='alert alert-danger alert-dismissible' role='alert'>";
+										echo "<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>";
+										echo "<strong>Warning!</strong> Email already taken!</div>";
+									}
+								?>
 							</div>
 						</form>
-						<?php 
-						if(isset($_POST['settings'])) {
-							include_once 'config/connection.php'; 
-					        $query = "SELECT Email, Member_ID FROM Member WHERE Email=? AND Member_ID != '$_SESSION[Member_ID]'";
-					        if($stmt = $con->prepare($query)) {
-						        $stmt->bind_Param("s", $_POST['Email']); 		         
-								$stmt->execute();
-								$result = $stmt->get_result();
-								$num = $result->num_rows;
-								if($num===0) {
-						        	$query = "UPDATE Member 
-						        			  SET F_Name = '$_POST[FirstName]', L_Name = '$_POST[LastName]', Email = '$_POST[Email]', Phone_No = '$_POST[Phone]', Grad_Year = '$_POST[Year]', Faculty = '$_POST[Faculty]', Degree_Type = '$_POST[Degree]', Password = '$_POST[Password]'
-						        			  WHERE Member_ID = '$_SESSION[Member_ID]'";
-						        	$query = mysqli_query($con,$query);
-					        		echo "<script>window.location='settings.php'</script>";
-								} else {
-									echo "<br><div align='center'><span class='label label-danger'>Email already in use</span></div>";
-								}
-							}
-						}
-						?>
 					</div>
 				</div>
 				<br>
 				<form align='center' name='Delete_Account' id='Delete_Account' action='settings.php' method='POST'>
 					<button type="submit" name='Delete_Account' class="btn btn-danger btn-sm">Delete Account</button>
 				</form>
+				<br>
 			</div>
 		</div>
-		<hr>
-		</div>
+			<hr>
 		<div class="container">
 			<p class="centered">Created by BH &amp; Associates</p>
 		</div>
 		<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-	    <script src="js/bootstrap.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
 	</body>
 </html>
