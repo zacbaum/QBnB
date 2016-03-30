@@ -188,7 +188,25 @@
 													  FROM (Booking NATURAL JOIN Member) NATURAL JOIN Property
 													  WHERE Property.Owner_ID = $_SESSION[Member_ID]";
 							$queryAllMyBookingInfo = mysqli_query($con,$queryAllMyBookingInfo);
-			            	echo "<div style='max-height: 300px !important; overflow: scroll;'>";
+
+
+
+
+
+							# PUT IN THE PROPER SIZE (once there are more data to fill and show proper sizes)
+							# PUT IN THE PROPER SIZE (once there are more data to fill and show proper sizes)
+							# PUT IN THE PROPER SIZE (once there are more data to fill and show proper sizes)
+							# PUT IN THE PROPER SIZE (once there are more data to fill and show proper sizes)
+							# PUT IN THE PROPER SIZE (once there are more data to fill and show proper sizes)
+							# PUT IN THE PROPER SIZE (once there are more data to fill and show proper sizes)
+			            	echo "<div style='min-height: 600px !important; overflow: scroll;'>";
+
+
+
+
+
+
+
 			            	echo "<table class='table table-bordered table-hover'>";
 			            	echo "<thead style='background-color: #dddddd'>";
 			            	echo "<th>Address</th><th>User</th><th>Booking Start</th><th colspan='2'>Status</th></thead>";
@@ -228,11 +246,12 @@
 				</div>
 			</div>
 		</div>	
-			<hr>
-		</div>	
-		<div class="container">
-			<p class="centered">Created by BH &amp; Associates</p>
-		</div>
+		<div style='max-height: 25px;'>
+				<hr>
+			<div class="container">
+				<p class="centered">Created by BH &amp; Associates</p>
+			</div>
+		</div> <!--End footer -->
 	    <script src="https://code.jquery.com/jquery-1.10.2.min.js">
 	    </script>
 	    <script src="js/bootstrap.min.js">

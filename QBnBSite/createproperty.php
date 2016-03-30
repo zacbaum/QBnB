@@ -164,8 +164,8 @@
 							    	</div>
 							    </div>
 							</div>
-						    <div class="row" style="padding-bottom: 15px;">
-								<div class="form-group" align='center'>
+						    <div class="row" style="padding-bottom: 15px; border-top-style: solid; color: white;">
+								<div class="form-group" align='left'>
 							    	<h4 style='color: white;'>
 							    	<div class="col-md-4">
 							    		<input type="radio" name="FeatureBedroom" value="1 Bedroom"> 1 Bedroom
@@ -179,8 +179,8 @@
 									</h4>
 							    </div>
 							</div>
-							<div class="row" style="padding-bottom: 15px;">
-								<div class="form-group" align='center'>
+						    <div class="row" style="padding-bottom: 15px; border-top-style: solid; color: white;">
+								<div class="form-group" align='left'>
 							    	<h4 style='color: white;'>
 							    	<div class="col-md-4">
 							    		<input type="radio" name="FeatureBathroom" value="1 Bathroom"> 1 Bathroom
@@ -194,8 +194,8 @@
 									</h4>
 							    </div>
 							</div>
-							<div class="row" style="padding-bottom: 15px;">
-								<div class="form-group" align='center'>
+						    <div class="row" style="padding-bottom: 15px; border-top-style: solid; color: white;">
+								<div class="form-group" align='left'>
 							    	<h4 style='color: white;'>
 							    	<div class="col-md-4">
 							    		<input type="radio" name="FeatureKitchen" value="No Kitchen"> No Kitchen
@@ -209,8 +209,8 @@
 									</h4>
 							    </div>
 							</div>
-							<div class="row" style="padding-bottom: 15px;">
-								<div class="form-group" align='center'>
+						    <div class="row" style="padding-bottom: 15px; border-top-style: solid; color: white;">
+								<div class="form-group" align='left'>
 							    	<h4 style='color: white;'>
 							    	<div class="col-md-4">
 							    		<input type="radio" name="FeatureParking" value="No Parking"> No Parking
@@ -223,8 +223,8 @@
 								    </div>
 									</h4>
 							    </div>
-							</div>								
-							<div class="row" style="padding-bottom: 15px;">
+							</div>	
+						    <div class="row" style="padding-bottom: 15px; border-top-style: solid; color: white;">
 								<div class="form-group" align='center'>
 							    	<h4 style='color: white;'>
 							    	<div class="col-md-3">

@@ -328,3 +328,12 @@ i {
 {
     color: #f5b301;
 }
+
+.popover {
+    max-height: 300px;
+    min-height: 150px; 
+    max-width: 325px; 
+    min-width: 325px; 
+    !important; overflow: scroll;
+}
+

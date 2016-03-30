@@ -365,7 +365,7 @@
 					            	// Basic property info.
 				                	echo "<tbody style='color: white;'>";
 				                	echo "<tr>";
-				                	echo "<td><a class='intable' data-placement='bottom' data-toggle='popover' title='Address Details'>";
+				                	echo "<td><a class='intable' data-placement='right' data-toggle='popover' title='Address Details'>";
 					               	echo $rowBooking['Street_No'].' '.$rowBooking['Street_Name']."</a>";
 					               	echo "<div id='popover-content' class='hide'><p style='color: #3498db'>";
 					               	echo $rowBooking['Street_No'].' '.$rowBooking['Street_Name'].'<br>'.$rowBooking['Postal_Code'].', '.$rowBooking['City'].'<br><br>'.$rowBooking['Type'].' with: ';
@@ -375,18 +375,18 @@
 									}
 									echo implode(", ", $row);
 					               	echo "</p></div></td>";
-									echo "<td><a class='intable' data-placement='bottom' data-toggle='popover' title='Owner Info'>";
+									echo "<td><a class='intable' data-placement='right' data-toggle='popover' title='Owner Info'>";
 					               	echo $rowOwner['F_Name'].' '.$rowOwner['L_Name']."</a>";
 					               	echo "<div id='popover-content' class='hide'><p style='color: #3498db'>";
 					               	echo "<b>Email: </b>".$rowOwner['Email'].'<br><b>Phone:</b> '.$rowOwner['Phone_No'];
 					               	echo "</p></div></td>";
 					               	echo "<td>".preg_replace('/^(.*?)\ 00:00:00/','$1',$rowBooking['Booking_Start'])."</td>";
 					                if (mysqli_num_rows($queryComments) == 0) {
-										echo "<td align='center'><a class='intable' data-placement='bottom' data-toggle='popover' title='Make Review'>";
+										echo "<td align='center'><a class='intable' data-placement='right' data-toggle='popover' title='Make Review'>";
 						               	echo "<span class='glyphicon glyphicon-edit intable' aria-hidden='true'></span></a>";
 						               	echo "<div id='popover-content' class='hide'>";
 					                	echo "<form align='center' name='comment' id='comment' action='userdash.php' method='POST'>";
-										echo "<textarea rows='4' cols='20' name='Comment_Text' id='Comment_Text' placeholder='Enter your comment...'></textarea>";
+										echo "<textarea rows='4' cols='30' name='Comment_Text' id='Comment_Text' placeholder='Enter your comment...'></textarea>";
 
 										echo "<div class='acidjs-rating-stars'>";
 										echo "<input type='radio' name='Rating' id='group-1-0' value='5' /><label for='group-1-0'></label>";
@@ -403,7 +403,7 @@
 					            		echo "</div></td>";
 				                	} else {
 				                		$review = mysqli_fetch_assoc($queryComments);
-										echo "<td align='center'><a style='color:white' data-placement='bottom' data-toggle='popover' title='Your Review'>";
+										echo "<td align='center'><a style='color:white' data-placement='right' data-toggle='popover' title='Your Review'>";
 						               	echo "<span class='glyphicon glyphicon-comment intable' aria-hidden='true'></span></a>";
 						               	echo "<div id='popover-content' class='hide'><p style='color: #3498db'>";
 						               	echo "<b>Comment: </b>".$review['Comment_Text']."<br>";
@@ -436,11 +436,12 @@
 				</div>
 			</div>
 		</div>	
-			<hr>
-		</div>	
-		<div class="container">
-			<p class="centered">Created by BH &amp; Associates</p>
-		</div>
+		<div style='max-height: 25px;'>
+				<hr>
+			<div class="container">
+				<p class="centered">Created by BH &amp; Associates</p>
+			</div>
+		</div> <!--End footer -->
 	    <script src="https://code.jquery.com/jquery-1.10.2.min.js">
 	    </script>
 	    <script src="js/bootstrap.min.js">

@@ -56,35 +56,26 @@
 		            <span class="icon-bar"></span>
 		            <span class="icon-bar"></span>
 			        </button>
-		         	<a class="navbar-brand" href="userdash.php"><b>QBnB</b></a>
+		         	<a class="navbar-brand" href="admindash.php"><b>QBnB</b></a>
 		        </div>
 		        <div class="navbar-collapse collapse">
 	         		<ul class="nav navbar-nav navbar-right">
+	         			<li>
+	         				<a href='userdash.php'>View &amp; Create Bookings</a>
+	         			</li>
+	         			<li>
+	         				<a href='supplierdash.php'>View &amp; Create Listings</a>
+	         			</li>
 	         			<li class="active dropdown">
-							<li>
-								<a href="userdash.php">Go Back</a>
-							</li>
-						</li>
-	         		</ul>
-	        	</div>
-		    </div>
-	    </div>
-	    <div class="navbar navbar-default navbar-fixed-top">
-	     	<div class="container">
-	        	<div class="navbar-header">
-	          		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-	            	<span class="icon-bar"></span>
-		            <span class="icon-bar"></span>
-		            <span class="icon-bar"></span>
-			        </button>
-		         	<a class="navbar-brand" href="userdash.php"><b>QBnB</b></a>
-		        </div>
-		        <div class="navbar-collapse collapse">
-	         		<ul class="nav navbar-nav navbar-right">
-	         			<li class="active dropdown">
-							<li>
-								<a href="userdash.php">Go Back</a>
-							</li>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings<span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li>
+									<a href="settings.php">My Account</a>
+								</li>
+								<li>
+	            					<a href="login.php?logout=1">Log Out</a>
+								</li>
+							</ul>
 						</li>
 	         		</ul>
 	        	</div>
@@ -143,7 +134,7 @@
 										//Report consumer history if it exists
 										while ($rowConsumerHistory = mysqli_fetch_array($queryConsumerHistory)){
 											echo "<li><i>Booking ID: </i>".' '.$rowConsumerHistory['Booking_ID']."</li>";
-											echo "<ul style ='list-style-type:disc' ><li><i>Booking Start: </i>".' '.$rowConsumerHistory['Booking_Start']."</li>";
+											echo "<ul style ='list-style-type:disc' ><li><i>Booking Start: </i>".' '.preg_replace('/^(.*?)\ 00:00:00/','$1',$rowConsumerHistory['Booking_Start'])."</li>";
 											echo "<li><i>Booking Status: </i>".' '.$rowConsumerHistory['Booking_Status']."</li>";
 											echo "</ul>";
 											echo "</li>";
@@ -167,7 +158,7 @@
 															WHERE Owner_ID = '$rowMember[Member_ID]'";
 
 										//Query to obtain all bookings associated with that owner, only ran if they are an owner
-										$queryOwnerHistory = "SELECT Booking_ID, Booking_Start, Booking_Status
+										$queryOwnerHistory = "SELECT Booking_ID, Booking_Start, Booking_Status, Member_ID
 															  FROM Booking
 															  WHERE Owner_ID = '$rowMember[Member_ID]'";
 
@@ -199,10 +190,11 @@
 												echo "<b>Booking History: </b><ol>";
 											//Report history if it exists
 											while ($rowOwnerHistory = mysqli_fetch_array($queryOwnerHistory)){
+												echo "<ul><li><i>Member ID: </i>".' '.$rowOwnerHistory['Member_ID']."</li>";	
 												echo "<li><i>Booking ID: </i>".' '.$rowOwnerHistory['Booking_ID']."</li>";
-												echo "<ul style ='list-style-type:disc' ><li><i>Booking Start: </i>".' '.$rowOwnerHistory['Booking_Start']."</li>";
+												echo "<li><i>Booking Start: </i>".' '.preg_replace('/^(.*?)\ 00:00:00/','$1',$rowOwnerHistory['Booking_Start'])."</li>";
 												echo "<li><i>Booking Status: </i>".' '.$rowOwnerHistory['Booking_Status']."</li>";
-												echo "</ul>";
+												echo "</ul><br>";
 											}//End loop filling owner history
 											echo "<br>";
 											echo "</p></div></td>"; //Close popover content
@@ -257,8 +249,9 @@
 												$averageRating = mysqli_fetch_array($queryGetAverage);
 
 												//Show bookings and ratings on property
-												$queryPropertyHistory = "SELECT Booking_ID, Booking_Start, Booking_Status, Rating
-																		 FROM Booking NATURAL JOIN Comment
+												$queryPropertyHistory = "SELECT Booking.Booking_ID, Booking_Start, Booking_Status, Rating
+																		 FROM Booking LEFT JOIN Comment 
+																		 ON Booking.Booking_ID = Comment.Booking_ID
 																		 WHERE Property_ID = '$rowProperty[Property_ID]'";
 												$queryPropertyHistory = mysqli_query($con, $queryPropertyHistory);
 
@@ -289,14 +282,14 @@
 												//Report booking history
 												while ($rowPropertyHistory = mysqli_fetch_array($queryPropertyHistory)){
 													echo "<li><i>Booking ID: </i>".' '.$rowPropertyHistory['Booking_ID']."</li>";
-													echo "<ul style ='list-style-type:disc' ><li><i>Booking Start: </i>".' '.$rowPropertyHistory['Booking_Start']."</li>";
+													echo "<ul style ='list-style-type:disc' ><li><i>Booking Start: </i>".' '.preg_replace('/^(.*?)\ 00:00:00/','$1',$rowPropertyHistory['Booking_Start'])."</li>";
 													echo "<li><i>Booking Status: </i>".' '.$rowPropertyHistory['Booking_Status']."</li>";
 													if ($rowPropertyHistory['Rating'] == NULL)
 														echo "<li><i>Rating:<i> No rating given.</li>";
 													else{
 														echo "<li><i>Rating: </i>".' '.$rowPropertyHistory['Rating']."</li>";
 													}
-													echo "</ul>";
+													echo "</ul><br>";
 												}//End loop filling property history
 												echo "</p></div></td>"; //Close popover-content for properties
 
@@ -320,9 +313,11 @@
 				</div>
 			</div>
 		</div>
-			<hr>
-		<div class="container">
-			<p class="centered">Created by BH &amp; Associates</p>
+		<div style='max-height: 25px;'>
+				<hr>
+			<div class="container">
+				<p class="centered">Created by BH &amp; Associates</p>
+			</div>
 		</div> <!--End footer -->
 		<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 	    <script src="js/bootstrap.min.js"></script>

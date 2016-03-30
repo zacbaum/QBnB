@@ -191,8 +191,8 @@
 							    	</div>
 							    </div>
 							</div>
-						    <div class="row" style="padding-bottom: 15px;">
-								<div class="form-group" align='center'>
+						    <div class="row" style="padding-bottom: 15px; border-top-style: solid; color: white;">
+								<div class="form-group" align='left'>
 							    	<h4 style='color: white;'>
 							    	<div class="col-md-4">
 							    		<input type="radio" name="FeatureBedroom" value="1 Bedroom" <?php echo (in_array("1 Bedroom", $featureArray))?'checked':'' ?>> 1 Bedroom
@@ -206,8 +206,8 @@
 									</h4>
 							    </div>
 							</div>
-							<div class="row" style="padding-bottom: 15px;">
-								<div class="form-group" align='center'>
+						    <div class="row" style="padding-bottom: 15px; border-top-style: solid; color: white;">
+								<div class="form-group" align='left'>
 							    	<h4 style='color: white;'>
 							    	<div class="col-md-4">
 							    		<input type="radio" name="FeatureBathroom" value="1 Bathroom" <?php echo (in_array("1 Bathroom", $featureArray))?'checked':'' ?>> 1 Bathroom
@@ -221,8 +221,8 @@
 									</h4>
 							    </div>
 							</div>
-							<div class="row" style="padding-bottom: 15px;">
-								<div class="form-group" align='center'>
+						    <div class="row" style="padding-bottom: 15px; border-top-style: solid; color: white;">
+								<div class="form-group" align='left'>
 							    	<h4 style='color: white;'>
 							    	<div class="col-md-4">
 							    		<input type="radio" name="FeatureKitchen"  value="No Kitchen" <?php echo (in_array("No Kitchen", $featureArray))?'checked':'' ?>> No Kitchen
@@ -236,8 +236,8 @@
 									</h4>
 							    </div>
 							</div>
-							<div class="row" style="padding-bottom: 15px;">
-								<div class="form-group" align='center'>
+						    <div class="row" style="padding-bottom: 15px; border-top-style: solid; color: white;">
+								<div class="form-group" align='left'>
 							    	<h4 style='color: white;'>
 							    	<div class="col-md-4">
 							    		<input type="radio" name="FeatureParking" value="No Parking" <?php echo (in_array("No Parking", $featureArray))?'checked':'' ?>> No Parking
@@ -251,7 +251,7 @@
 									</h4>
 							    </div>
 							</div>								
-							<div class="row" style="padding-bottom: 15px;">
+						    <div class="row" style="padding-bottom: 15px; border-top-style: solid; color: white;">
 								<div class="form-group" align='center'>
 							    	<h4 style='color: white;'>
 							    	<div class="col-md-3">
