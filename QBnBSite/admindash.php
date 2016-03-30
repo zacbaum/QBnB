@@ -158,7 +158,7 @@
 															WHERE Owner_ID = '$rowMember[Member_ID]'";
 
 										//Query to obtain all bookings associated with that owner, only ran if they are an owner
-										$queryOwnerHistory = "SELECT Booking_ID, Booking_Start, Booking_Status, Member_ID
+										$queryOwnerHistory = "SELECT Booking_ID, Booking_Start, Booking_Status, Member_ID, Property_ID
 															  FROM Booking
 															  WHERE Owner_ID = '$rowMember[Member_ID]'";
 
@@ -190,6 +190,7 @@
 												echo "<b>Booking History: </b><ol>";
 											//Report history if it exists
 											while ($rowOwnerHistory = mysqli_fetch_array($queryOwnerHistory)){
+												echo "<li><i>Property ID: </i>".' '.$rowOwnerHistory['Member_ID']."</li>";
 												echo "<ul><li><i>Member ID: </i>".' '.$rowOwnerHistory['Member_ID']."</li>";	
 												echo "<li><i>Booking ID: </i>".' '.$rowOwnerHistory['Booking_ID']."</li>";
 												echo "<li><i>Booking Start: </i>".' '.preg_replace('/^(.*?)\ 00:00:00/','$1',$rowOwnerHistory['Booking_Start'])."</li>";
