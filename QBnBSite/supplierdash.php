@@ -142,43 +142,6 @@
 				          	}
 				            echo "</tbody></table></div>";
 				        ?>
-				        <h2>View comments:</h2>
-				        <?php
-			            	include_once 'config/connection.php';
-			            	$queryMyCommentsInfo = "SELECT Street_No, Street_Name, Comment_Text, Rating, Owner_Reply, Booking_ID
-													FROM `Property` JOIN (`Comment` NATURAL JOIN `Booking`)
-			            							WHERE Property.Owner_ID = '$_SESSION[Member_ID]' AND Property.Property_ID = Booking.Property_ID";
-							$queryMyCommentsInfo = mysqli_query($con,$queryMyCommentsInfo);
-							echo "<div style='max-height: 275px !important; overflow: scroll;'>";
-			            	echo "<table class='table table-bordered table-hover'>";
-			            	echo "<thead style='background-color: #dddddd'>";
-			            	echo "<th>Address</th><th>Comment</th><th>Rating</th><th>Your Reply</th></thead>";
-			            	if (mysqli_num_rows($queryMyCommentsInfo) > 0) {
-				            	while ($rowComm = mysqli_fetch_array($queryMyCommentsInfo)) {
-				                	echo "<tbody style='color: white;'><tr>";
-				                	echo "<td>".$rowComm['Street_No'].' '.$rowComm['Street_Name']."</td>";
-				                	echo "<td>".$rowComm['Comment_Text']."</td>";
-				                	echo "<td>".$rowComm['Rating']."/5</td>";
-				                	if (is_null($rowComm['Owner_Reply'])) {
-				                		echo "<td align='center'><a style='color:white' data-placement='right' data-toggle='popover' title='Write your reply'>";
-						               	echo "<span class='glyphicon glyphicon-edit intable' aria-hidden='true'></span></a>";
-						               	echo "<div id='popover-content' class='hide'>";
-					                	echo "<form name='comment' id='comment' action='supplierdash.php' method='POST'>";
-										echo "<textarea rows='4' cols='30' name='Owner_Reply' id='Owner_Reply' placeholder='Enter your reply...'></textarea>";
-										echo "<input type='hidden' id='Booking_ID' name='Booking_ID' value='".$rowComm['Booking_ID']."'>";
-					            		echo "<button style='width: 100%' type='submit' id='Post_Reply' name='Post_Reply' class='btn btn-primary'>Post Reply</button></form>";
-					            		echo "</div></td>";
-				                	} else {
-				                		echo "<td>".$rowComm['Owner_Reply']."</td>";
-				                	}
-				                	echo "</tr>";
-				          		}
-				          	} else {
-				          		echo "<tbody style='color: white;'>";
-				                echo "<tr><td colspan='4' align='center'>There are no comments on your properties!</td></tr>";
-				          	}
-				            echo "</tbody></table></div>";
-						?>
 			        </div>
 			        <div class='col-lg-6'>
 						<h2>Listed bookings:</h2>
@@ -189,7 +152,7 @@
 													  WHERE Property.Owner_ID = $_SESSION[Member_ID]
 													  ORDER BY Booking_Start, Street_Name, Street_No";
 							$queryAllMyBookingInfo = mysqli_query($con,$queryAllMyBookingInfo);
-			            	echo "<div style='max-height: 580px !important; overflow: scroll;'>";
+			            	echo "<div style='max-height: 300px !important; overflow: scroll;'>";
 			            	echo "<table class='table table-bordered table-hover'>";
 			            	echo "<thead style='background-color: #dddddd'>";
 			            	echo "<th>Address</th><th>User</th><th>Booking Start</th><th colspan='2'>Status</th></thead>";
@@ -226,6 +189,53 @@
 				            echo "</tbody></table></div>";
 				        ?>
 			        </div>
+			    </div>
+			    <div class='row'>
+			    	<div class='col-lg-12'>
+				        <h2>View comments:</h2>
+				        <?php
+			            	include_once 'config/connection.php';
+			            	$queryMyCommentsInfo = "SELECT Street_No, Street_Name, Comment_Text, Rating, Owner_Reply, Booking_ID
+													FROM Property JOIN (Comment NATURAL JOIN Booking)
+			            							WHERE Property.Owner_ID = '$_SESSION[Member_ID]' AND Property.Property_ID = Booking.Property_ID";
+							$queryMyCommentsInfo = mysqli_query($con,$queryMyCommentsInfo);
+							echo "<div style='max-height: 400px !important; overflow: scroll;'>";
+			            	echo "<table class='table table-bordered table-hover'>";
+			            	echo "<thead style='background-color: #dddddd'>";
+			            	echo "<th>Address</th><th>Commenter</th><th>Comment</th><th>Rating</th><th>Your Reply</th></thead>";
+			            	if (mysqli_num_rows($queryMyCommentsInfo) > 0) {
+				            	while ($rowComm = mysqli_fetch_array($queryMyCommentsInfo)) {
+				                	echo "<tbody style='color: white;'><tr>";
+				                	echo "<td>".$rowComm['Street_No'].' '.$rowComm['Street_Name']."</td>";
+									$queryCommenterInfo = "SELECT F_Name, L_Name
+															FROM Booking NATURAL JOIN Member
+					            							WHERE Booking_ID = $rowComm[Booking_ID]";
+									$queryCommenterInfo = mysqli_query($con,$queryCommenterInfo);
+									$rowName = mysqli_fetch_array($queryCommenterInfo);
+				                	echo "<td>".$rowName['F_Name'].' '.$rowName['L_Name']."</td>";
+				                	echo "<td>".$rowComm['Comment_Text']."</td>";
+				                	echo "<td>".$rowComm['Rating']."/5</td>";
+				                	if (is_null($rowComm['Owner_Reply'])) {
+				                		echo "<td align='center'><a style='color:white' data-placement='left' data-toggle='popover' title='Write your reply'>";
+						               	echo "<span class='glyphicon glyphicon-edit intable' aria-hidden='true'></span></a>";
+						               	echo "<div id='popover-content' class='hide'>";
+					                	echo "<form name='comment' id='comment' action='supplierdash.php' method='POST'>";
+										echo "<textarea rows='4' cols='30' name='Owner_Reply' id='Owner_Reply' placeholder='Enter your reply...'></textarea>";
+										echo "<input type='hidden' id='Booking_ID' name='Booking_ID' value='".$rowComm['Booking_ID']."'>";
+					            		echo "<button style='width: 100%' type='submit' id='Post_Reply' name='Post_Reply' class='btn btn-primary'>Post Reply</button></form>";
+					            		echo "</div></td>";
+				                	} else {
+				                		echo "<td>".$rowComm['Owner_Reply']."</td>";
+				                	}
+				                	echo "</tr>";
+				          		}
+				          	} else {
+				          		echo "<tbody style='color: white;'>";
+				                echo "<tr><td colspan='4' align='center'>There are no comments on your properties!</td></tr>";
+				          	}
+				            echo "</tbody></table></div>";
+						?>
+					</div>
 				</div>
 			</div>
 		</div>	
