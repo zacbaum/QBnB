@@ -218,7 +218,7 @@
 				            	$queryAllPropertiesInfo = $queryAllPropertiesInfo." ORDER BY City, District_Name, Street_Name, Street_No";
 				            } else {
 				            	$queryAllPropertiesInfo = "SELECT DISTINCT Street_No, Street_Name, City, Postal_Code, Country, District_Name, Type, Price, Property_ID, Owner_ID
-				            			  				   FROM Property NATURAL JOIN Feature ORDER BY City, District_Name, Street_Name, Street_No";
+				            			  				   FROM Property NATURAL JOIN Feature WHERE Owner_ID != $_SESSION[Member_ID] ORDER BY City, District_Name, Street_Name, Street_No";
 				            }
 
 							$queryAllPropertiesInfo = mysqli_query($con,$queryAllPropertiesInfo);

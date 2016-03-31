@@ -149,7 +149,7 @@
 													FROM `Property` JOIN (`Comment` NATURAL JOIN `Booking`)
 			            							WHERE Property.Owner_ID = '$_SESSION[Member_ID]' AND Property.Property_ID = Booking.Property_ID";
 							$queryMyCommentsInfo = mysqli_query($con,$queryMyCommentsInfo);
-							echo "<div style='max-height: 300px !important; overflow: scroll;'>";
+							echo "<div style='max-height: 275px !important; overflow: scroll;'>";
 			            	echo "<table class='table table-bordered table-hover'>";
 			            	echo "<thead style='background-color: #dddddd'>";
 			            	echo "<th>Address</th><th>Comment</th><th>Rating</th><th>Your Reply</th></thead>";
@@ -164,7 +164,7 @@
 						               	echo "<span class='glyphicon glyphicon-edit intable' aria-hidden='true'></span></a>";
 						               	echo "<div id='popover-content' class='hide'>";
 					                	echo "<form name='comment' id='comment' action='supplierdash.php' method='POST'>";
-										echo "<textarea rows='4' cols='20' name='Owner_Reply' id='Owner_Reply' placeholder='Enter your reply...'></textarea>";
+										echo "<textarea rows='4' cols='30' name='Owner_Reply' id='Owner_Reply' placeholder='Enter your reply...'></textarea>";
 										echo "<input type='hidden' id='Booking_ID' name='Booking_ID' value='".$rowComm['Booking_ID']."'>";
 					            		echo "<button style='width: 100%' type='submit' id='Post_Reply' name='Post_Reply' class='btn btn-primary'>Post Reply</button></form>";
 					            		echo "</div></td>";
@@ -186,27 +186,10 @@
 			            	include_once 'config/connection.php';
 			            	$queryAllMyBookingInfo = "SELECT F_Name, L_Name, Booking_Start, Booking_Status, Street_No, Street_Name, Booking_ID
 													  FROM (Booking NATURAL JOIN Member) NATURAL JOIN Property
-													  WHERE Property.Owner_ID = $_SESSION[Member_ID]";
+													  WHERE Property.Owner_ID = $_SESSION[Member_ID]
+													  ORDER BY Booking_Start, Street_Name, Street_No";
 							$queryAllMyBookingInfo = mysqli_query($con,$queryAllMyBookingInfo);
-
-
-
-
-
-							# PUT IN THE PROPER SIZE (once there are more data to fill and show proper sizes)
-							# PUT IN THE PROPER SIZE (once there are more data to fill and show proper sizes)
-							# PUT IN THE PROPER SIZE (once there are more data to fill and show proper sizes)
-							# PUT IN THE PROPER SIZE (once there are more data to fill and show proper sizes)
-							# PUT IN THE PROPER SIZE (once there are more data to fill and show proper sizes)
-							# PUT IN THE PROPER SIZE (once there are more data to fill and show proper sizes)
-			            	echo "<div style='min-height: 600px !important; overflow: scroll;'>";
-
-
-
-
-
-
-
+			            	echo "<div style='max-height: 580px !important; overflow: scroll;'>";
 			            	echo "<table class='table table-bordered table-hover'>";
 			            	echo "<thead style='background-color: #dddddd'>";
 			            	echo "<th>Address</th><th>User</th><th>Booking Start</th><th colspan='2'>Status</th></thead>";
